@@ -1,0 +1,46 @@
+html, body{
+    margin: 0%;
+    padding: 0%;
+}
+
+:root{
+   --black: #26333D;
+   --Blue: #4a67DF;
+   --cyan: #2FD6CB;
+   --cream: #E9F0EF;
+   --white: #FFFFFF;
+
+}
+
+header{
+    width:100vw ;
+    height: 12vh;
+    background: linear-gradient(350deg, var(--cyan), var(--Blue));
+    text-align: center;
+}
+
+.logo{
+    float: left;
+    width: 200px;
+    /* height: vh; */
+}
+
+.bibliotec{
+    /* border-radius: 8px; */
+    border: 2px solid var(--Blue);
+    width: 90vw;      
+    height: 400;     
+    object-fit: cover; 
+    /* border-radius: 8px; */
+    /* border: 2px solid var(--Blue); */
+    /* max-width: 90vw;
+    max-height: 70vh;
+    box-sizing: border-box; */
+}
+@media (max-width: 600px) {
+    .bibliotec {
+        width: 90vw;
+        height: 60vw;
+        max-height: 60vh;
+    }
+}
