@@ -14,33 +14,44 @@ html, body{
 
 header{
     width:100vw ;
-    height: 12vh;
+    height: 8vh;
     background: linear-gradient(350deg, var(--cyan), var(--Blue));
-    text-align: center;
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    padding: 10px 50px; 
+}
+nav {
+    display: flex; /* Mantenha o display flex */
+    align-items: center; /* Alinhe verticalmente */
+    flex-grow: 1;
+}
+
+nav h1, nav h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: x-large;
+    margin: 0 10px;  
+    color: #FFFFFF;
+    border-style: ridge;
+    border-width: 2px;
+    display: inline-block;
+    padding: 0 20px;
+    width: auto;
+}
+
+
+h3{
+    text-align: center; 
+    margin: 0; 
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
 }
 
 .logo{
     float: left;
-    width: 200px;
-    /* height: vh; */
-}
-
-.bibliotec{
-    /* border-radius: 8px; */
-    border: 2px solid var(--Blue);
-    width: 90vw;      
-    height: 400;     
-    object-fit: cover; 
-    /* border-radius: 8px; */
-    /* border: 2px solid var(--Blue); */
-    /* max-width: 90vw;
-    max-height: 70vh;
-    box-sizing: border-box; */
-}
-@media (max-width: 600px) {
-    .bibliotec {
-        width: 90vw;
-        height: 60vw;
-        max-height: 60vh;
-    }
+    width: 190px;
+    padding-top: 0px;
+    margin-left: 50px; 
 }
