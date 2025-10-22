@@ -63,7 +63,13 @@ h3{
     z-index: 1;
     pointer-events: none;
 }
-
+.Livro-1984 {
+    width: 330px;      
+    height: 500px;     
+    object-fit: cover; 
+    border-radius: 8px;
+    border: 2px solid var(--Blue);
+}
 .logo{
 
     width: 190px;
