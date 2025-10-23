@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,24 +8,38 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-   
     <title>bibliotec</title>
 </head>
 <body>
-<div class="inicio">
-    <header>
-        <img  class="logo" src="public/img/blibliotec.png" alt="">
-        <nav>
-        <button>
-            <a href="inicio.html">Início</a>
-        </button>   
-        <button>
-            <a href="catalogo.html">Catálogo</a>
-        </button>
-        </nav>
+    <div class="inicio">
+        <header>
+            <img class="logo" src="public/img/blibliotec.png" alt="">
+            <nav>
+                <button>
+                    <a href="inicio.html">Início</a>
+                </button>
+                <button>
+                    <a href="catalogo.html">Catálogo</a>
+                </button>
+            </nav>
             <h3>"Quando a leitura encontra o agora"</h3>
-    </header>
-<img class="background" src="public/img/biblioteca.jpg" alt="">
-</div>
+        </header>
+        <form action="/search" method="get">
+            <label for="search-input">Pesquise:</label>
+            <input type="search" id="search-input" name="q" placeholder="Nome do livro ou autor..." />
+            <button type="submit">Pesquisar</button>
+        </form>
+        <img class="background" src="public/img/biblioteca.jpg" alt="">
+        <div class="livros">
+            <img class="livro1" src="public/livros/1984.jpg" alt="">
+            <img class="livro2" src="public/livros/metamorfose.jpg" alt="">
+            <img class="livro3" src="public/livros/noitesBrancas.jpg" alt="">
+            <img class="livro4" src="public/livros/oAssassinatoDeRogerAckroyd.jpg" alt="">
+            <img class="livro5" src="public/livros/aHoraDaEstrela.jpg" alt="">
+            <img class="livro6" src="public/livros/domCasmurro.jpg" alt="">
+        </div>
+
+    </div>
 </body>
+
 </html>
