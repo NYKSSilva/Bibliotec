@@ -88,57 +88,75 @@ h3{
     z-index: 1;
 } 
 
+.livros{
+    position: relative;
+    z-index: 2;
+    top:240px;
+    bottom: 15%;     
+    left: 3px;       
+    margin: 20px;
+    width: 59vw;
+    height: 20vh;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 8px;
+    display: flex;
+    gap: 0px;
+    
+}
+
 .livro1{
-    position: absolute;
+    position: relative;
     width: 8vw;
     z-index: 2;
-    left: 1%;
-    bottom: 20%;
+    left: 0.5%;
+    bottom: 1%;
     object-fit: contain;
 }
 
 .livro2{
-    position: absolute;
+    position: relative;
     width: 8vw;
     z-index: 2;
-    left: 11%;
-    bottom: 20%;
+    left: 4%;
+    bottom: 1%;
     object-fit: contain;
 }
 
 .livro3{
-    position: absolute;
+    position: relative;
     width: 8vw;
     z-index: 2;
-    left: 21%;
-    bottom: 20%;
+    left: 7.5%;
+    bottom: 1%;
     object-fit: contain;
 }
 
 .livro4{
-    position: absolute;
+    position: relative;
     width: 8vw;
     z-index: 2;
-    left: 31%;
-    bottom: 20%;
+    left: 11%;
+    bottom: 1%;
     object-fit: contain;
 }
 
 .livro5{
-    position: absolute;
+    position: relative;
     width: 8vw;
     z-index: 2;
-    left: 41%;
-    bottom: 20%;
+    left: 14.4%;
+    bottom: 1%;
     object-fit: contain;
 }
 
 .livro6{
-    position: absolute;
+    position: relative;
     width: 8vw;
     z-index: 2;
-    left: 51%;
-    bottom: 20%;
+    left: 18%;
+    bottom: 1%;
     object-fit: contain;
 }
 
@@ -148,9 +166,9 @@ form {
     display: flex;
     align-items: center;
     gap: 15px;
-    bottom: 50%;
-    margin: 20px;
-    width: 28vw;
+    bottom: 60%;
+    margin: 30px;
+    width: 35vw;
     padding: 10px;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(5px);
