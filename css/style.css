@@ -65,14 +65,21 @@ h3{
 }
 
 h1{
+    z-index: 2;
     position: absolute;
-    bottom: 45%;
+    bottom: 43.5%;
     left: 3%;
     margin: 2%;
-    /* border: 0%; */
-    width: 10vw;
+    /* border: 2px solid var(--cream); */
+    border-radius: 8px;
+    width: auto;
+    display: inline-block;         
+    padding: 6px 12px;             
+    box-sizing: border-box;
     color: var(--white);
     font-family: 'Montserrat', sans-serif;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(3px);
 }
 
 .logo{
@@ -175,7 +182,7 @@ form {
     display: flex;
     align-items: center;
     gap: 15px;
-    bottom: 50%;
+    bottom: 52%;
     margin: 30px;
     width: 35vw;
     padding: 10px;
