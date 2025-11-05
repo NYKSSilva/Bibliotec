@@ -285,7 +285,7 @@ form button[type="submit"]:hover {
     z-index: 2;
     top: 15%;     
     right: 1%;     
-    margin: 20px;
+    margin: 10px;
     width: 15%;
     height: 20%;
     padding: 10px;
@@ -298,4 +298,9 @@ form button[type="submit"]:hover {
     align-items: center;
     justify-content: flex-start;
     gap: 1.9px;  
+}
+
+.material-symbols-outlined{
+    top: 5%;
+    background: transparent;
 }
