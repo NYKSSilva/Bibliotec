@@ -271,7 +271,8 @@ form button[type="submit"]:hover {
 .Eventos li{
     padding: 10%;
     border-bottom: 1% solid #FFFFFF;
-     font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 50px;
 }
 
 .proximos-eventos{
