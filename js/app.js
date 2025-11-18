@@ -20,4 +20,14 @@ async function carregarLivros(){
     }
 }
 
+async function avaliacaoLivros(){
+    try {
+        const resposta = await fetch(`${API}/avaliacao`)
+        const avaliacao = await resposta.json()
+        console.log('Avaliações carregadas:', avaliacao)
+    } catch (error) {
+        console.error('Erro ao carregar avaliações:', error)
+    }
+}
+
 document.addEventListener('DOMContentLoaded', carregarLivros)
