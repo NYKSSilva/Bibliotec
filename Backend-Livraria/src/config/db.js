@@ -1,7 +1,5 @@
 import mysql from "mysql2/promise";
-// ============================
-//  Conexão com o MariaDB
-// ============================
+
 export const db = await mysql.createConnection({
   host: "localhost",
   user: "root",
