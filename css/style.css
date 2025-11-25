@@ -1,7 +1,7 @@
 html, body{
     margin: 0%;
     padding: 0%;
-    background-color: #26333D;
+    background-color: #374550;
 }
 
 :root{
@@ -67,7 +67,7 @@ h3{
 h1{
     z-index: 2;
     position: absolute;
-    top: 23%;
+    top: 24%;
     left: 3%;
     margin: 2%;
     border-radius: 8px;
@@ -108,10 +108,10 @@ h1{
 .livros{
     position: absolute;
     z-index: 2;
-    top: 33%;     
+    top: 35%;     
     left: 3px;       
     margin: 20px;
-    width: 31.9%;
+    width: 60%;
     height: 35%;
     padding: 10px;
     background: rgba(255, 255, 255, 0.1);
@@ -125,97 +125,89 @@ h1{
     gap: 1.9px;            
 }
 
-.livros img {
+/* .livros img {
     width: clamp(60px, 8vw, 90px);
     height: auto;
     object-fit: contain;
     border-radius: 4px;
-}
+} */
 
-.livro1{
+/* .livro1{
     position: relative;
     z-index: 2;
     left: 0%;
     object-fit: contain;
-}
+} */
 
-.livro2{
-    position: relative;
-    z-index: 2;
-    left: 1.5%;
-    object-fit: contain;
-}
-
-.livro3{
+/* .livro3{
     position: relative;
     z-index: 2;
     left: 3.5%;
     object-fit: contain;
-}
+} */
 
-.livro4{
+/* .livro4{
     position: relative;
     z-index: 2;
     left: 5.5%;
     object-fit: contain;
-}
+} */
 
-.livro5{
+/* .livro5{
     position: relative;
     z-index: 2;
     left: 7.5%;
     object-fit: contain;
-}
+} */
 
-.livro6{
+/* .livro6{
     position: relative;
     z-index: 2;
     left: 9.5%;
     object-fit: contain;
-}
+} */
 
-.livro7{
+/* .livro7{
     position: relative;
     z-index: 2;
     left: 0.1%;
     object-fit: contain;
-}
+} */
 
-.livro8{
+/* .livro8{
     position: relative;
     z-index: 2;
     left: 1.9%;
     object-fit: contain;
-}
+} */
 
-.livro9{
+/* .livro9{
     position: relative;
     z-index: 2;
     left: 3%;
     object-fit: contain;
-}
+} */
 
-.livro10{
+/* .livro10{
     position: relative;
     z-index: 2;
     left: 5.5%;
     object-fit: contain;
-}
+} */
 
-.livro11{
+/* .livro11{
     position: relative;
     z-index: 2;
     left: 7%;
     object-fit: contain;
-}
+} */
 
-.livro12{
+/* .livro12{
     position: relative;
     z-index: 2;
     left: 8.5%;
-    /* bottom: 1%; */
     object-fit: contain;
-}
+} */
 
 form {
     position: absolute;
@@ -284,24 +276,26 @@ form button[type="submit"]:hover {
 .events{
     position: absolute;
     z-index: 2;
-    top: 15%;     
-    right: 1%;     
+    top: 16%;     
+    right: 3%;     
     margin: 10px;
     width: 15%;
     height: 20%;
     padding: 10px;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(5px);
-    border-radius: 8px;
+    border-radius: 5px;
 
     display: flex;
     flex-wrap: wrap;      
     align-items: center;
     justify-content: flex-start;
-    gap: 1.9px;  
+    gap: 1.9px;
+    color: var(--white);  
 }
 
 .material-symbols-outlined{
     top: 5%;
     background: transparent;
+    color: var(--white);
 }
