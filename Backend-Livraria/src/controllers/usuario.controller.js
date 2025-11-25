@@ -1,9 +1,4 @@
 import { db} from "../config/db.js";
-// ============================
-//  Rotas CRUD
-// ============================
-
-
 
 export async function criarUsuario(req, res) {
   try {
