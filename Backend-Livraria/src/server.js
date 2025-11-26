@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use(express.static(path.join(__dirname, "..", "Bibliotec"))); 
+app.use(express.static(path.join(__dirname, ".." , "Bibliotec"))); 
 
 app.get("/", (req,res)=>{
   res.send("API rodando com sucesso")
@@ -29,7 +29,11 @@ app.use("/livros", livrosRoutes)
 app.use("/avaliacoes", avaliacoesRoutes)
 app.use("/reservas", reservasRoutes)
 app.use("/favoritos",favoritosRoutes)
+app.get("/", (req, res) => {
+  res.sendFile(path.join(publicPath, "index.html"));
+});
 
 
 const PORT = 3000;
 app.listen(PORT, () => console.log(` Servidor rodando na porta ${PORT}`));
+
