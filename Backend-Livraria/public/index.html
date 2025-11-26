@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=calendar_month">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <title>Bibliotec</title>
+</head>
+
+<body>
+
+    <div class="inicio">
+
+        <header>
+            <img class="logo" src="/img/blibliotec.png" alt="">
+            <nav>
+                <button><a href="catalogo.html">Catálogo</a></button>
+            </nav>
+            <h3>"Quando a leitura encontra o agora"</h3>
+        </header>
+
+        <form action="#">
+            <label for="search-input">Pesquise:</label>
+            <input type="search" id="search-input" placeholder="Nome do livro ou autor...">
+            <button type="submit">Pesquisar</button>
+        </form>
+
+        <img class="background" src="/img/biblioteca.jpg" alt="">
+        <h1>Destaques</h1>
+         <div class="livros" id="livros-container"></div>
+
+        <!-- ======= LIVROS COM LAYOUT ORIGINAL ======= -->
+        <div class="livros">
+            <div class="livro livro1">
+                <img src="/livros/1984.jpg" alt="">
+                <button onclick="obterLivro(1)">Ver Detalhes</button>
+            </div>
+
+            <div class="livro livro2">
+                <img src="/livros/metamorfose.jpg" alt="">
+                <button onclick="obterLivro(2)">Ver Detalhes</button>
+            </div>
+
+            <div class="livro livro3">
+                <img src="/livros/noitesBrancas.jpg" alt="">
+                <button onclick="obterLivro(3)">Ver Detalhes</button>
+            </div>
+
+            <div class="livro livro4">
+                <img src="/livros/oAssassinatoDeRogerAckroyd.jpg" alt="">
+                <button onclick="obterLivro(4)">Ver Detalhes</button>
+            </div>
+
+            <div class="livro livro5">
+                <img src="/livros/aHoraDaEstrela.jpg" alt="">
+                <button onclick="obterLivro(5)">Ver Detalhes</button>
+            </div>
+
+            <div class="livro livro6">
+                <img src="/livros/oMelhorDoJavaScript.jpg" alt="">
+                <button onclick="obterLivro(6)">Ver Detalhes</button>
+            </div>
+
+            <div class="livro livro7">
+                <img src="/livros/domCasmurro.jpg" alt="">
+                <button onclick="obterLivro(7)">Ver Detalhes</button>
+            </div>
+
+            <div class="livro livro8">
+                <img src="/livros/MetalurgiadoPó.png" alt="">
+                <button onclick="obterLivro(8)">Ver Detalhes</button>
+            </div>
+
+            <div class="livro livro9">
+                <img src="/livros/vidas secas.jpg" alt="">
+                <button onclick="obterLivro(9)">Ver Detalhes</button>
+            </div>
+
+            <div class="livro livro10">
+                <img src="/livros/DiariodeUmBanaDiasDeCao.jpg" alt="">
+                <button onclick="obterLivro(10)">Ver Detalhes</button>
+            </div>
+
+            <div class="livro livro11">
+                <img src="/livros/OBosquedasCoisasPerdidas.jpg" alt="">
+                <button onclick="obterLivro(11)">Ver Detalhes</button>
+            </div>
+
+            <div class="livro livro12">
+                <img src="/livros/hpeaPedraFilosofal.jpg" alt="">
+                <button onclick="obterLivro(12)">Ver Detalhes</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="events">
+        <ul id="Eventos">
+            <button class="material-symbols-outlined">
+                calendar_month
+            </button>
+            <li data-date="2025-11-12">Lançamento de livros</li>
+            <li data-date="2025-11-24">Palestra</li>
+            <li data-date="2025-12-02">Oficina de escrita</li>
+            <li data-date="2025-12-12">Feira de livros</li>
+        </ul>
+    </div>
+
+    <div id="livro-detalhe"></div>
+
+    <script src="/js/script.js"></script>
+
+</body>
+</html>
