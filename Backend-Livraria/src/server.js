@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(express.static(publicPath)); 
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(publicPath, "inicio.html"));
+    res.sendFile(path.join(publicPath, "login.html"));
 })
 
 app.use("/usuarios", usuarioRoutes)
