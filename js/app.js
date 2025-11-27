@@ -9,17 +9,6 @@ eventos.forEach(evento => {
         evento.classList.add('proximo-evento')
     }
 })
-
-async function carregarLivros(){
-    try {
-        const resposta = await fetch(`${API}/livros`)
-        const livros = await resposta.json()
-        console.log('Livros carregados:', livros)
-    } catch (error) {
-        console.error('Erro ao carregar livros:', error)
-    }
-}
-
 async function avaliacaoLivros(){
     try {
         const resposta = await fetch(`${API}/avaliacao`)

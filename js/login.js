@@ -3,6 +3,7 @@ const API = 'http://localhost:3000'
 const form = document.getElementById('loginForm')
 form.addEventListener('submit', async (e) => {
   e.preventDefault()
+  const nome = document.getElementById('nome').value.trim() 
   const email = document.getElementById('email').value.trim()
   const senha = document.getElementById('senha').value.trim()
 
@@ -16,8 +17,7 @@ form.addEventListener('submit', async (e) => {
     const data = await res.json()
     if (!res.ok) throw new Error(data.erro || data.message || 'Erro')
 
-    console.log('Resposta:', data)
-    alert(data.mensagem || 'Sucesso')
+    window.location.href = 'inicio.html'
   } catch (err) {
     console.error(err)
     alert('Erro: ' + err.message)
