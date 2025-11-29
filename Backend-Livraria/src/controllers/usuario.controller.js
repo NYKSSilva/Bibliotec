@@ -63,3 +63,26 @@ export async function deletarUsuario (req, res){
     res.status(500).json({ erro: err.message });
   }
 };
+
+export async function loginUsuario(req, res) {
+  try {
+    const { email, senha } = req.body;
+    if (!email || !senha)
+      return res.status(400).json({ erro: "Email e senha são obrigatórios" });
+
+    const [rows] = await db.execute(
+      "SELECT * FROM usuarios WHERE email = ? AND senha = ?",
+      [email, senha]
+    );
+
+    if (rows.length === 0)
+      return res.status(401).json({ erro: "Informações inválidas" });
+
+    const usuario = { ...rows[0] };
+    delete usuario.senha;
+
+    res.json({ mensagem: "Login realizado com sucesso", usuario });
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
+  }
+};

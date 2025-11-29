@@ -9,6 +9,7 @@ import livrosRoutes from "./routes/livros.routes.js"
 import avaliacoesRoutes from "./routes/avaliacoes.routes.js"
 import reservasRoutes  from "./routes/reservas.routes.js"
 import favoritosRoutes from "./routes/favoritos.routes.js"
+import { loginUsuario } from "./controllers/usuario.controller.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(publicPath, "login.html"));
 })
 
+app.post("/login", loginUsuario)
 app.use("/usuarios", usuarioRoutes)
 app.use("/livros", livrosRoutes)
 app.use("/avaliacoes", avaliacoesRoutes)

@@ -100,7 +100,7 @@ Form label{
     font-family: 'Montserrat', sans-serif;
 }
 
-form input[type="text"] {
+/* form input[type="text"] {
     padding: 8px 12px;
     border: 2px solid var(--white);
     border-radius: 4px;
@@ -108,7 +108,7 @@ form input[type="text"] {
     color: var(--white);
     font-family: 'Montserrat', sans-serif;
     min-width: 300px;
-}
+} */
 
 form input[type="email"] {
     padding: 8px 12px;
