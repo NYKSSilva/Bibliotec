@@ -16,27 +16,15 @@ export async function adicionarLivro(req, res) {
     res.status(500).json({ erro: err.message });
   }
 };
-
-export async function listarLivros(req, res) {
+export async function obterLivros(req, res) {
   try {
     const [rows] = await db.execute("SELECT * FROM livros");
     res.json(rows);
   } catch (err) {
     res.status(500).json({ erro: err.message });
   }
-};
-export async function obterLivro(req, res) {
-  try {
-    const [rows] = await db.execute("SELECT * FROM livros WHERE idLivro = ?", [
-      req.params.id,
-    ]);
-    if (rows.length === 0)
-      return res.status(404).json({ erro: "Livro não encontrado" });
-    res.json(rows[0]);
-  } catch (err) {
-    res.status(500).json({ erro: err.message });
-  }
-};
+}
+
 export async function atualizarLivro(req, res) {
   try {
     const { titulo, autor, descricao, disponivel } = req.body;
@@ -72,5 +60,18 @@ export async function avaliacaoLivros(req, res) {
     return res.json(rows);
   } catch (err) {
     return res.status(500).json({ erro: err.message });
+  }
+}
+
+export async function buscarLivros(req, res) {
+  try {
+    const nome = req.query.nome || '';
+    const [rows] = await db.execute(
+      "SELECT * FROM livros WHERE titulo LIKE ?",
+      [`%${nome}%`]
+    );
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
   }
 }
