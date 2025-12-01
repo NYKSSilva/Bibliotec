@@ -3,24 +3,33 @@ import { db} from "../config/db.js";
 //  Rotas CRUD
 // ============================
 
-
-
 export async function criarUsuario(req, res) {
   try {
-    const { nome, email, senha, data_de_nascimento, celular, curso, perfil} = req.body;
-    if (!nome || !email || !senha || !data_de_nascimento || !celular || !curso || !perfil)
-      return res.status(400).json({ erro: "Campos obrigatórios" });
+    const { nome, matricula, email, cpf, senha, data_nascimento, celular, curso } = req.body;
+
+    if (!nome || !matricula || !email || !cpf || !senha || !data_nascimento || !celular || !curso) {
+      return res.status(400).json({ erro: "Campos obrigatórios faltando" });
+    }
+
+    if (cpf.length !== 11) {
+      return res.status(400).json({ erro: "CPF inválido. Deve conter 11 dígitos." });
+    }
+
+    if (celular.length !== 11) {
+      return res.status(400).json({ erro: "Celular inválido. Deve conter 11 dígitos." });
+    }
 
     await db.execute(
-      "INSERT INTO usuarios (nome, email, senha, data_de_nascimento, curso, perfil) VALUES (?, ?, ?, ?, ?, ?)",
-      [nome, email, senha, data_de_nascimento, celular, curso, perfil]
+      "INSERT INTO usuarios (nome, matricula, email, cpf, senha, data_nascimento, celular, curso) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      [nome, matricula, email, cpf, senha, data_nascimento, celular, curso]
     );
 
     res.json({ mensagem: "Usuário criado com sucesso!" });
+
   } catch (err) {
     res.status(500).json({ erro: err.message });
   }
-};
+}
 
 
 export async function listarUsuarios (req, res){
@@ -48,12 +57,23 @@ export async function obterUsuario (req, res){
 
 export async function atuallizarUsuario(req, res){
   try {
-    const { nome, email, senha, data_de_nascimento, celular, curso, perfil } = req.body;
+    const { nome, matricula, email, cpf, senha, data_nascimento, celular, curso} = req.body;
+
+     if (cpf.length !== 11) {
+      return res.status(400).json({ erro: "CPF inválido. Deve conter 11 dígitos." });
+    }
+
+    if (celular.length !== 11) {
+      return res.status(400).json({ erro: "Celular inválido. Deve conter 11 dígitos." });
+    }
+    
     await db.execute(
-      "UPDATE usuarios SET nome = ?, email = ?, senha = ?, data_de_nascimento = ?, curso = ?, perfil = ?, WHERE idUsuario = ?",
-      [nome, email, senha, data_de_nascimento, celular, curso, perfil, req.params.id]
+      "UPDATE usuarios SET nome = ?, matricula = ?, email = ?, cpf = ?, senha = ?, data_nascimento = ?, celular = ?, curso = ? WHERE idUsuario = ?",
+      [nome, matricula, email, cpf, senha, data_nascimento, celular, curso, req.params.id]
     );
     res.json({ mensagem: "Usuário atualizado com sucesso!" });
+
+   
   } catch (err) {
     res.status(500).json({ erro: err.message });
   }

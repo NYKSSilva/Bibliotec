@@ -2,13 +2,13 @@ import { db } from "../config/db.js";
 
 export async function adicionarLivro(req, res) {
   try {
-    const { titulo, autor, descricao, disponivel } = req.body;
-    if (!titulo || !autor || !descricao || !disponivel)
+    const { titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo } = req.body;
+    if (!titulo || !autor || !genero || !editora || !ano_publicacao || !isbn_13 || !idioma || !formato || !caminho_capa || !sinopse || !ativo)
       return res.status(400).json({ erro: "Campos obrigatórios" });
 
     await db.execute(
-      "INSERT INTO livros (titulo, autor, descricao, disponivel) VALUES (?, ?, ?, ?)",
-      [titulo, autor, descricao, disponivel]
+      "INSERT INTO livros (titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo]
     );
 
     res.json({ mensagem: "Livro adicionado com sucesso!" });
@@ -39,10 +39,10 @@ export async function obterLivro(req, res) {
 };
 export async function atualizarLivro(req, res) {
   try {
-    const { titulo, autor, descricao, disponivel } = req.body;
+    const { titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo} = req.body;
     await db.execute(
-      "UPDATE livros SET titulo = ?, autor = ?, descricao = ?, disponivel = ? WHERE idLivro = ?",
-      [titulo, autor, descricao, disponivel, req.params.id]
+      "UPDATE livros SET titulo = ?, autor = ?, genero = ?, editora = ?, ano_publicacao = ?, isbn_10 = ?, isbn_13 = ?, idioma = ?, formato = ?, caminho_capa = ?, sinopse = ?, ativo = ? WHERE idLivro = ?",
+      [titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo, req.params.id]
     );
     res.json({ mensagem: "Livro atualizado com sucesso!" });
   } catch (err) {
