@@ -5,19 +5,15 @@ async function carregarLivros(){
         const resposta = await fetch(`${API}/livros`)
         const livros = await resposta.json()
         console.log('Livros carregados:', livros)
-        
+
         const container = document.querySelector('.livros')
         container.innerHTML = '' 
         
-        livros.forEach(livro => {
+        top4.forEach(livro => {
             const div = document.createElement('div')
             div.className = 'livro-item'
             div.innerHTML = `
-                <img src="${livro.imagem}" alt="${livro.titulo}">
-                <h3>${livro.titulo}</h3>
-                <p>${livro.autor}</p>
-                <p>R$ ${livro.preco}</p>
-            `
+                <img class="id${livro.idLivro}" src="${livro.caminho_capa}" alt="">`
             container.appendChild(div)
         })
     } catch (error) {

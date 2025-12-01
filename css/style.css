@@ -112,7 +112,7 @@ h1{
     height: 90vh;
     z-index: 1;
 } 
-.livros{
+.Destaques{
     position: absolute;
     z-index: 2;
     top: 35%;     
@@ -131,19 +131,19 @@ h1{
     justify-content: flex-start;
     gap: 1.9px;            
 }
-/* .livros img {
-    width: clamp(60px, 8vw, 90px);
+.Destaques img {
+    width: clamp(60%, 8%, 70%);
     height: auto;
     object-fit: contain;
     border-radius: 4px;
-} */
+}
 
-/* .livro1{
+.id1{
     position: relative;
     z-index: 2;
     left: 0%;
     object-fit: contain;
-} */
+}
 
 /* .livro3{
     position: relative;

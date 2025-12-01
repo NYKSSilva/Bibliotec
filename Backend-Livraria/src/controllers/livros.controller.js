@@ -2,13 +2,13 @@ import { db } from "../config/db.js";
 
 export async function adicionarLivro(req, res) {
   try {
-    const { titulo, autor, descricao, disponivel } = req.body;
-    if (!titulo || !autor || !descricao || !disponivel)
+    const { titulo, autor, sinopse, ativo, caminho_capa } = req.body;
+    if (!titulo || !autor || !sinopse || !caminho_capa)
       return res.status(400).json({ erro: "Campos obrigatórios" });
 
     await db.execute(
-      "INSERT INTO livros (titulo, autor, descricao, disponivel) VALUES (?, ?, ?, ?)",
-      [titulo, autor, descricao, disponivel]
+      "INSERT INTO livros (titulo, autor, sinopse, ativo, caminho_capa) VALUES (?, ?, ?, ?, ?)",
+      [titulo, autor, sinopse, ativo, caminho_capa] 
     );
 
     res.json({ mensagem: "Livro adicionado com sucesso!" });
@@ -16,7 +16,6 @@ export async function adicionarLivro(req, res) {
     res.status(500).json({ erro: err.message });
   }
 };
-
 export async function listarLivros(req, res) {
   try {
     const [rows] = await db.execute("SELECT * FROM livros");

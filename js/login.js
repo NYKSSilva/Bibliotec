@@ -21,6 +21,6 @@ form.addEventListener('submit', async (e) => {
     window.location.href = 'inicio.html' 
   } catch (err) {
     console.error('Erro:', err)
-    alert('Erro: ' + err.message)
+    alert('Erro: ' + err.message )
   }
 })
