@@ -1,7 +1,7 @@
 import express from "express"
 import{
  adicionarLivro,
- buscarLivros,
+//  buscarLivros,
  avaliacaoLivros,
   obterLivros,
  atualizarLivro,
@@ -16,7 +16,7 @@ const router = express.Router();
 
 
 // Rotas ESPECÍFICAS primeiro
-router.get("/buscar", buscarLivros);
+// router.get("/buscar", buscarLivros);
 router.get("/avaliacoes", avaliacaoLivros);
 
 // Depois rotas gerais

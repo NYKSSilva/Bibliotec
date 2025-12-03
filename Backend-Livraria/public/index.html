@@ -1,121 +1,111 @@
-<html lang="pt-br">
-
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/style.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=calendar_month">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <title>Bibliotec</title>
+    <title>BIBLIOTEC - Sistema de Biblioteca</title>
 </head>
-
 <body>
+    <header>
+        <img class="logo" src="/img/blibliotec.png" alt="BIBLIOTEC">
+        <h3>"Quando a leitura encontra o agora"</h3>
+        <nav>
+            <button><a href="/catalogo.html">Catálogo</a></button>
+        </nav>
+    </header>
 
-    <div class="inicio">
-
-        <header>
-            <img class="logo" src="/img/blibliotec.png" alt="">
-            <nav>
-                <button><a href="catalogo.html">Catálogo</a></button>
-            </nav>
-            <h3>"Quando a leitura encontra o agora"</h3>
-        </header>
-
-        <form action="#">
-            <label for="search-input">Pesquise:</label>
+    <div class="search-section">
+        <form id="search-form">
             <input type="search" id="search-input" placeholder="Nome do livro ou autor...">
             <button type="submit">Pesquisar</button>
         </form>
+    </div>
 
-        <img class="background" src="/img/biblioteca.jpg" alt="">
+    <div class="destaques">
         <h1>Destaques</h1>
-         <div class="livros" id="livros-container"></div>
-
-        <!-- ======= LIVROS COM LAYOUT ORIGINAL ======= -->
-        <div class="livros">
-            <div class="livro livro1">
-                <img src="/livros/1984.jpg" alt="">
-                <button onclick="obterLivro(1)">Ver Detalhes</button>
-            </div>
-
-            <div class="livro livro2">
-                <img src="/livros/metamorfose.jpg" alt="">
-                <button onclick="obterLivro(2)">Ver Detalhes</button>
-            </div>
-
-            <div class="livro livro3">
-                <img src="/livros/noitesBrancas.jpg" alt="">
-                <button onclick="obterLivro(3)">Ver Detalhes</button>
-            </div>
-
-            <div class="livro livro4">
-                <img src="/livros/oAssassinatoDeRogerAckroyd.jpg" alt="">
-                <button onclick="obterLivro(4)">Ver Detalhes</button>
-            </div>
-
-            <div class="livro livro5">
-                <img src="/livros/aHoraDaEstrela.jpg" alt="">
-                <button onclick="obterLivro(5)">Ver Detalhes</button>
-            </div>
-
-            <div class="livro livro6">
-                <img src="/livros/oMelhorDoJavaScript.jpg" alt="">
-                <button onclick="obterLivro(6)">Ver Detalhes</button>
-            </div>
-
-            <div class="livro livro7">
-                <img src="/livros/domCasmurro.jpg" alt="">
-                <button onclick="obterLivro(7)">Ver Detalhes</button>
-            </div>
-
-            <div class="livro livro8">
-                <img src="/livros/MetalurgiadoPó.png" alt="">
-                <button onclick="obterLivro(8)">Ver Detalhes</button>
-            </div>
-
-            <div class="livro livro9">
-                <img src="/livros/vidas secas.jpg" alt="">
-                <button onclick="obterLivro(9)">Ver Detalhes</button>
-            </div>
-
-            <div class="livro livro10">
-                <img src="/livros/DiariodeUmBanaDiasDeCao.jpg" alt="">
-                <button onclick="obterLivro(10)">Ver Detalhes</button>
-            </div>
-
-            <div class="livro livro11">
-                <img src="/livros/OBosquedasCoisasPerdidas.jpg" alt="">
-                <button onclick="obterLivro(11)">Ver Detalhes</button>
-            </div>
-
-            <div class="livro livro12">
-                <img src="/livros/hpeaPedraFilosofal.jpg" alt="">
-                <button onclick="obterLivro(12)">Ver Detalhes</button>
-            </div>
-
-        </div>
+        <div id="livros-container"></div>
     </div>
 
     <div class="events">
+        <h2>Próximos Eventos</h2>
         <ul id="Eventos">
-            <button class="material-symbols-outlined">
-                calendar_month
-            </button>
-            <li data-date="2025-11-12">Lançamento de livros</li>
-            <li data-date="2025-11-24">Palestra</li>
-            <li data-date="2025-12-02">Oficina de escrita</li>
-            <li data-date="2025-12-12">Feira de livros</li>
+            <li>📅 Lançamento de livros</li>
+            <li>🎤 Palestra com autores</li>
+            <li>✍️ Oficina de escrita</li>
+            <li>📚 Feira de livros</li>
         </ul>
     </div>
 
+    <div class="overlay" id="overlay"></div>
     <div id="livro-detalhe"></div>
 
-    <script src="/js/app.js"></script>
+    <script>
+      async function carregarLivros() {
+        try {
+          const res = await fetch('/livros');
+          const livros = await res.json();
+          const container = document.getElementById('livros-container');
+          container.innerHTML = livros.map(l => `
+            <div class="livro-card">
+              <img src="${l.caminho_capa}" alt="${l.titulo}" onerror="this.src='/img/placeholder.png'">
+              <h3>${l.titulo}</h3>
+              <p>${l.autor || 'Autor desconhecido'}</p>
+              <button onclick="obterLivro(${l.idLivro})">Ver Detalhes</button>
+            </div>
+          `).join('');
+        } catch (err) {
+          console.error('Erro ao carregar livros:', err);
+        }
+      }
 
+      async function obterLivro(idLivro) {
+        try {
+          const res = await fetch(`/livros/${idLivro}`);
+          const livro = await res.json();
+          document.getElementById('livro-detalhe').innerHTML = `
+            <h2>${livro.titulo}</h2>
+            <p><strong>Autor:</strong> ${livros.autor || 'Desconhecido'}</p>
+            <p><strong>Gênero:</strong> ${livros.genero || '-'}</p>
+            <p><strong>Sinopse:</strong> ${livros.sinopse || 'Sem descrição'}</p>
+            <p><strong>Disponível:</strong> ${livros.disponivel ? '✅ Sim' : '❌ Não'}</p>
+            <button onclick="fecharDetalhes()">Fechar</button>
+          `;
+          document.getElementById('livro-detalhe').classList.add('ativo');
+          document.getElementById('overlay').classList.add('ativo');
+        } catch (err) {
+          console.error('Erro:', err);
+        }
+      }
+
+      function fecharDetalhes() {
+        document.getElementById('livro-detalhe').classList.remove('ativo');
+        document.getElementById('overlay').classList.remove('ativo');
+      }
+
+      document.getElementById('search-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const q = document.getElementById('search-input').value.trim();
+        if (!q) return carregarLivros();
+        try {
+          const res = await fetch(`/livros/buscar?q=${encodeURIComponent(q)}`);
+          const livros = await res.json();
+          const container = document.getElementById('livros-container');
+          container.innerHTML = livros.map(l => `
+            <div class="livro-card">
+              <img src="${l.caminho_capa}" alt="${l.titulo}" onerror="this.src='/img/placeholder.png'">
+              <h3>${l.titulo}</h3>
+              <p>${l.autor || 'Autor desconhecido'}</p>
+              <button onclick="obterLivro(${l.idLivro})">Ver Detalhes</button>
+            </div>
+          `).join('');
+        } catch (err) {
+          console.error('Erro na busca:', err);
+        }
+      });
+
+      document.getElementById('overlay').addEventListener('click', fecharDetalhes);
+      carregarLivros();
+    </script>
 </body>
 </html>
