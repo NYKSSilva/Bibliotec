@@ -1,8 +1,8 @@
 -- ===========================================================
 -- CRIAÇÃO DO BANCO DE DADOS
 -- ===========================================================
-CREATE DATABASE IF NOT EXISTS dblivraria;
-USE dblivraria;
+CREATE DATABASE IF NOT EXISTS bibliotec;
+USE bibliotec;
 
 -- ===========================================================
 -- TABELA DE USUÁRIOS
