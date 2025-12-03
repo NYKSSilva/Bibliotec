@@ -16,7 +16,7 @@ const router = express.Router();
 router.post("/",adicionarLivro);
 router.get("/", listarLivros);
 router.get("/avaliacoes", avaliacaoLivros)
-router.get("/:id", obterLivro);
+router.get("/titulo", obterLivro);
 router.put("/:id", atualizarLivro);
 router.delete("/:id",deletarLivro);
 export default router;

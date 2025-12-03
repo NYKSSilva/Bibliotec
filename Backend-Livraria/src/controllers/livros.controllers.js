@@ -15,7 +15,7 @@ export async function adicionarLivro(req, res) {
       return res.status(400).json({ erro: "Livro já está cadastrado" })
     }
 
-     const [isbn10Rows] = await db.execute(
+    const [isbn10Rows] = await db.execute(
       "SELECT isbn_10 FROM livros WHERE isbn_10 = ?",
       [isbn_10]
     );
@@ -24,7 +24,7 @@ export async function adicionarLivro(req, res) {
       return res.status(400).json({ erro: "Identificação (isbn10) já está cadastrado" })
     }
 
-     const [isbn13Rows] = await db.execute(
+    const [isbn13Rows] = await db.execute(
       "SELECT isbn_13 FROM livros WHERE isbn_13 = ?",
       [titulo]
     );
@@ -45,12 +45,28 @@ export async function adicionarLivro(req, res) {
 };
 
 export async function listarLivros(req, res) {
-  try {
-    const [rows] = await db.execute("SELECT * FROM livros");
-    res.json(rows);
-  } catch (err) {
-    res.status(500).json({ erro: err.message });
+
+  const titulo = req.query.titulo;
+  const genero = req.query.genero
+
+
+  if (!titulo || !genero) {
+    try {
+      const [rows] = await db.execute("SELECT * FROM livros");
+      res.json(rows);
+    } catch (err) {
+      res.status(500).json({ erro: err.message });
+    }
+  } else {
+    try {
+      const [rows] = await db.execute(`SELECT * FROM livros  WHERE titulo LIKE '%${titulo}%' OR genero LIKE '%${genero}%'`);
+      res.json(rows);
+    } catch (err) {
+      res.status(500).json({ erro: err.message });
+    }
   }
+
+
 };
 export async function obterLivro(req, res) {
   try {
@@ -66,7 +82,7 @@ export async function obterLivro(req, res) {
 };
 export async function atualizarLivro(req, res) {
   try {
-    const { titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo} = req.body;
+    const { titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo } = req.body;
     await db.execute(
       "UPDATE livros SET titulo = ?, autor = ?, genero = ?, editora = ?, ano_publicacao = ?, isbn_10 = ?, isbn_13 = ?, idioma = ?, formato = ?, caminho_capa = ?, sinopse = ?, ativo = ? WHERE idLivro = ?",
       [titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo, req.params.id]
