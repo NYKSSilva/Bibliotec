@@ -17,25 +17,28 @@ export async function adicionarLivro(req, res) {
   }
 };
 export async function listarLivros(req, res) {
-  try {
-    const [rows] = await db.execute("SELECT * FROM livros");
-    res.json(rows);
-  } catch (err) {
-    res.status(500).json({ erro: err.message });
+
+  const titulo = req.query.titulo;
+  const genero = req.query.genero
+
+
+  if (!titulo || !genero) {
+    try {
+      const [rows] = await db.execute("SELECT * FROM livros");
+      res.json(rows);
+    } catch (err) {
+      res.status(500).json({ erro: err.message });
+    }
+  } else {
+    try {
+      const [rows] = await db.execute(`SELECT * FROM livros  WHERE titulo LIKE '%${titulo}%' OR genero LIKE '%${genero}%'`);
+      res.json(rows);
+    } catch (err) {
+      res.status(500).json({ erro: err.message });
+    }
   }
-};
-export async function obterLivro(req, res) {
-  try {
-    const [rows] = await db.execute("SELECT * FROM livros WHERE idLivro = ?", [
-      req.params.id,
-    ]);
-    if (rows.length === 0)
-      return res.status(404).json({ erro: "Livro não encontrado" });
-    res.json(rows[0]);
-  } catch (err) {
-    res.status(500).json({ erro: err.message });
-  }
-};
+}
+
 export async function atualizarLivro(req, res) {
   try {
     const { titulo, autor, descricao, disponivel } = req.body;
@@ -48,6 +51,7 @@ export async function atualizarLivro(req, res) {
     res.status(500).json({ erro: err.message });
   }
 };
+
 export async function deletarLivro(req, res) {
   try {
     await db.execute("DELETE FROM livros WHERE idLivro = ?", [req.params.id]);
@@ -56,6 +60,22 @@ export async function deletarLivro(req, res) {
     res.status(500).json({ erro: err.message });
   }
 };
+
+export async function obterLivro(req, res) {
+  try {
+    const { id } = req.params;
+    const [rows] = await db.execute("SELECT * FROM livros WHERE idLivro = ?", [id]);
+    
+    if (rows.length === 0) {
+      return res.status(404).json({ erro: "Livro não encontrado" });
+    }
+    
+    res.json(rows[0]);
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
+  }
+}
+
 export async function avaliacaoLivros(req, res) {
   try {
     const [rows] = await db.execute(`
@@ -68,6 +88,7 @@ export async function avaliacaoLivros(req, res) {
       GROUP BY l.idLivro, l.titulo
       ORDER BY l.titulo
     `);
+    
     return res.json(rows);
   } catch (err) {
     return res.status(500).json({ erro: err.message });

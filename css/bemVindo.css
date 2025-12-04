@@ -123,8 +123,19 @@ h1{
     text-align: center; 
     width: 100%;
     margin: 2; 
-    font-size: 100%;
+    font-size: 200%;
 }
+
+form button[type="submit"] {
+    padding: 8px 12px;
+    border: 2px solid var(--white);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    min-width: 300px;
+}
+
 
 h2{
     z-index: 2;

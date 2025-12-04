@@ -129,3 +129,50 @@ h2{
     object-fit: contain;
     border-radius: 4px;
 }
+
+form {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    top: 15%;
+    margin: 30px;
+    width: 30vw;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 8px;
+}
+form label {
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+}
+form input[type="search"] {
+    padding: 8px 12px;
+    border: 2px solid var(--white);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    min-width: 300px;
+}
+form input[type="search"]::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+form button[type="submit"] {
+    padding: 8px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    background: transparent;
+    border: 2px solid var(--white);
+    border-radius: 4px;
+    color: var(--white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+form button[type="submit"]:hover {
+    background: var(--white);
+    color: var(--Blue);
+}

@@ -30,8 +30,8 @@ header{
     top: 50%;
     transform: translate(-50%, -50%);
 
-    width: 50%;
-    height: 64%;
+    width: 40%;
+    height: 50%;
     padding: 10px;
     background: rgba(255, 255, 255, 0.35);
     backdrop-filter: blur(8px);
@@ -70,7 +70,7 @@ h1{
 
     padding: 6px 12px; 
     border: 2px solid var(--white);   
-    color:#344583;
+    color: var( --black);
     border-radius: 8px;
     background: transparent;
 
@@ -100,7 +100,7 @@ Form label{
     font-family: 'Montserrat', sans-serif;
 }
 
-form input[type="text"] {
+/* form input[type="text"] {
     padding: 8px 12px;
     border: 2px solid var(--white);
     border-radius: 4px;
@@ -108,7 +108,7 @@ form input[type="text"] {
     color: var(--white);
     font-family: 'Montserrat', sans-serif;
     min-width: 300px;
-}
+} */
 
 form input[type="email"] {
     padding: 8px 12px;
@@ -144,22 +144,6 @@ form button[type="submit"] {
     color: var(--white);
     cursor: pointer;
     transition: all 0.3s ease;
-}
-
-
-form input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-form label {
-    color: var(--white);
-    font-family: 'Montserrat', sans-serif;
-}
-
-form button[type="submit"]:hover {
-    background: var(--cyan);
-    color: var(--black);
-    border-color: var(--cyan);
 }
 
 footer{

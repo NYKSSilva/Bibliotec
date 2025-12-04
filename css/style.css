@@ -261,6 +261,7 @@ form button[type="submit"]:hover {
     background: var(--white);
     color: var(--Blue);
 }
+
 .Eventos li{
     padding: 10%;
     border-bottom: 1% solid #FFFFFF;

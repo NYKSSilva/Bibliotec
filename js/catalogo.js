@@ -9,15 +9,20 @@ async function carregarLivros(){
         const container = document.querySelector('.livros')
         container.innerHTML = '' 
         
-        top4.forEach(livro => {
+        livros.forEach(livro => {
             const div = document.createElement('div')
             div.className = 'livro-item'
             div.innerHTML = `
-                <img class="id${livro.idLivro}" src="${livro.caminho_capa}" alt="">`
+                <img class="id${livro.idLivro}" src="${livro.caminho_capa}" alt="${livro.titulo}">
+              
+            `
             container.appendChild(div)
         })
     } catch (error) {
         console.error('Erro ao carregar livros:', error)
     }
 }
+  // <h3>${livro.titulo}</h3>
+ // <p>${livro.autor}</p>
+
 document.addEventListener('DOMContentLoaded', carregarLivros)
