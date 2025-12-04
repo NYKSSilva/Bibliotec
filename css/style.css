@@ -1,9 +1,8 @@
 html, body{
     margin: 0%;
     padding: 0%;
-    background-color: #26333D;
+    background-color:antiquewhite;
 }
-
 :root{
    --black: #26333D;
    --Blue: #4a67DF;
@@ -12,16 +11,32 @@ html, body{
    --white: #FFFFFF;
 
 }
-
 header{
     position: relative; 
     width:94.7%;
     height: 8vh;
-    background: linear-gradient(350deg, var(--cyan), var(--Blue));
+    background: var(--black);
     display: flex;
     align-items: center;
     padding: 10px 50px; 
 }
+
+footer{
+    position: fixed; 
+    left: 0;
+    bottom: 0;      
+    width: 100%;
+    height: 8vh;
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+     flex-direction: column;
+    padding: 10px 50px;
+    z-index: 2; 
+    opacity: 3;
+}
+
 nav {
     display: flex;
     align-items: center;
@@ -46,11 +61,9 @@ nav button a {
     text-decoration: none;
     font-family: 'Montserrat', sans-serif;
 } 
-
 nav button:hover a {
     color: var(--Blue);
 }
-
 h3{
     position: absolute;   
     left: 50%;
@@ -63,11 +76,10 @@ h3{
     z-index: 1;
     pointer-events: none;
 }
-
 h1{
     z-index: 2;
     position: absolute;
-    top: 23%;
+    top: 24%;
     left: 3%;
     margin: 2%;
     border-radius: 8px;
@@ -80,38 +92,33 @@ h1{
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(3px);
 }
-
 .logo{
 
     width: 190px;
     padding-top: 0px;
     margin-left: 0px; 
 }
-
 .inicio{
     position: relative;
     width: 100%;
     min-height: 90vh;
 }
-
 .background{
     position:absolute;
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.2;
     object-fit: cover;
     height: 90vh;
     z-index: 1;
 } 
-
-.livros{
+.Destaques{
     position: absolute;
     z-index: 2;
-    top: 33%;     
+    top: 35%;     
     left: 3px;       
     margin: 20px;
-    width: 31.9%;
+    width: 60%;
     height: 35%;
     padding: 10px;
     background: rgba(255, 255, 255, 0.1);
@@ -124,98 +131,20 @@ h1{
     justify-content: flex-start;
     gap: 1.9px;            
 }
-
-.livros img {
-    width: clamp(60px, 8vw, 90px);
+.Destaques img {
+    width: clamp(60%, 8%, 70%);
     height: auto;
     object-fit: contain;
     border-radius: 4px;
 }
 
-.livro1{
+.id1{
     position: relative;
     z-index: 2;
     left: 0%;
     object-fit: contain;
 }
 
-.livro2{
-    position: relative;
-    z-index: 2;
-    left: 1.5%;
-    object-fit: contain;
-}
-
-.livro3{
-    position: relative;
-    z-index: 2;
-    left: 3.5%;
-    object-fit: contain;
-}
-
-.livro4{
-    position: relative;
-    z-index: 2;
-    left: 5.5%;
-    object-fit: contain;
-}
-
-.livro5{
-    position: relative;
-    z-index: 2;
-    left: 7.5%;
-    object-fit: contain;
-}
-
-.livro6{
-    position: relative;
-    z-index: 2;
-    left: 9.5%;
-    object-fit: contain;
-}
-
-.livro7{
-    position: relative;
-    z-index: 2;
-    left: 0.1%;
-    object-fit: contain;
-}
-
-.livro8{
-    position: relative;
-    z-index: 2;
-    left: 1.9%;
-    object-fit: contain;
-}
-
-.livro9{
-    position: relative;
-    z-index: 2;
-    left: 3%;
-    object-fit: contain;
-}
-
-.livro10{
-    position: relative;
-    z-index: 2;
-    left: 5.5%;
-    object-fit: contain;
-}
-
-.livro11{
-    position: relative;
-    z-index: 2;
-    left: 7%;
-    object-fit: contain;
-}
-
-.livro12{
-    position: relative;
-    z-index: 2;
-    left: 8.5%;
-    /* bottom: 1%; */
-    object-fit: contain;
-}
 
 form {
     position: absolute;
@@ -231,12 +160,10 @@ form {
     backdrop-filter: blur(5px);
     border-radius: 8px;
 }
-
 form label {
     color: var(--white);
     font-family: 'Montserrat', sans-serif;
 }
-
 form input[type="search"] {
     padding: 8px 12px;
     border: 2px solid var(--white);
@@ -246,11 +173,9 @@ form input[type="search"] {
     font-family: 'Montserrat', sans-serif;
     min-width: 300px;
 }
-
 form input[type="search"]::placeholder {
     color: rgba(255, 255, 255, 0.7);
 }
-
 form button[type="submit"] {
     padding: 8px 20px;
     font-family: 'Montserrat', sans-serif;
@@ -267,41 +192,39 @@ form button[type="submit"]:hover {
     background: var(--white);
     color: var(--Blue);
 }
-
 .Eventos li{
     padding: 10%;
     border-bottom: 1% solid #FFFFFF;
     font-family: 'Montserrat', sans-serif;
     font-size: 50px;
 }
-
 .proximos-eventos{
     font-weight: bold;
     color: #4a67DF;
     font-family: 'Montserrat', sans-serif;
 }
-
 .events{
     position: absolute;
     z-index: 2;
-    top: 15%;     
-    right: 1%;     
+    top: 16%;     
+    right: 3%;     
     margin: 10px;
     width: 15%;
     height: 20%;
     padding: 10px;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(5px);
-    border-radius: 8px;
+    border-radius: 5px;
 
     display: flex;
     flex-wrap: wrap;      
     align-items: center;
     justify-content: flex-start;
-    gap: 1.9px;  
+    gap: 1.9px;
+    color: var(--white);  
 }
-
 .material-symbols-outlined{
     top: 5%;
     background: transparent;
+    color: var(--white);
 }
