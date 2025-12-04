@@ -1,14 +1,42 @@
+
 import { db } from "../config/db.js";
 
 export async function adicionarLivro(req, res) {
   try {
-    const { titulo, autor, descricao, disponivel } = req.body;
-    if (!titulo || !autor || !descricao || !disponivel)
+    const { titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo } = req.body;
+    if (!titulo || !autor || !genero || !editora || !ano_publicacao || !isbn_13 || !idioma || !formato || !caminho_capa || !sinopse || ativo === undefined)
       return res.status(400).json({ erro: "Campos obrigatórios" });
 
+    const [tituloRows] = await db.execute(
+      "SELECT titulo FROM livros WHERE titulo = ?",
+      [titulo]
+    );
+
+    if (tituloRows.length > 0) {
+      return res.status(400).json({ erro: "Livro já está cadastrado" })
+    }
+
+    const [isbn10Rows] = await db.execute(
+      "SELECT isbn_10 FROM livros WHERE isbn_10 = ?",
+      [isbn_10]
+    );
+
+    if (isbn10Rows.length > 0) {
+      return res.status(400).json({ erro: "Identificação (isbn10) já está cadastrado" })
+    }
+
+    const [isbn13Rows] = await db.execute(
+      "SELECT isbn_13 FROM livros WHERE isbn_13 = ?",
+      [titulo]
+    );
+
+    if (isbn13Rows.length > 0) {
+      return res.status(400).json({ erro: "Identificação (isbn13) já está cadastrado" })
+    }
+
     await db.execute(
-      "INSERT INTO livros (titulo, autor, descricao, disponivel) VALUES (?, ?, ?, ?)",
-      [titulo, autor, descricao, disponivel]
+      "INSERT INTO livros (titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo]
     );
 
     res.json({ mensagem: "Livro adicionado com sucesso!" });
@@ -16,12 +44,54 @@ export async function adicionarLivro(req, res) {
     res.status(500).json({ erro: err.message });
   }
 };
+
+export async function listarLivros(req, res) {
+
+  const titulo = req.query.titulo;
+  const genero = req.query.genero
+
+
+  if (!titulo || !genero) {
+    try {
+      const [rows] = await db.execute("SELECT * FROM livros");
+      res.json(rows);
+    } catch (err) {
+      res.status(500).json({ erro: err.message });
+    }
+  } else {
+    try {
+      const [rows] = await db.query("SELECT idLivro, titulo, autor, caminho_capa FROM livros");
+    const livros = rows.map(r => ({
+      idLivro: r.idLivro,
+      titulo: r.titulo,
+      autor: r.autor,
+      imagemUrl: r.caminho_capa && r.caminho_capa.startsWith('http') ? r.caminho_capa : (r.caminho_capa ? `/capas/${r.caminho_capa}` : '/img/placeholder.png')
+    }));
+    } catch (err) {
+      res.status(500).json({ erro: err.message });
+    }
+  }
+
+
+};
+export async function obterLivro(req, res) {
+  try {
+    const [rows] = await db.execute("SELECT * FROM livros WHERE idLivro = ?", [
+      req.params.id,
+    ]);
+    if (rows.length === 0)
+      return res.status(404).json({ erro: "Livro não encontrado" });
+    res.json(rows[0]);
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
+  }
+};
 export async function atualizarLivro(req, res) {
   try {
-    const { titulo, autor, descricao, disponivel } = req.body;
+    const { titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo } = req.body;
     await db.execute(
-      "UPDATE livros SET titulo = ?, autor = ?, descricao = ?, disponivel = ? WHERE idLivro = ?",
-      [titulo, autor, descricao, disponivel, req.params.id]
+      "UPDATE livros SET titulo = ?, autor = ?, genero = ?, editora = ?, ano_publicacao = ?, isbn_10 = ?, isbn_13 = ?, idioma = ?, formato = ?, caminho_capa = ?, sinopse = ?, ativo = ? WHERE idLivro = ?",
+      [titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo, req.params.id]
     );
     res.json({ mensagem: "Livro atualizado com sucesso!" });
   } catch (err) {
@@ -51,27 +121,5 @@ export async function avaliacaoLivros(req, res) {
     return res.json(rows);
   } catch (err) {
     return res.status(500).json({ erro: err.message });
-  }
-}
-
-export async function obterLivros(req, res) {
-  try {
-    const [rows] = await db.query("SELECT idLivro, titulo, autor, genero, caminho_capa FROM livros WHERE ativo = 1");
-    return res.json(rows);
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: "Erro ao obter livros" });
-  }
-}
-
-export async function obterLivro(req, res) {
-  try {
-    const { id } = req.params;
-    const [rows] = await db.query("SELECT * FROM livros WHERE idLivro = ?", [id]);
-    if (!rows.length) return res.status(404).json({ error: "Livro não encontrado" });
-    return res.json(rows[0]);
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: "Erro ao obter livro" });
   }
 }

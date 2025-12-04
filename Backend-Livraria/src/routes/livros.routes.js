@@ -1,13 +1,11 @@
 import express from "express"
 import{
  adicionarLivro,
-//  buscarLivros,
- avaliacaoLivros,
-  obterLivros,
  atualizarLivro,
+ avaliacaoLivros,
  deletarLivro,
- 
-  
+ listarLivros,
+ obterLivro,
 } from "../controllers/livros.controller.js"
 
 
@@ -15,18 +13,10 @@ import{
 const router = express.Router();
 
 
-// Rotas ESPECÍFICAS primeiro
-// router.get("/buscar", buscarLivros);
-router.get("/avaliacoes", avaliacaoLivros);
-
-// Depois rotas gerais
-router.get("/", obterLivros);
-router.get("/:id", obterLivros); // Caso você realmente queira buscar por ID
-
-// CRUD
-router.post("/", adicionarLivro);
+router.post("/",adicionarLivro);
+router.get("/", listarLivros);
+router.get("/avaliacoes", avaliacaoLivros)
+router.get("/titulo", obterLivro);
 router.put("/:id", atualizarLivro);
-router.delete("/:id", deletarLivro);
-
+router.delete("/:id",deletarLivro);
 export default router;
-

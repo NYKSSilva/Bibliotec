@@ -121,3 +121,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Torna a função global para uso no HTML
 window.obterLivro = obterLivro;
+<img src="${l.imagemUrl}" alt="${l.titulo}" onerror="this.src='/img/placeholder.png'"></img>
