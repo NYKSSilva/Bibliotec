@@ -3,6 +3,7 @@ import {
     listarUsuarios, 
     criarUsuario,
     obterUsuario,
+    obterMeuPerfil,
     atuallizarUsuario,
     deletarUsuario,
     loginUsuario
@@ -14,6 +15,7 @@ const router = express.Router();
 router.get("/", listarUsuarios);
 router.post("/", criarUsuario);
 router.post("/login", loginUsuario);
+router.get("/user", obterMeuPerfil);
 router.get("/:id",obterUsuario);
 router.put("/:id",atuallizarUsuario);
 router.delete("/:id",deletarUsuario);

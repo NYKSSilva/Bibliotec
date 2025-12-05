@@ -17,6 +17,10 @@ form.addEventListener('submit', async (e) => {
     const data = await res.json()
     if (!res.ok) throw new Error(data.erro || 'Erro ao acessar usuário')
 
+      const usuario = data.usuario || data.user || data.usuarioLogado || null
+    if (usuario) localStorage.setItem('usuario', JSON.stringify(usuario))
+    if (data.token) localStorage.setItem('token', data.token)
+      
     console.log('Sucesso:', data)
     window.location.href = 'inicio.html' 
   } catch (err) {

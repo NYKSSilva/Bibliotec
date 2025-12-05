@@ -39,6 +39,27 @@ export async function obterUsuario (req, res){
   }
 };
 
+export async function obterMeuPerfil(req, res) {
+  try {
+   
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ erro: "Token não fornecido" });
+
+    const decoded = jwt.verify(token, 'sua-chave-secreta');
+    const [rows] = await db.execute(
+      "SELECT idUsuario, nome, email, matricula, curso FROM usuarios WHERE idUsuario = ?",
+      [decoded.idUsuario]
+    );
+
+    if (rows.length === 0) 
+      return res.status(404).json({ erro: "Usuário não encontrado" });
+
+    res.json(rows[0]);
+  } catch (err) {
+    res.status(401).json({ erro: "Token inválido" });
+  }
+}
+
 export async function atuallizarUsuario(req, res){
   try {
     const { nome, email, senha } = req.body;
