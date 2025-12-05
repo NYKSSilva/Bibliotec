@@ -1,124 +1,136 @@
 const API = 'http://localhost:3000';
 
 // ============================
-// Eventos da página
+// Carregar destaques (6 primeiros livros)
 // ============================
-const hoje = new Date();
-const eventos = document.querySelectorAll('#Eventos li');
-eventos.forEach(evento => {
-    const dataEvento = new Date(evento.getAttribute('data-date'));
-    if (dataEvento > hoje) {
-        evento.classList.add('proximo-evento');
-    }
-});
+async function carregarDestaques() {
+  try {
+    const res = await fetch('/livros/destaques');
+    const livros = await res.json();
+    const container = document.getElementById('livros-destaques');
+    
+    container.innerHTML = livros.map(l => `
+      <div class="livro-card">
+        <img src="${l.imagemUrl}" alt="${l.titulo}" onerror="this.src='/img/placeholder.png'">
+        <h3>${l.titulo}</h3>
+        <p>${l.autor || 'Desconhecido'}</p>
+        <button onclick="obterLivro(${l.idLivro})">Ver Detalhes</button>
+      </div>
+    `).join('');
+  } catch (err) {
+    console.error('Erro ao carregar destaques:', err);
+  }
+}
 
 // ============================
 // Carregar todos os livros
 // ============================
 async function carregarLivros() {
-    try {
-        const resposta = await fetch(`${API}/livros`); // ✅ Corrigido
-        const livros = await resposta.json();
-        console.log('Livros carregados:', livros);
-        exibirLivros(livros);
-    } catch (error) {
-        console.error('Erro ao carregar livros:', error);
-    }
+  try {
+    const res = await fetch(`${API}/livros`);
+    const livros = await res.json();
+    exibirLivros(livros);
+  } catch (err) {
+    console.error('Erro ao carregar livros:', err);
+  }
 }
 
 // ============================
-// Buscar livros por nome/autor
+// Buscar livros
 // ============================
-async function buscarLivros(termoBusca) {
-    try {
-        const resposta = await fetch(`${API}/livros?nome=${encodeURIComponent(termoBusca)}`);
-        const livros = await resposta.json();
-        console.log('Resultados da busca:', livros);
-        exibirLivros(livros);
-        
-        if (livros.length === 0) {
-            alert('Nenhum livro encontrado!');
-        }
-    } catch (error) {
-        console.error('Erro ao buscar livros:', error);
-        alert('Erro ao buscar livros!');
+async function buscarLivros(termo) {
+  try {
+    const res = await fetch(`${API}/livros/buscar?q=${encodeURIComponent(termo)}`);
+    const livros = await res.json();
+    exibirLivros(livros);
+    
+    if (livros.length === 0) {
+      alert('Nenhum livro encontrado!');
     }
+  } catch (err) {
+    console.error('Erro ao buscar livros:', err);
+  }
 }
 
 // ============================
 // Exibir livros na tela
 // ============================
 function exibirLivros(livros) {
-    const container = document.getElementById('livros-container');
-    if (!container) return;
-    
-    container.innerHTML = ''; // Limpa os livros anteriores
-    
-    livros.forEach(livro => {
-        const divLivro = document.createElement('div');
-        divLivro.className = 'livro';
-        divLivro.innerHTML = `
-           img.src = livro.caminho_capa;
-            <h3>${livro.titulo}</h3>
-            <p>${livro.autor}</p>
-            <button onclick="obterLivro(${livro.idLivro})">Ver Detalhes</button>
-        `;
-        container.appendChild(divLivro);
-    });
+  const container = document.getElementById('livros-container');
+  if (!container) return;
+  
+  container.innerHTML = livros.map(l => `
+    <div class="livro-card">
+      <img src="${l.imagemUrl || l.caminho_capa || '/img/placeholder.png'}" 
+           alt="${l.titulo}" 
+           onerror="this.src='/img/placeholder.png'">
+      <h3>${l.titulo}</h3>
+      <p>${l.autor || 'Desconhecido'}</p>
+      <button onclick="obterLivro(${l.idLivro})">Ver Detalhes</button>
+    </div>
+  `).join('');
 }
 
 // ============================
 // Obter detalhes de um livro
 // ============================
 async function obterLivro(id) {
-    try {
-        const resposta = await fetch(`${API}/livros/${id}`);
-        const livro = await resposta.json();
-        
-        const detalhe = document.getElementById('livro-detalhe');
-        detalhe.innerHTML = `
-            <div class="detail-panel">
-                <button onclick="fecharDetalhes()">✖ Fechar</button>
-                <h2>${livro.titulo}</h2>
-                <p><strong>Autor:</strong> ${livro.autor}</p>
-                <p><strong>Descrição:</strong> ${livro.descricao}</p>
-                <p><strong>Disponível:</strong> ${livro.disponivel ? 'Sim' : 'Não'}</p>
-            </div>
-        `;
-        detalhe.classList.remove('hidden');
-    } catch (error) {
-        console.error('Erro ao obter livro:', error);
-    }
+  try {
+    const res = await fetch(`${API}/livros/${id}`);
+    const livro = await res.json();
+    
+    const detalhe = document.getElementById('livro-detalhe');
+    detalhe.innerHTML = `
+      <div class="detail-panel">
+        <button onclick="fecharDetalhes()">✖ Fechar</button>
+        <h2>${livro.titulo}</h2>
+        <p><strong>Autor:</strong> ${livro.autor || '-'}</p>
+        <p><strong>Descrição:</strong> ${livro.descricao || 'Sem descrição'}</p>
+        <p><strong>Disponível:</strong> ${livro.disponivel ? 'Sim' : 'Não'}</p>
+      </div>
+    `;
+    detalhe.classList.remove('hidden');
+  } catch (err) {
+    console.error('Erro ao obter livro:', err);
+  }
 }
 
 function fecharDetalhes() {
-    document.getElementById('livro-detalhe').classList.add('hidden');
+  document.getElementById('livro-detalhe').classList.add('hidden');
 }
 
 // ============================
-// Configurar formulário de busca
+// Inicializar ao carregar página
 // ============================
 document.addEventListener('DOMContentLoaded', () => {
-    carregarLivros(); // Carrega livros ao abrir a página
-    
-    // Captura o formulário de busca
-    const formBusca = document.querySelector('form[action="#"]');
-    if (formBusca) {
-        formBusca.addEventListener('submit', (e) => {
-            e.preventDefault(); // Impede recarregar a página
-            
-            const inputBusca = document.getElementById('search-input');
-            const termoBusca = inputBusca.value.trim();
-            
-            if (termoBusca) {
-                buscarLivros(termoBusca);
-            } else {
-                carregarLivros(); // Se vazio, mostra todos
-            }
-        });
+  // Carregar destaques
+  carregarDestaques();
+  
+  // Eventos próximos
+  const hoje = new Date();
+  const eventos = document.querySelectorAll('#Eventos li');
+  eventos.forEach(evento => {
+    const dataEvento = new Date(evento.getAttribute('data-date'));
+    if (dataEvento > hoje) {
+      evento.classList.add('proximo-evento');
     }
+  });
+  
+  // Formulário de busca
+  const formBusca = document.getElementById('search-form');
+  if (formBusca) {
+    formBusca.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const termo = document.getElementById('search-input').value.trim();
+      if (termo) {
+        buscarLivros(termo);
+      } else {
+        carregarDestaques();
+      }
+    });
+  }
 });
 
-// Torna a função global para uso no HTML
+// Tornar funções globais
 window.obterLivro = obterLivro;
-<img src="${l.imagemUrl}" alt="${l.titulo}" onerror="this.src='/img/placeholder.png'"></img>
+window.fecharDetalhes = fecharDetalhes;

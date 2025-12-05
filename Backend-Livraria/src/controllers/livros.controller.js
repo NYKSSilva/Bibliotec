@@ -1,6 +1,28 @@
 
 import { db } from "../config/db.js";
 
+export async function obterDestaques(req, res) {
+  try {
+    const [rows] = await db.query("SELECT idLivro, titulo, autor, caminho_capa FROM livros LIMIT 6");
+    const livros = rows.map(r => {
+      const raw = r.caminho_capa ? String(r.caminho_capa).trim() : '';
+      const imagemUrl = raw
+        ? (raw.startsWith('http') || raw.startsWith('//') ? raw : (raw.startsWith('/') ? raw : `/capas/${encodeURIComponent(raw)}`))
+        : '/img/placeholder.png';
+      return {
+        idLivro: r.idLivro,
+        titulo: r.titulo,
+        autor: r.autor,
+        imagemUrl
+      };
+    });
+    res.json(livros);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erro ao obter destaques" });
+  }
+}
+
 export async function adicionarLivro(req, res) {
   try {
     const { titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo } = req.body;

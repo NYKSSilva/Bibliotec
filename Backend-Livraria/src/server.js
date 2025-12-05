@@ -29,17 +29,29 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(publicPath));
 
+// ===== ARQUIVOS ESTÁTICOS (1º) =====
+app.use(express.static(publicPath));
+app.use('/capas', express.static(path.join(publicPath, 'livros')));
+
+// ===== ROTA RAIZ (2º) =====
 app.get("/", (req, res) => {
     res.sendFile(path.join(publicPath, "login.html"));
 })
 
+// ===== ROTAS DE API (3º) — SEM DUPLICATAS =====
 app.use("/usuarios", usuarioRoutes)
-app.use("/livros", livrosRoutes)
+app.use("/livros", livrosRoutes)  // ← ÚNICA
 app.use("/avaliacoes", avaliacoesRoutes)
 app.use("/reservas", reservasRoutes)
 app.use("/favoritos", favoritosRoutes)
-app.use("/livros", livrosRoutes);
 
+// ===== FALLBACK SPA (ÚLTIMO) — para rotas desconhecidas =====
+app.use((req, res) => {
+  const index = path.join(publicPath, 'index.html');
+  res.sendFile(index, err => {
+    if (err) res.status(404).json({ error: "Página não encontrada" });
+  });
+});
 
 // ============================
 //  Inicia o servidor
