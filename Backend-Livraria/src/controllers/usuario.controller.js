@@ -17,7 +17,6 @@ export async function criarUsuario(req, res) {
   }
 };
 
-
 export async function listarUsuarios (req, res){
   try {
     const [rows] = await db.execute("SELECT * FROM usuarios");
@@ -26,7 +25,6 @@ export async function listarUsuarios (req, res){
     res.status(500).json({ erro: err.message });
   }
 };
-
 
 export async function obterUsuario (req, res){
   try {
@@ -53,7 +51,6 @@ export async function atuallizarUsuario(req, res){
     res.status(500).json({ erro: err.message });
   }
 };
-
 
 export async function deletarUsuario (req, res){
   try {

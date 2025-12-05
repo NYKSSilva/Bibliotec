@@ -4,7 +4,8 @@ import {
     criarUsuario,
     obterUsuario,
     atuallizarUsuario,
-    deletarUsuario
+    deletarUsuario,
+    loginUsuario
 } from "../controllers/usuario.controller.js";
 
 const router = express.Router();
@@ -12,8 +13,10 @@ const router = express.Router();
 /* /usuario / */
 router.get("/", listarUsuarios);
 router.post("/", criarUsuario);
+router.post("/login", loginUsuario);
 router.get("/:id",obterUsuario);
 router.put("/:id",atuallizarUsuario);
 router.delete("/:id",deletarUsuario);
+
 
 export default router;
