@@ -1,4 +1,23 @@
 const API = 'http://localhost:3000';
+// helper: montar URL da capa a partir do campo vindo do banco
+function urlCapa(livro) {
+  const campo = livro.imagemUrl || livro.caminho_capa || livro.imagem || livro.capa || livro.arquivo;
+
+  if (!campo || campo.trim() === "") {
+    return "/img/placeholder.png";
+  }
+
+  if (campo.startsWith("http") || campo.startsWith("//")) {
+    return campo;
+  }
+
+  if (campo.startsWith("/")) {
+    return campo;
+  }
+
+  return `/capas/${campo}`;
+}
+
 
 // ============================
 // Carregar destaques (6 primeiros livros)
@@ -11,10 +30,9 @@ async function carregarDestaques() {
     
     container.innerHTML = livros.map(l => `
       <div class="livro-card">
-        <img src="${l.imagemUrl}" alt="${l.titulo}" onerror="this.src='/img/placeholder.png'">
-        <h3>${l.titulo}</h3>
-        <p>${l.autor || 'Desconhecido'}</p>
-        <button onclick="obterLivro(${l.idLivro})">Ver Detalhes</button>
+        <img src="${urlCapa(l)}" alt="${l.titulo}" onerror="this.src='/img/placeholder.png'">
+        <h3 class="titulo">${l.titulo}</h3>
+        <p class="autor">${l.autor || 'Desconhecido'}</p>
       </div>
     `).join('');
   } catch (err) {
@@ -35,36 +53,87 @@ async function carregarLivros() {
   }
 }
 
+// ============================
+// Buscar livros por título ou autor
+// ============================
+async function buscarLivros(termo) {
+  try {
+    const res = await fetch(`${API}/livros/titulo?titulo=${encodeURIComponent(termo)}`);
+    if (!res.ok) {
+      const container = document.getElementById('livros-destaques');
+      container.innerHTML = '<p style="text-align: center; color: #666;">Nenhum livro encontrado.</p>';
+      return;
+    }
 
+    const data = await res.json();
+
+    // o backend pode retornar um array ou um único objeto — normaliza para array
+    const livros = Array.isArray(data) ? data : (data ? [data] : []);
+
+    const container = document.getElementById('livros-destaques');
+
+    if (livros.length === 0) {
+      container.innerHTML = '<p style="text-align: center; color: #666;">Nenhum livro encontrado.</p>';
+      return;
+    }
+
+    container.innerHTML = livros.map(l => `
+      <div class="livro-card">
+       <img src="${urlCapa(l)}" alt="${l.titulo || 'Capa'}" onerror="this.src='/img/placeholder.png'">
+        <h3 class="titulo">${l.titulo || 'Sem título'}</h3>
+    <p class="autor">${l.autor || 'Desconhecido'}</p>
+      </div>
+    `).join('');
+  } catch (err) {
+    console.error('Erro ao buscar livros:', err);
+    alert('Erro ao buscar livros. Tente novamente.');
+  }
+}
 
 // ============================
 // Obter detalhes de um livro
 // ============================
 async function obterLivro(id) {
-  const titulo = req.query.titulo;
-
-  if (!titulo) {
-  return res.status(400).json({ mensagem: "Por favor, informe o título do livro." });
+  try {
+    const res = await fetch(`${API}/livros/${id}`);
+    const livro = await res.json();
+    
+    // Criar modal ou seção de detalhes
+    const detalhesHTML = `
+      <div id="livro-detalhe" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="fecharDetalhes()">&times;</span>
+          <img src="${urlCapa(livro)}" alt="${livro.titulo}">
+          <h2>${livro.titulo}</h2>
+          <p><strong>Autor:</strong> ${livro.autor || 'Desconhecido'}</p>
+          <p><strong>Categoria:</strong> ${livro.categoria || 'Não informada'}</p>
+          <p><strong>Descrição:</strong> ${livro.descricao || 'Sem descrição disponível'}</p>
+        </div>
+      </div>
+    `;
+    
+    // Remover modal anterior se existir
+    const modalAntigo = document.getElementById('livro-detalhe');
+    if (modalAntigo) {
+      modalAntigo.remove();
+    }
+    
+    // Adicionar novo modal
+    document.body.insertAdjacentHTML('beforeend', detalhesHTML);
+  } catch (err) {
+    console.error('Erro ao obter detalhes do livro:', err);
+    alert('Erro ao carregar detalhes do livro.');
+  }
 }
 
-try {
-  const [rows] = await db.execute(
-    "SELECT * FROM livros WHERE titulo LIKE ?",
-    [`%${titulo}%`]
-  );
-
-  if (rows.length === 0) {
-    return res.status(404).json({ mensagem: "Nenhum livro encontrado com esse título." });
-  }
-
-  res.json(rows);
-
-} catch (err) {
-  res.status(500).json({ erro: err.message });
-} }
-
+// ============================
+// Fechar modal de detalhes
+// ============================
 function fecharDetalhes() {
-  document.getElementById('livro-detalhe').classList.add('hidden');
+  const modal = document.getElementById('livro-detalhe');
+  if (modal) {
+    modal.remove();
+  }
 }
 
 // ============================
@@ -84,22 +153,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
-//   // Formulário de busca
-//   const formBusca = document.getElementById('search-form');
-//   if (formBusca) {
-//     formBusca.addEventListener('submit', (e) => {
-//       e.preventDefault();
-//       const termo = document.getElementById('search-input').value.trim();
-//       if (termo) {
-//         buscarLivros(termo);
-//       } else {
-//         carregarDestaques();
-//       }
-//     });
-//   }
-// });
+  // Formulário de busca
+  const formBusca = document.getElementById('search-form');
+  if (formBusca) {
+    formBusca.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const termo = document.getElementById('search-input').value.trim();
+      
+      if (termo) {
+        await buscarLivros(termo);
+      } else {
+        await carregarDestaques();
+      }
+    });
+  }
+});
 
 // Tornar funções globais
 window.obterLivro = obterLivro;
 window.fecharDetalhes = fecharDetalhes;
-})
+window.buscarLivros = buscarLivros;

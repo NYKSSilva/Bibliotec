@@ -16,8 +16,8 @@ const router = express.Router();
 router.get('/destaques', obterDestaques);
 router.post("/",adicionarLivro);
 router.get("/", listarLivros);
-router.get("/avaliacoes", avaliacaoLivros)
 router.get("/titulo", obterLivro);
+router.get("/avaliacoes", avaliacaoLivros)
 router.put("/:id", atualizarLivro);
 router.delete("/:id",deletarLivro);
 

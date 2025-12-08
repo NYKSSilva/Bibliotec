@@ -6,7 +6,6 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
-import { db } from "./config/db.js";
 import usuarioRoutes from "./routes/usuario.routes.js"
 import livrosRoutes from "./routes/livros.routes.js"
 import avaliacoesRoutes from "./routes/avaliacoes.routes.js"

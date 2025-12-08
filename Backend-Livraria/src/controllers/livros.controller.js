@@ -1,27 +1,19 @@
 
 import { db } from "../config/db.js";
 
-export async function obterDestaques(req, res) {
-  try {
-    const [rows] = await db.query("SELECT idLivro, titulo, autor, caminho_capa FROM livros LIMIT 6");
-    const livros = rows.map(r => {
-      const raw = r.caminho_capa ? String(r.caminho_capa).trim() : '';
-      const imagemUrl = raw
-        ? (raw.startsWith('http') || raw.startsWith('//') ? raw : (raw.startsWith('/') ? raw : `/capas/${encodeURIComponent(raw)}`))
-        : '/img/placeholder.png';
-      return {
-        idLivro: r.idLivro,
-        titulo: r.titulo,
-        autor: r.autor,
-        imagemUrl
-      };
-    });
-    res.json(livros);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Erro ao obter destaques" });
+function montarImagemUrl(caminho) {
+  if (!caminho || caminho.trim() === "") {
+    return "/img/placeholder.png";
   }
+
+  const c = caminho.trim();
+
+  if (c.startsWith("http") || c.startsWith("//")) return c;
+  if (c.startsWith("/")) return c;
+
+  return `/capas/${encodeURIComponent(c)}`;
 }
+
 
 export async function adicionarLivro(req, res) {
   try {
@@ -68,65 +60,74 @@ export async function adicionarLivro(req, res) {
 };
 
 export async function listarLivros(req, res) {
+  try {
+    const [rows] = await db.execute("SELECT * FROM livros");
 
+    const livros = rows.map(r => ({
+      ...r,
+      imagemUrl: montarImagemUrl(r.caminho_capa)
+    }));
+
+    return res.json(livros);
+
+  } catch (err) {
+    return res.status(500).json({ erro: err.message });
+  }
+}
+
+export async function obterLivro(req, res) {
   const titulo = req.query.titulo;
-  const genero = req.query.genero
 
+  try {
+    // Caso haja termo de busca
+    if (titulo) {
+      const [rows] = await db.execute(
+        "SELECT * FROM livros WHERE titulo LIKE ?",
+        [`%${titulo}%`]
+      );
 
-  if (!titulo || !genero) {
-    try {
-      const [rows] = await db.execute("SELECT * FROM livros");
-      res.json(rows);
-    } catch (err) {
-      res.status(500).json({ erro: err.message });
+      const livros = rows.map(r => ({
+        ...r,
+        imagemUrl: montarImagemUrl(r.caminho_capa)
+      }));
+
+      return res.json(livros);
     }
-  } else {
-    try {
-      const [rows] = await db.query("SELECT idLivro, titulo, autor, caminho_capa FROM livros");
+
+    // Sem termo => retorna todos
+    const [rows] = await db.execute("SELECT * FROM livros");
+
+    const livros = rows.map(r => ({
+      ...r,
+      imagemUrl: montarImagemUrl(r.caminho_capa)
+    }));
+
+    return res.json(livros);
+
+  } catch (err) {
+    return res.status(500).json({ erro: err.message });
+  }
+}
+export async function obterDestaques(req, res) {
+  try {
+    const [rows] = await db.query(
+      "SELECT idLivro, titulo, autor, caminho_capa FROM livros LIMIT 6"
+    );
+
     const livros = rows.map(r => ({
       idLivro: r.idLivro,
       titulo: r.titulo,
       autor: r.autor,
-      imagemUrl: r.caminho_capa && r.caminho_capa.startsWith('http') ? r.caminho_capa : (r.caminho_capa ? `/capas/${r.caminho_capa}` : '/img/placeholder.png')
+      imagemUrl: montarImagemUrl(r.caminho_capa)
     }));
-    } catch (err) {
-      res.status(500).json({ erro: err.message });
-    }
-  }
 
+    return res.json(livros);
 
-};
-export async function obterLivro(req, res) {
-  const titulo = req.query.titulo;
-
-  if (!titulo) {
-    try {
-      const [rows] = await db.execute("SELECT * FROM livros");
-      res.json(rows);
-    } catch (err) {
-      res.status(500).json({ erro: err.message });
-    }
-  } else {
-    try {
-      const [rows] = await db.execute(`SELECT * FROM livros  WHERE titulo LIKE '%${titulo}%'`);
-      res.json(rows);
-    } catch (err) {
-      res.status(500).json({ erro: err.message });
-    }
-  }
-
-  
-  try {
-    const [rows] = await db.execute("SELECT * FROM livros WHERE idLivro = ?", [
-      req.params.id,
-    ]);
-    if (rows.length === 0)
-      return res.status(404).json({ erro: "Livro não encontrado" });
-    res.json(rows[0]);
   } catch (err) {
-    res.status(500).json({ erro: err.message });
+    return res.status(500).json({ error: "Erro ao obter destaques" });
   }
-};
+}
+
 export async function atualizarLivro(req, res) {
   try {
     const { titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo } = req.body;
