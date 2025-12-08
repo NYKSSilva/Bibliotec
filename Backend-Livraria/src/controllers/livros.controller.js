@@ -97,6 +97,25 @@ export async function listarLivros(req, res) {
 
 };
 export async function obterLivro(req, res) {
+  const titulo = req.query.titulo;
+
+  if (!titulo) {
+    try {
+      const [rows] = await db.execute("SELECT * FROM livros");
+      res.json(rows);
+    } catch (err) {
+      res.status(500).json({ erro: err.message });
+    }
+  } else {
+    try {
+      const [rows] = await db.execute(`SELECT * FROM livros  WHERE titulo LIKE '%${titulo}%'`);
+      res.json(rows);
+    } catch (err) {
+      res.status(500).json({ erro: err.message });
+    }
+  }
+
+  
   try {
     const [rows] = await db.execute("SELECT * FROM livros WHERE idLivro = ?", [
       req.params.id,

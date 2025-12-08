@@ -5,7 +5,7 @@ const API = 'http://localhost:3000';
 // ============================
 async function carregarDestaques() {
   try {
-    const res = await fetch('/livros/destaques');
+    const res = await fetch(`${API}/livros/destaques`);
     const livros = await res.json();
     const container = document.getElementById('livros-destaques');
     
@@ -35,65 +35,33 @@ async function carregarLivros() {
   }
 }
 
-// ============================
-// Buscar livros
-// ============================
-async function buscarLivros(termo) {
-  try {
-    const res = await fetch(`${API}/livros/buscar?q=${encodeURIComponent(termo)}`);
-    const livros = await res.json();
-    exibirLivros(livros);
-    
-    if (livros.length === 0) {
-      alert('Nenhum livro encontrado!');
-    }
-  } catch (err) {
-    console.error('Erro ao buscar livros:', err);
-  }
-}
 
-// ============================
-// Exibir livros na tela
-// ============================
-function exibirLivros(livros) {
-  const container = document.getElementById('livros-container');
-  if (!container) return;
-  
-  container.innerHTML = livros.map(l => `
-    <div class="livro-card">
-      <img src="${l.imagemUrl || l.caminho_capa || '/img/placeholder.png'}" 
-           alt="${l.titulo}" 
-           onerror="this.src='/img/placeholder.png'">
-      <h3>${l.titulo}</h3>
-      <p>${l.autor || 'Desconhecido'}</p>
-      <button onclick="obterLivro(${l.idLivro})">Ver Detalhes</button>
-    </div>
-  `).join('');
-}
 
 // ============================
 // Obter detalhes de um livro
 // ============================
 async function obterLivro(id) {
-  try {
-    const res = await fetch(`${API}/livros/${id}`);
-    const livro = await res.json();
-    
-    const detalhe = document.getElementById('livro-detalhe');
-    detalhe.innerHTML = `
-      <div class="detail-panel">
-        <button onclick="fecharDetalhes()">✖ Fechar</button>
-        <h2>${livro.titulo}</h2>
-        <p><strong>Autor:</strong> ${livro.autor || '-'}</p>
-        <p><strong>Descrição:</strong> ${livro.descricao || 'Sem descrição'}</p>
-        <p><strong>Disponível:</strong> ${livro.disponivel ? 'Sim' : 'Não'}</p>
-      </div>
-    `;
-    detalhe.classList.remove('hidden');
-  } catch (err) {
-    console.error('Erro ao obter livro:', err);
-  }
+  const titulo = req.query.titulo;
+
+  if (!titulo) {
+  return res.status(400).json({ mensagem: "Por favor, informe o título do livro." });
 }
+
+try {
+  const [rows] = await db.execute(
+    "SELECT * FROM livros WHERE titulo LIKE ?",
+    [`%${titulo}%`]
+  );
+
+  if (rows.length === 0) {
+    return res.status(404).json({ mensagem: "Nenhum livro encontrado com esse título." });
+  }
+
+  res.json(rows);
+
+} catch (err) {
+  res.status(500).json({ erro: err.message });
+} }
 
 function fecharDetalhes() {
   document.getElementById('livro-detalhe').classList.add('hidden');
@@ -116,21 +84,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
-  // Formulário de busca
-  const formBusca = document.getElementById('search-form');
-  if (formBusca) {
-    formBusca.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const termo = document.getElementById('search-input').value.trim();
-      if (termo) {
-        buscarLivros(termo);
-      } else {
-        carregarDestaques();
-      }
-    });
-  }
-});
+//   // Formulário de busca
+//   const formBusca = document.getElementById('search-form');
+//   if (formBusca) {
+//     formBusca.addEventListener('submit', (e) => {
+//       e.preventDefault();
+//       const termo = document.getElementById('search-input').value.trim();
+//       if (termo) {
+//         buscarLivros(termo);
+//       } else {
+//         carregarDestaques();
+//       }
+//     });
+//   }
+// });
 
 // Tornar funções globais
 window.obterLivro = obterLivro;
 window.fecharDetalhes = fecharDetalhes;
+})
