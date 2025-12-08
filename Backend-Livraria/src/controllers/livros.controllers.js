@@ -59,16 +59,14 @@ export async function listarLivros(req, res) {
 
 export async function obterLivro(req, res) {
   const titulo = req.query.titulo;
+  const autor = req.query.autor
 
-  if (!titulo) {
-  return res.status(400).json({ mensagem: "Por favor, informe o título do livro." });
+  if (!titulo || !autor) {
+  return res.status(400).json({ mensagem: "Por favor, informe o título ou autor do livro." });
 }
 
 try {
-  const [rows] = await db.execute(
-    "SELECT * FROM livros WHERE titulo LIKE ?",
-    [`%${titulo}%`]
-  );
+   const [rows] = await db.execute(`SELECT * FROM livros  WHERE titulo LIKE '%${titulo}%' OR autor LIKE '%${autor}%'`);
 
   if (rows.length === 0) {
     return res.status(404).json({ mensagem: "Nenhum livro encontrado com esse título." });

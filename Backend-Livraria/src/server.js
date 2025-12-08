@@ -14,16 +14,18 @@ import favoritosRoutes from "./routes/favoritos.routes.js"
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const publicPath = path.join(__dirname, "../../"); 
+const publicDir = path.join(__dirname, "../public"); 
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use(express.static(publicPath))
+app.use(express.json());
+
+app.use(express.static(publicDir));
 
 app.get("/", (req,res)=>{
-  res.sendFile(path.join(publicPath, "login.html"))
+  res.sendFile(path.join(publicDir, "login.html"))
 })
 
 app.use("/usuarios", usuarioRoutes)

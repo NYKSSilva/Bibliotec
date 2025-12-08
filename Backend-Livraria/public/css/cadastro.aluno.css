@@ -1,0 +1,218 @@
+html, body{
+    margin: 0%;
+    padding: 0%;
+    background-color:antiquewhite;
+}
+
+:root{
+   --black: #26333D;
+   --Blue: #4a67DF;
+   --cyan: #2FD6CB;
+   --cream: #E9F0EF;
+   --white: #FFFFFF;
+
+}
+
+header{
+    position: relative; 
+    width:94.7%;
+    height: 8vh;
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    padding: 10px 50px; 
+    opacity: 3;
+}
+.login{
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 50%;
+    height: 64%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(8px);
+    border-radius: 5px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.9px;
+    color: var(--white);  
+}
+
+.logo{
+    width: 170px;
+    padding-top: 0px;
+    margin-left: 0px; 
+}
+
+.background{
+    position:absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    height: 90vh;
+    z-index: 1;
+} 
+
+h1{
+    z-index: 3;
+    position: relative;
+    margin: 0 auto 10px auto;
+    min-width: 300px;
+    display: inline-block;    
+
+    padding: 6px 12px; 
+    border: 2px solid var(--white);   
+    color:#344583;
+    border-radius: 8px;
+    background: transparent;
+
+
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    backdrop-filter: blur(3px);
+    text-align: center;
+}
+
+form{
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    margin: 0;
+    width: 70%;
+    padding: 10px;
+    background: transparent;
+    border-radius: 8px;
+}
+
+Form label{
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+}
+
+form input[type="text"] {
+    padding: 8px 12px;
+    border: 2px solid var(--white);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    min-width: 300px;
+}
+
+form input[type="email"] {
+    padding: 8px 12px;
+    border: 2px solid var(--white);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    min-width: 300px;
+}
+
+form input[type="password"] {
+    padding: 8px 12px;
+    border: 2px solid var(--white);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    min-width: 300px;
+}
+
+form input[type="email"]::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+form button[type="submit"] {
+    padding: 8px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    background: transparent;
+    border: 2px solid var(--white);
+    border-radius: 4px;
+    color: var(--white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+form input[type="number"] {
+    padding: 8px 12px;
+    border: 2px solid var(--white);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    min-width: 300px;
+}
+
+form input[type="tel"] {
+    padding: 8px 12px;
+    border: 2px solid var(--white);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    min-width: 300px;
+}
+
+form input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+form label {
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+}
+
+form button[type="submit"]:hover {
+    background: var(--cyan);
+    color: var(--black);
+    border-color: var(--cyan);
+}
+
+footer{
+    position: fixed; 
+    left: 0;
+    bottom: 0;      
+    width: 100%;
+    height: 8vh;
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+     flex-direction: column;
+    padding: 10px 50px;
+    z-index: 2; 
+    opacity: 3;
+}
+
+footer a {
+    color: var(--cyan);
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center; 
+    font-size: 14px;
+    transition: color 0.3s ease;
+    margin-top: 5px;
+}
+
+h2{
+    z-index: 2;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--white);
+    text-align: center; 
+    width: 100%;
+    margin: 0; 
+    font-size: 80%;
+}
