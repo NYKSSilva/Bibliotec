@@ -64,26 +64,35 @@ export async function deletarLivro(req, res) {
 export async function obterLivro(req, res) {
   const titulo = req.query.titulo;
 
-  if (!titulo) {
-  return res.status(400).json({ mensagem: "Por favor, informe o título do livro." });
+  try {
+    if (titulo) {
+      const [rows] = await db.execute(
+        "SELECT * FROM livros WHERE titulo LIKE ?",
+        [`%${titulo}%`]
+      );
+
+      const livros = rows.map(r => ({
+        ...r,
+        imagemUrl: montarImagemUrl(r.caminho_capa)
+      }));
+
+      return res.json(livros);
+    }
+    const [rows] = await db.execute("SELECT * FROM livros");
+
+    const livros = rows.map(r => ({
+      ...r,
+      imagemUrl: montarImagemUrl(r.caminho_capa)
+    }));
+
+    return res.json(livros);
+
+  } catch (err) {
+    return res.status(500).json({ erro: err.message });
+  }
 }
 
-try {
-  const [rows] = await db.execute(
-    "SELECT * FROM livros WHERE titulo LIKE ?",
-    [`%${titulo}%`]
-  );
 
-  if (rows.length === 0) {
-    return res.status(404).json({ mensagem: "Nenhum livro encontrado com esse título." });
-  }
-
-  res.json(rows);
-
-} catch (err) {
-  res.status(500).json({ erro: err.message });
-} }
-   
 export async function avaliacaoLivros(req, res) {
   try {
     const [rows] = await db.execute(`
