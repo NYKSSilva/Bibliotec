@@ -30,6 +30,35 @@ function exibirLivros(livros) {
     })
 }
 
+const searchForm = document.getElementById('search')
+if (searchForm) {
+    searchForm.addEventListener('submit', async (e) => {
+        e.preventDefault()
+        const titulo = document.getElementById('search-input').value.trim()
+        
+        if (!titulo) {
+            alert('Digite o nome do livro para pesquisar')
+            return
+        }
+        
+        try {
+            const resposta = await fetch(`${API}/livros?titulo=${encodeURIComponent(titulo)}`)
+            const livros = await resposta.json()
+            
+            if (livros.length === 0) {
+                alert('Nenhum livro encontrado com esse título')
+                return
+            }
+            
+            console.log('Resultados da pesquisa:', livros)
+            exibirLivros(livros)
+        } catch (error) {
+            console.error('Erro na pesquisa:', error)
+            alert('Erro ao pesquisar: ' + error.message)
+        }
+    })
+}
+
 document.querySelectorAll('.menu li').forEach(categoria => {
     categoria.addEventListener('click', (e) => {
         const nomeCategoria = e.target.textContent.trim()

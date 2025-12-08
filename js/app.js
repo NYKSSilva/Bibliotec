@@ -10,29 +10,46 @@ eventos.forEach(evento => {
     }
 })
 
-// async function carregarLivros(){
-//     try {
-//         const resposta = await fetch(`${API}/livros`)
-//         const livros = await resposta.json()
-//         console.log('Livros carregados:', livros)
-        
-//           const top4 = livros
-//             .sort((a, b) => (b.favoritos || 0) - (a.favoritos || 0))
-//             .slice(0, 4)
+async function carregarLivros(){
+    try {
+        const resposta = await fetch(`${API}/livros`)
+        const livros = await resposta.json()
+        todosLivros = livros
+        console.log('Livros carregados:', livros)
+        exibirLivros(livros)
+    } catch (error) {
+        console.error('Erro ao carregar livros:', error)
+    }
+}
 
-//         const container = document.querySelector('.livros')
-//         container.innerHTML = '' 
+const searchForm = document.getElementById('search')
+if (searchForm) {
+    searchForm.addEventListener('submit', async (e) => {
+        e.preventDefault()
+        const titulo = document.getElementById('search-input').value.trim()
         
-//         top4.forEach(livro => {
-//             const div = document.createElement('div')
-//             div.className = 'livro-item'
-//             div.innerHTML = `
-//                 <img class="id${livro.id}" src="${livro.caminho_capa}" alt="">`
-//             container.appendChild(div)
-//         })
-//     } catch (error) {
-//         console.error('Erro ao carregar livros:', error)
-//     }
-// }
-// document.addEventListener('DOMContentLoaded', carregarLivros)
+        if (!titulo) {
+            alert('Digite o nome do livro para pesquisar')
+            return
+        }
+        
+        try {
+            const resposta = await fetch(`${API}/livros?titulo=${encodeURIComponent(titulo)}`)
+            const livros = await resposta.json()
+            
+            if (livros.length === 0) {
+                alert('Nenhum livro encontrado com esse título')
+                return
+            }
+            
+            console.log('Resultados da pesquisa:', livros)
+            carregarLivros(livros)
+        } catch (error) {
+            console.error('Erro na pesquisa:', error)
+            alert('Erro ao pesquisar: ' + error.message)
+        }
+    })
+}
+
+document.addEventListener('DOMContentLoaded', carregarLivros)
 

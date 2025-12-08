@@ -22,11 +22,13 @@
         </nav>
 
     </header>
-    <form action="/search" method="get">
+
+    <form id="search" action="/search" method="get">
         <label for="search-input">Pesquise:</label>
-        <input type="search" id="search-input" name="q" placeholder="Nome do livro ou autor..." />
+        <input type="search" id="search-input" name="q" placeholder="Nome do livro..." />
         <button type="submit">Pesquisar</button>
     </form>
+
     <div class="menu">
             <button onclick="menu.hidden^=1">
                 ☰
@@ -45,7 +47,9 @@
     <img class="background" src="public/img/biblioteca.jpg" alt="">
 
     <div class="livros">
+
     </div>
+
     <footer>
         <h2>Conheça a nosssa unidade</h2>
         <a href="https://sp.senai.br/unidade/metalurgia/" target="_blank">SENAI Nadir Dias de Figueredo</a>
