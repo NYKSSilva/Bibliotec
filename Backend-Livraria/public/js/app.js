@@ -67,7 +67,7 @@ async function buscarLivros(termo) {
 
     const data = await res.json();
 
-    // o backend pode retornar um array ou um único objeto — normaliza para array
+
     const livros = Array.isArray(data) ? data : (data ? [data] : []);
 
     const container = document.getElementById('livros-destaques');
@@ -112,13 +112,13 @@ async function obterLivro(id) {
       </div>
     `;
     
-    // Remover modal anterior se existir
+  
     const modalAntigo = document.getElementById('livro-detalhe');
     if (modalAntigo) {
       modalAntigo.remove();
     }
     
-    // Adicionar novo modal
+   
     document.body.insertAdjacentHTML('beforeend', detalhesHTML);
   } catch (err) {
     console.error('Erro ao obter detalhes do livro:', err);
