@@ -1,5 +1,18 @@
 import { db } from "../config/db.js";
 
+function montarImagemUrl(caminho) {
+  if (!caminho || caminho.trim() === "") {
+    return "/img/placeholder.png";
+  }
+
+  const c = caminho.trim();
+
+  if (c.startsWith("http") || c.startsWith("//")) return c;
+  if (c.startsWith("/")) return c;
+
+  return `/capas/${encodeURIComponent(c)}`;
+}
+
 export async function adicionarLivro(req, res) {
   try {
     const { titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo } = req.body;
@@ -46,8 +59,6 @@ export async function adicionarLivro(req, res) {
 
 export async function listarLivros(req, res) {
 
-  //const genero = req.query.genero
-
     try {
       const [rows] = await db.execute("SELECT * FROM livros");
       res.json(rows);
@@ -58,21 +69,21 @@ export async function listarLivros(req, res) {
 };
 
 export async function obterLivro(req, res) {
-  const titulo = req.query.titulo;
-  const autor = req.query.autor
-
-  if (!titulo || !autor) {
+  const busca = req.query.busca;
+  
+  if (!busca) {
   return res.status(400).json({ mensagem: "Por favor, informe o título ou autor do livro." });
 }
 
 try {
-   const [rows] = await db.execute(`SELECT * FROM livros  WHERE titulo LIKE '%${titulo}%' OR autor LIKE '%${autor}%'`);
+   const [rows] = await db.execute(`SELECT * FROM livros  WHERE titulo LIKE '%${busca}%' OR autor LIKE '%${busca}%'`);
 
-  if (rows.length === 0) {
-    return res.status(404).json({ mensagem: "Nenhum livro encontrado com esse título." });
-  }
+ const livros = rows.map(r => ({
+        ...r,
+        imagemUrl: montarImagemUrl(r.caminho_capa)
+      }));
 
-  res.json(rows);
+      return res.json(livros);
 
 } catch (err) {
   res.status(500).json({ erro: err.message });
