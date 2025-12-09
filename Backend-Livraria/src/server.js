@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(express.static(publicPath)); 
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(publicPath, "login.html"));
+    res.sendFile(path.join(publicPath, "bemVindo.html"));
 })
 
 app.post("/login", loginUsuario)

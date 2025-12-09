@@ -6,6 +6,11 @@ form.addEventListener('submit', async (e) => {
   const email = document.getElementById('email').value.trim()
   const senha = document.getElementById('senha').value.trim()
 
+   if (!email.endsWith('@aluno.senai.br')) {
+    alert('Apenas alunos com email @aluno.senai.br')
+    return
+  }
+
   try {
     const res = await fetch(`${API}/login`, 
       {

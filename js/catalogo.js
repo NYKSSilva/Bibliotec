@@ -61,4 +61,5 @@ document.querySelectorAll('.menu li').forEach(categoria => {
         exibirLivros(livrosFiltrados.length > 0 ? livrosFiltrados : todosLivros)
     })
 })
+
 document.addEventListener('DOMContentLoaded', carregarLivros)

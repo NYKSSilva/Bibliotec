@@ -6,6 +6,11 @@ form.addEventListener('submit', async (e) => {
   const email = document.getElementById('email').value.trim()
   const senha = document.getElementById('senha').value.trim()
 
+   if (!email.endsWith('@funcionario.senai.br')) {
+    alert('Apenas administradores com email adiministrador podem acessar ')
+    return
+  }
+
   try {
     const res = await fetch(`${API}/login`, {
       method: 'POST',
@@ -17,7 +22,6 @@ form.addEventListener('submit', async (e) => {
     if (!res.ok) throw new Error(data.erro || 'Erro ao criar usuário')
 
     console.log('Sucesso:', data)
-    // alert(data.mensagem || 'Login realizado com sucesso!')
     window.location.href = 'inicio.html' 
   } catch (err) {
     console.error('Erro:', err)

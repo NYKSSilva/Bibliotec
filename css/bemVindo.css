@@ -22,6 +22,7 @@ header{
     align-items: center;
     padding: 10px 50px; 
 }
+
 nav {
     display: flex;
     align-items: center;
@@ -30,6 +31,7 @@ nav {
     margin-right: 30px;
     z-index: 2; 
 }
+
 nav button {
     padding: 8px 20px;
     font-size: 16px;
@@ -41,11 +43,13 @@ nav button {
     transition: all 0.3s ease;
     margin-right: 10px;
 }
+
 nav button a {
     color: var(--white);
     text-decoration: none;
     font-family: 'Montserrat', sans-serif;
-} 
+}
+
 nav button:hover a {
     color: var(--Blue);
 }
@@ -110,7 +114,7 @@ footer a {
     text-decoration: none;
     font-family: 'Montserrat', sans-serif;
     text-align: center; 
-    font-size: 60%;
+    font-size: 70%;
     transition: color 0.3s ease;
     margin-top: 5px;
 }
@@ -121,12 +125,23 @@ h1{
     color: var(--white);
     top: 0%;
     text-align: center; 
-    width: 100%;
+    width: 90%;
     margin: 2; 
-    font-size: 200%;
+    font-size: 190%;
 }
 
-form button[type="submit"] {
+form {
+    position: relative;  
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+form button[type="button"] {
     padding: 8px 12px;
     border: 2px solid var(--white);
     border-radius: 4px;
@@ -136,6 +151,26 @@ form button[type="submit"] {
     min-width: 300px;
 }
 
+#girl {
+    position: absolute;   
+    left: 10px;           
+    top: 73%;
+    transform: translateY(-50%);  
+    height: 30%;          
+    width: 20%;
+    object-fit: contain;
+    float: left;
+}
+
+#boy {
+    position: absolute;   
+    right: 10px;           
+    top: 78%;
+    transform: translateY(-50%);  
+    height: 30%;          
+    width: 20%;
+    object-fit: contain;
+}
 
 h2{
     z-index: 2;
@@ -144,7 +179,7 @@ h2{
     text-align: center; 
     width: 100%;
     margin: 0; 
-    font-size: 60%;
+    font-size: 80%;
 }
 
 h3{
@@ -153,6 +188,6 @@ h3{
     color: var(--white);
     text-align: center; 
     width: 100%;
-    margin: 1; 
-    font-size: 70%; 
+    margin: 0; 
+    font-size: 75%; 
 }
