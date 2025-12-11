@@ -58,37 +58,43 @@ export async function adicionarLivro(req, res) {
 };
 
 export async function listarLivros(req, res) {
+  const busca = req.query.busca;
 
-    try {
-      const [rows] = await db.execute("SELECT * FROM livros");
-      res.json(rows);
-    } catch (err) {
-      res.status(500).json({ erro: err.message });
+  try {
+    let query = "SELECT * FROM livros";
+    let params = [];
+
+    if (busca) {
+      query += " WHERE titulo LIKE ? OR autor LIKE ?";
+      params = [`%${busca}%`, `%${busca}%`];
     }
 
-};
+    const [rows] = await db.execute(query, params);
 
-export async function obterLivro(req, res) {
-  const busca = req.query.busca;
-  
-  if (!busca) {
-  return res.status(400).json({ mensagem: "Por favor, informe o título ou autor do livro." });
+    const livros = rows.map(r => ({
+      ...r,
+      imagemUrl: montarImagemUrl(r.caminho_capa)
+    }));
+
+    res.json(livros);
+
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
+  }
 }
 
-try {
-   const [rows] = await db.execute(`SELECT * FROM livros  WHERE titulo LIKE '%${busca}%' OR autor LIKE '%${busca}%'`);
+export async function obterDestaque(req, res) {
+  try {
+    const [rows] = await db.execute(`
+            SELECT * FROM livros LIMIT 6
+        `);
 
- const livros = rows.map(r => ({
-        ...r,
-        imagemUrl: montarImagemUrl(r.caminho_capa)
-      }));
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
+  }
+};
 
-      return res.json(livros);
-
-} catch (err) {
-  res.status(500).json({ erro: err.message });
-} }
-   
 export async function atualizarLivro(req, res) {
   try {
     const { titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo } = req.body;

@@ -5,7 +5,7 @@ import{
  avaliacaoLivros,
  deletarLivro,
  listarLivros,
- obterLivro,
+ obterDestaque
 } from "../controllers/livros.controllers.js"
 
 
@@ -16,7 +16,7 @@ const router = express.Router();
 router.post("/",adicionarLivro);
 router.get("/", listarLivros);
 router.get("/avaliacoes", avaliacaoLivros)
-router.get("/titulo", obterLivro);
 router.put("/:id", atualizarLivro);
 router.delete("/:id",deletarLivro);
+router.get("/destaques", obterDestaque)
 export default router;
