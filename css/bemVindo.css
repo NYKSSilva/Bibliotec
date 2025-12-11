@@ -151,18 +151,18 @@ form button[type="button"] {
     min-width: 300px;
 }
 
-#girl {
+/* #girl {
     position: absolute;   
-    left: 10px;           
+    left: 0%;           
     top: 73%;
     transform: translateY(-50%);  
-    height: 30%;          
-    width: 20%;
+    height: 40%;          
+    width: 30%;
     object-fit: contain;
     float: left;
 }
 
-#boy {
+#livro {
     position: absolute;   
     right: 10px;           
     top: 78%;
@@ -170,7 +170,7 @@ form button[type="button"] {
     height: 30%;          
     width: 20%;
     object-fit: contain;
-}
+} */
 
 h2{
     z-index: 2;

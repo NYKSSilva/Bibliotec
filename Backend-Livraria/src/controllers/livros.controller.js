@@ -16,26 +16,32 @@ export async function adicionarLivro(req, res) {
     res.status(500).json({ erro: err.message });
   }
 };
+
 export async function listarLivros(req, res) {
+  try {
+    const { titulo, genero } = req.query;
 
-  const titulo = req.query.titulo;
-  const genero = req.query.genero
-
-
-  if (!titulo || !genero) {
-    try {
+    if (!titulo && !genero) {
       const [rows] = await db.execute("SELECT * FROM livros");
-      res.json(rows);
-    } catch (err) {
-      res.status(500).json({ erro: err.message });
+      return res.json(rows);
     }
-  } else {
-    try {
-      const [rows] = await db.execute(`SELECT * FROM livros  WHERE titulo LIKE '%${titulo}%' OR genero LIKE '%${genero}%'`);
-      res.json(rows);
-    } catch (err) {
-      res.status(500).json({ erro: err.message });
+
+    const where = [];
+    const params = [];
+    if (titulo) {
+      where.push("titulo LIKE ?");
+      params.push(`%${titulo}%`);
     }
+    if (genero) {
+      where.push("genero LIKE ?");
+      params.push(`%${genero}%`);
+    }
+
+    const sql = `SELECT * FROM livros WHERE ${where.join(" OR ")}`;
+    const [rows] = await db.execute(sql, params);
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
   }
 }
 
@@ -91,7 +97,6 @@ export async function obterLivro(req, res) {
     return res.status(500).json({ erro: err.message });
   }
 }
-
 
 export async function avaliacaoLivros(req, res) {
   try {

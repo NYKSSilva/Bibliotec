@@ -30,19 +30,25 @@ function exibirLivros(livros) {
     })
 }
 
-  const search = document.getElementById('search');
-  if (search) {
-    search.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const termo = document.getElementById('search-input').value.trim();
-      
-      if (termo) {
-        await buscarLivros(termo);
-      } else {
-        await carregarDestaques();
-      }
-    });
-  }
+const searchForm = document.getElementById('search')
+if (searchForm) {
+    searchForm.addEventListener('submit', async (e) => {
+        e.preventDefault()
+        const titulo = document.getElementById('search-input').value.trim()
+        if (!titulo) {
+            exibirLivros(todosLivros) 
+            return
+        }
+        try {
+            const resposta = await fetch(`${API}/livros?titulo=${encodeURIComponent(titulo)}`)
+            const livros = await resposta.json()
+            exibirLivros(livros.length ? livros : [])
+        } catch (error) {
+            console.error('Erro na pesquisa:', error)
+            alert('Erro ao pesquisar: ' + error.message)
+        }
+    })
+}
 
 document.querySelectorAll('.menu li').forEach(categoria => {
     categoria.addEventListener('click', (e) => {
