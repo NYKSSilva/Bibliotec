@@ -28,7 +28,6 @@ function exibirLivros(livros, containerSelector = '#livros-destaques') {
   `).join('');
 }
 
-// carregar destaques — tenta rota específica e faz fallback para /livros
 async function carregarDestaques() {
   try {
     let res = await fetch(`${API}/livros/destaques`);
@@ -36,7 +35,6 @@ async function carregarDestaques() {
     if (res.ok) {
       livros = await res.json();
     } else {
-      // fallback: obter todos e escolher primeiros (ou ordenar por favoritos no frontend)
       const r2 = await fetch(`${API}/livros`);
       if (r2.ok) {
         const all = await r2.json();
