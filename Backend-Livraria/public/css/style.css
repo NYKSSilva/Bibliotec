@@ -255,3 +255,9 @@ form button[type="submit"]:hover {
     text-align: center;
 }
 
+user-info {
+    color: #f0f0f0;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 12px;
+}

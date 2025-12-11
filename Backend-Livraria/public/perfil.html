@@ -11,18 +11,22 @@
 <body>
     <div class="inicio">
         <header>
-            <img class="logo" src="public/img/blibliotec.png" alt="">
+            <img class="logo" src="/img/blibliotec.png" alt="">
+
+            <div id="user-info"></div>
+
             <nav>
                 <button>
                     <a href="catalogo.html">Catálogo</a>
                 </button>
+
                 <button>
                     <a href="inicio.html">Voltar</a>
                 </button>
             </nav>
             <h1>"Quando a leitura encontra o agora"</h1>
         </header>
-        <img class="background" src="public/img/biblioteca.jpg" alt="">
+        <img class="background" src="/img/biblioteca.jpg" alt="">
         <form id="informacao">
             <div class="Usuario">
                 <label for="nome">Nome</label>
@@ -35,11 +39,46 @@
                 <input id="curso" name="curso" type="text" readonly>
             </div>
         </form>
-
+       <h2 class="titulo-favoritos">Seus Favoritos</h2>
+<div id="lista-favoritos" class="favoritos-container"></div>
+           
         <footer>
             <h3>Conheça a nosssa unidade</h3>
             <a href="https://sp.senai.br/unidade/metalurgia/" target="_blank">SENAI Nadir Dias de Figueredo</a>
         </footer>
+        <script>
+const API = "http://localhost:3000";
+
+async function carregarFavoritos() {
+  const idUsuario = localStorage.getItem("idUsuario");
+  if (!idUsuario) return;
+
+  const lista = document.getElementById("lista-favoritos");
+
+  const res = await fetch(`${API}/favoritos/${idUsuario}`);
+  const favoritos = await res.json();
+
+  lista.innerHTML = "";
+
+  if (!favoritos || favoritos.length === 0) {
+    lista.innerHTML = "<p>Nenhum favorito ainda.</p>";
+    return;
+  }
+
+  favoritos.forEach(livro => {
+    lista.innerHTML += `
+      <div class="favorito-item">
+        <img src="${livro.capa}" width="80">
+        <p>${livro.titulo}</p>
+      </div>
+    `;
+  });
+}
+
+document.addEventListener("DOMContentLoaded", carregarFavoritos);
+</script>
+
+
         <script src="js/perfil.js"></script>
 </body>
 

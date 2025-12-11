@@ -18,6 +18,9 @@ form.addEventListener('submit', async (e) => {
 
     console.log('Sucesso:', data)
     // alert(data.mensagem || 'Login realizado com sucesso!')
+
+    localStorage.setItem('usuario', JSON.stringify(data.usuario));
+
     window.location.href = 'inicio.html' 
   } catch (err) {
     console.error('Erro:', err)

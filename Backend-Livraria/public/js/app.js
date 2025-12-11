@@ -33,6 +33,7 @@ async function carregarDestaques() {
         <img src="${urlCapa(l)}" alt="${l.titulo}" onerror="this.src='/img/placeholder.png'">
         <h3 class="titulo">${l.titulo}</h3>
         <p class="autor">${l.autor || 'Desconhecido'}</p>
+        <button class="fav-btn" data-id="${l.idLivro}">❤️ Favoritar</button>
       </div>
     `).join('');
   } catch (err) {
@@ -166,6 +167,35 @@ document.addEventListener('DOMContentLoaded', () => {
         await carregarDestaques();
       }
     });
+  }
+});
+document.addEventListener("click", async (e) => {
+  if (!e.target.classList.contains("fav-btn")) return;
+
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+  if (!usuario) {
+    alert("Você precisa estar logado para favoritar livros.");
+    window.location.href = "login.html";
+    return;
+  }
+
+  const idLivro = e.target.dataset.id;
+
+  try {
+    const res = await fetch(`${API}/favoritos`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        idUsuario: usuario.idUsuario,
+        idLivro: idLivro
+      })
+    });
+
+    const data = await res.json();
+    alert(data.mensagem || "Livro favoritado!");
+  } catch (err) {
+    console.error("Erro ao favoritar:", err);
+    alert("Erro ao favoritar o livro.");
   }
 });
 

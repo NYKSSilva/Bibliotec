@@ -182,3 +182,51 @@ form input[type="text"] {
     font-family: 'Montserrat', sans-serif;
     min-width: 300px;
 }
+.titulo-favoritos {
+    margin-top: 40px;
+    font-size: 26px;
+    text-align: center;
+    color: #333;
+}
+
+.favoritos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.favorito-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transition: 0.3s;
+}
+
+.favorito-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.favorito-card:hover {
+    transform: translateY(-5px);
+}
+
+.btn-remover {
+    margin-top: 10px;
+    background: #c62828;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-remover:hover {
+    background: #9e1f1f;
+}

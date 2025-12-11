@@ -39,18 +39,22 @@ app.get("/", (req, res) => {
 
 // ===== ROTAS DE API (3º) — SEM DUPLICATAS =====
 app.use("/usuarios", usuarioRoutes)
-app.use("/livros", livrosRoutes)  // ← ÚNICA
+app.use("/livros", livrosRoutes)  // 
 app.use("/avaliacoes", avaliacoesRoutes)
 app.use("/reservas", reservasRoutes)
 app.use("/favoritos", favoritosRoutes)
 
 // ===== FALLBACK SPA (ÚLTIMO) — para rotas desconhecidas =====
+// app.use((req, res) => {
+//   const index = path.join(publicPath, 'index.html');
+//   res.sendFile(index, err => {
+//     if (err) res.status(404).json({ error: "Página não encontrada" });
+//   });
+// });
 app.use((req, res) => {
-  const index = path.join(publicPath, 'index.html');
-  res.sendFile(index, err => {
-    if (err) res.status(404).json({ error: "Página não encontrada" });
-  });
+    res.status(404).json({ error: "Página não encontrada" });
 });
+
 
 // ============================
 //  Inicia o servidor
