@@ -21,7 +21,7 @@ form.addEventListener('submit', async (e) => {
     if (!res.ok) throw new Error(data.erro || data.message || 'Erro')
 
     alert(data.mensagem || 'Cadastro realizado com sucesso!')
-    window.location.href = 'inicio.html'
+    window.location.href = 'perfilAdm.html'
   } catch (err) {
     console.error(err)
     alert('Erro: ' + err.message)

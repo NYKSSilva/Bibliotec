@@ -1,7 +1,5 @@
-// ...existing code...
 const API = 'http://localhost:3000';
 
-// helper: montar URL da capa a partir do campo vindo do banco
 function urlCapa(livro) {
   const campo = livro.imagemUrl || livro.caminho_capa || livro.imagem || livro.capa || livro.arquivo;
   if (!campo || campo.trim() === "") return "public/img/placeholder.png";
@@ -10,7 +8,6 @@ function urlCapa(livro) {
   return `/capas/${campo}`;
 }
 
-// função reutilizável de render
 function exibirLivros(livros, containerSelector = '#livros-destaques') {
   const container = document.querySelector(containerSelector) || document.querySelector('.Destaques') || document.querySelector('.livros');
   if (!container) {
@@ -18,7 +15,7 @@ function exibirLivros(livros, containerSelector = '#livros-destaques') {
     return;
   }
   container.innerHTML = livros.map(l => `
-    <div class="livro-card livro-item" onclick="window.location.href='livro.html?id=${l.idLivro}'">
+    <div class="livro-card livro-item" onclick="sessionStorage.setItem('paginaAnterior', 'inicio'); window.location.href='livro.html?id=${l.idLivro}'">
       <div class="livro-cover">
         <img src="${urlCapa(l)}" alt="${(l.titulo||'').replace(/"/g,'&quot;')}" onerror="this.src='public/img/placeholder.png'">
       </div>
@@ -54,7 +51,6 @@ async function carregarDestaques() {
   }
 }
 
-// carregar todos (se precisar em outra área)
 async function carregarLivros() {
   try {
     const res = await fetch(`${API}/livros`);
@@ -66,7 +62,6 @@ async function carregarLivros() {
   }
 }
 
-// buscar por título (usa query param em /livros)
 async function buscarLivros(termo) {
   try {
     const res = await fetch(`${API}/livros?titulo=${encodeURIComponent(termo)}`);
@@ -89,16 +84,11 @@ async function buscarLivros(termo) {
   }
 }
 
-// detalhes permanecem iguais...
-async function obterLivro(id) { /* ...existing code... */ }
-function fecharDetalhes() { /* ...existing code... */ }
+async function obterLivro(id) {  }
+function fecharDetalhes() {}
 
-// inicialização
 document.addEventListener('DOMContentLoaded', () => {
   carregarDestaques();
-  // carregarLivros(); // descomente se quiser carregar catálogo em outra área
-
-  // form de busca: id no HTML é "search" ou "search-form"? ajuste conforme
   const formBusca = document.getElementById('search') || document.getElementById('search-form') || document.getElementById('searchForm');
   if (formBusca) {
     formBusca.addEventListener('submit', async (e) => {
@@ -111,8 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// expor funções globais caso precise do HTML inline
+
 window.obterLivro = obterLivro;
 window.fecharDetalhes = fecharDetalhes;
 window.buscarLivros = buscarLivros;
-// ...existing code...

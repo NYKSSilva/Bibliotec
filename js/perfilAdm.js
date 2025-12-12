@@ -23,7 +23,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const usuario = JSON.parse(usuarioRaw);
 
-     
+      // verifica se é aluno
+      // if (!usuario.perfil || usuario.perfil.toLowerCase() !== 'aluno') {
+      //   alert('Acesso negado. Você não é aluno.')
+      //   window.location.href = 'bemVindo.html'
+      //   return
+      // }
+
       // Preenche header
       const divInfo = document.getElementById("user-info");
       divInfo.textContent = `Olá, ${usuario.nome}`;

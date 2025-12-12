@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/perfilAdm.css">
+    <link rel="icon" href="./public/img/livro.png">
+
+    <title>Perfil</title>
+</head>
+
+<body>
+    <header class="topo">
+        <div class="topo-esquerda">
+            <img src="public/img/blibliotec.png" class="topo-logo">
+        </div>
+
+        <div class="topo-frase">
+            <span id="user-info" class="user-info"></span>
+        </div>
+
+        <div class="topo-direita">
+            <a href="cadastro.aluno.html" class="topo-btn">Cadastrar Aluno</a>
+            <a href="catalogo.html" class="topo-btn">Catálogo</a>
+            <a href="inicio.html" class="topo-btn">Voltar</a>
+        </div>
+    </header>
+
+    <div class="background">
+        <img class="background" src="public/img/biblioteca.jpg" alt="">
+
+    </div>
+
+    <main class="perfil-container">
+        <h1 class="titulo">Seu Perfil</h1>
+
+        <form id="informacao" class="perfil-box">
+            <div class="linha">
+                <label>Nome</label>
+                <input id="nome" type="text" readonly>
+            </div>
+
+            <div class="linha">
+                <label>Email</label>
+                <input id="email" type="email" readonly>
+            </div>
+
+            <div class="linha">
+                <label>Matrícula</label>
+                <input id="matricula" type="text" readonly>
+            </div>
+
+            <div class="linha">
+                <label>Curso</label>
+                <input id="curso" type="text" readonly>
+            </div>
+        </form>
+
+        <h2 class="titulo-favoritos">Livros Favoritados</h2>
+
+        <button id="btn-favoritos" class="btn-favoritos">Listar Favoritos</button>
+        <div id="lista-favoritos" class="favoritos-container"></div>
+    </main>
+
+        
+
+    <footer>
+        <h3>Conheça nossa unidade</h3>
+        <a href="https://sp.senai.br/unidade/metalurgia/" target="_blank">
+            SENAI Nadir Dias de Figueiredo
+        </a>
+    </footer>
+    <script src="./js/perfilAdm.js"></script>
+
+</body>
+
+</html>
