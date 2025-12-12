@@ -18,7 +18,7 @@
         </form>
     </div>
    <div class="livro-detalhes">
-  <img src="${livro.imagemUrl || livro.caminho_capa || '/img/placeholder.png'}" alt="${livro.titulo}" style="max-width: 200px;">
+  <img src="${urlCapa(livro)}" alt="${livro.titulo}" style="max-width: 200px;">
   <h2>${livro.titulo}</h2>
   <p><strong>Autor:</strong> ${livro.autor}</p>
   <p><strong>Gênero:</strong> ${livro.genero || 'N/A'}</p>

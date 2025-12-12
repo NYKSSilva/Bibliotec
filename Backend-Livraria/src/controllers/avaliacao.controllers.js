@@ -25,3 +25,19 @@ export async function criarAvaliacao(req, res) {
     res.status(500).json({ erro: err.message });
   }
 };
+
+export async function listarAvaliacoesPorLivro(req, res) {
+  try {
+    const idLivro = Number(req.params.idLivro);
+    if (isNaN(idLivro)) return res.status(400).json({ erro: "ID do livro inválido" });
+
+    const [rows] = await db.execute(
+      "SELECT a.*, u.nome AS usuario FROM avaliacoes a JOIN usuarios u ON a.idUsuario = u.idUsuario WHERE a.idLivro = ?",
+      [idLivro]
+    );
+
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
+  }
+}
