@@ -13,12 +13,12 @@ CREATE TABLE IF NOT EXISTS usuarios (
   nome VARCHAR(100) NOT NULL,
   matricula VARCHAR(20) NOT NULL,
   email VARCHAR(100) UNIQUE NOT NULL,
-  cpf VARCHAR(11) NOT NULL,
+  cpf CHAR(11) NOT NULL,
   senha VARCHAR(100) NOT NULL,
-  data_nascimento DATE,
-  celular VARCHAR(20),
-  curso ENUM('Técnico em Administração', 'Técnico em Desenvolvimento de Sistemas', 'Técnico em Logística', 'Técnico em Metalurgia', ''),
-  perfil ENUM('Aluno', 'Admin') DEFAULT 'Aluno'
+  data_nascimento DATE NOT NULL,
+  celular CHAR(11) NOT NULL,
+  curso ENUM('Técnico em Administração', 'Técnico em Desenvolvimento de Sistemas', 'Técnico em Logística', 'Técnico em Metalurgia', '') NOT NULL,
+  perfil ENUM('Aluno', 'Admin') NOT NULL
 );
 
 -- ===========================================================
