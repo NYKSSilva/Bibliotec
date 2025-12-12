@@ -16,7 +16,7 @@ html, body{
 header{
     position: relative; 
     width:94.7%;
-    height: 8vh;
+    height: 7%;
     background: var(--black);
     display: flex;
     align-items: center;
@@ -56,7 +56,7 @@ nav button:hover a {
 
 .logo{
 
-    width: 190px;
+    width: 9%;
     padding-top: 0px;
     margin-left: 0px; 
 }
@@ -71,7 +71,7 @@ nav button:hover a {
     z-index: 1;
 }
 
-.bemVindo{
+.livro{
     position: absolute;
     z-index: 3;
     left: 50%;
@@ -141,36 +141,6 @@ form {
     gap: 20px;
 }
 
-form button[type="button"] {
-    padding: 8px 12px;
-    border: 2px solid var(--white);
-    border-radius: 4px;
-    background: transparent;
-    color: var(--white);
-    font-family: 'Montserrat', sans-serif;
-    min-width: 300px;
-}
-
-/* #girl {
-    position: absolute;   
-    left: 0%;           
-    top: 73%;
-    transform: translateY(-50%);  
-    height: 40%;          
-    width: 30%;
-    object-fit: contain;
-    float: left;
-}
-
-#livro {
-    position: absolute;   
-    right: 10px;           
-    top: 78%;
-    transform: translateY(-50%);  
-    height: 30%;          
-    width: 20%;
-    object-fit: contain;
-} */
 
 h2{
     z-index: 2;
@@ -190,4 +160,16 @@ h3{
     width: 100%;
     margin: 0; 
     font-size: 75%; 
+}
+
+button {
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: black;
 }

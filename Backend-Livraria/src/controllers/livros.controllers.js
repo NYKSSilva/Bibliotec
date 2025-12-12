@@ -83,6 +83,18 @@ export async function listarLivros(req, res) {
   }
 }
 
+export async function obterLivroPorId(req, res) {
+  try {
+    const [rows] = await db.execute("SELECT * FROM livros WHERE idLivro = ?", [req.params.id]);
+    if (rows.length === 0) return res.status(404).json({ erro: "Livro não encontrado" });
+    const livro = rows[0];
+    livro.imagemUrl = montarImagemUrl(livro.caminho_capa);
+    res.json(livro);
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
+  }
+}
+
 export async function obterDestaque(req, res) {
   try {
     const [rows] = await db.execute(`

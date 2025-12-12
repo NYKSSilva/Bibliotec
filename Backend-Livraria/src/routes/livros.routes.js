@@ -5,6 +5,7 @@ import{
  avaliacaoLivros,
  deletarLivro,
  listarLivros,
+ obterLivroPorId,
  obterDestaque
 } from "../controllers/livros.controllers.js"
 
@@ -12,7 +13,7 @@ import{
 
 const router = express.Router();
 
-
+router.get("/:id", obterLivroPorId);
 router.post("/",adicionarLivro);
 router.get("/", listarLivros);
 router.get("/avaliacoes", avaliacaoLivros)

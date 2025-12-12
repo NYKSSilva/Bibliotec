@@ -9,7 +9,6 @@ html, body{
    --cyan: #2FD6CB;
    --cream: #E9F0EF;
    --white: #FFFFFF;
-
 }
 header{
     position: relative; 
@@ -37,6 +36,26 @@ footer{
     opacity: 3;
 }
 
+footer a {
+    color: var(--cyan);
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center; 
+    font-size: 14px;
+    transition: color 0.3s ease;
+    margin-top: 5px;
+}
+
+h2{
+    z-index: 2;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--white);
+    text-align: center; 
+    width: 100%;
+    margin: 0; 
+    font-size: 80%;
+}
+
 nav {
     display: flex;
     align-items: center;
@@ -45,6 +64,7 @@ nav {
     margin-right: 30px;
     z-index: 2; 
 }
+
 nav button {
     padding: 8px 20px;
     font-size: 16px;
@@ -56,15 +76,18 @@ nav button {
     transition: all 0.3s ease;
     margin-right: 10px;
 }
+
 nav button a {
     color: var(--white);
     text-decoration: none;
     font-family: 'Montserrat', sans-serif;
 } 
+
 nav button:hover a {
     color: var(--Blue);
 }
-h3{
+
+h4{
     position: absolute;   
     left: 50%;
     top: 50%;
@@ -98,11 +121,13 @@ h1{
     padding-top: 0px;
     margin-left: 0px; 
 }
+
 .inicio{
     position: relative;
     width: 100%;
     min-height: 90vh;
 }
+
 .background{
     position:absolute;
     left: 0;
@@ -112,6 +137,7 @@ h1{
     height: 90vh;
     z-index: 1;
 } 
+
 .Destaques{
     position: absolute;
     z-index: 2;
@@ -119,32 +145,61 @@ h1{
     left: 3px;       
     margin: 20px;
     width: 60%;
-    height: 35%;
+    height: 50%;
     padding: 10px;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(5px);
     border-radius: 8px;
 
+    display: grid;                          
+    grid-template-columns: repeat(6, 1fr);   
+    gap: 16px;                               
+    align-items: start;
+    box-sizing: border-box;
+}         
+
+.livro-item{
     display: flex;
-    flex-wrap: wrap;      
+    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    gap: 1.9px;            
-}
-.Destaques img {
-    width: clamp(60%, 8%, 70%);
-    height: auto;
-    object-fit: contain;
-    border-radius: 4px;
+    text-align: center;
+     width: 100%;        
+    gap: 8px; 
 }
 
-.id1{
-    position: relative;
-    z-index: 2;
-    left: 0%;
-    object-fit: contain;
+.livro-cover{
+    width: 100%;
+    aspect-ratio: 3/4;           
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px;
+    padding: 6px;
+    box-sizing: border-box;
 }
 
+.livro-cover img,
+.livros img,
+.livro-item img {
+    max-width: 100%;            
+    max-height: 100%;           
+    object-fit: contain;       
+    border-radius: 6px;
+    display: block;
+}
+
+.livro-item h3 {
+    margin: 8px 0 4px;
+    font-size: 0.95rem;
+    color: var(--cream);
+}
+
+.livro-item p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--cyan);
+}
 
 form {
     position: absolute;
@@ -160,10 +215,12 @@ form {
     backdrop-filter: blur(5px);
     border-radius: 8px;
 }
+
 form label {
     color: var(--white);
     font-family: 'Montserrat', sans-serif;
 }
+
 form input[type="search"] {
     padding: 8px 12px;
     border: 2px solid var(--white);
@@ -173,9 +230,11 @@ form input[type="search"] {
     font-family: 'Montserrat', sans-serif;
     min-width: 300px;
 }
+
 form input[type="search"]::placeholder {
     color: rgba(255, 255, 255, 0.7);
 }
+
 form button[type="submit"] {
     padding: 8px 20px;
     font-family: 'Montserrat', sans-serif;
@@ -192,17 +251,20 @@ form button[type="submit"]:hover {
     background: var(--white);
     color: var(--Blue);
 }
+
 .Eventos li{
     padding: 10%;
     border-bottom: 1% solid #FFFFFF;
     font-family: 'Montserrat', sans-serif;
     font-size: 50px;
 }
+
 .proximos-eventos{
     font-weight: bold;
     color: #4a67DF;
     font-family: 'Montserrat', sans-serif;
 }
+
 .events{
     position: absolute;
     z-index: 2;
@@ -223,8 +285,21 @@ form button[type="submit"]:hover {
     gap: 1.9px;
     color: var(--white);  
 }
+
 .material-symbols-outlined{
     top: 5%;
     background: transparent;
     color: var(--white);
+}
+
+a.material-symbols-outlined {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 28px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+a.material-symbols-outlined:hover {
+    color: var(--cyan);
 }

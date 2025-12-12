@@ -3,6 +3,34 @@ import { db } from "../config/db.js";
 //  Rotas CRUD
 // ============================
 
+export async function loginUsuario(req,res) {
+  const { email, senha } = req.body;
+
+  if (!email || !senha) {
+    return res.status(400).json({ erro: "Email e senha obrigatórios" });
+  }
+
+  try {
+    const [rows] = await db.execute(
+      "SELECT * FROM usuarios WHERE email = ? AND senha = ?",
+      [email, senha]
+    );
+
+    if (rows.length === 0) {
+      return res.status(401).json({ erro: "Email ou senha incorretos" });
+    }
+
+    res.json({
+      mensagem: "Login realizado com sucesso!",
+      usuario: rows[0]
+    });
+
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
+  }
+}
+
+
 export async function criarUsuario(req, res) {
   try {
     const { nome, matricula, email, cpf, senha, data_nascimento, celular, curso } = req.body;

@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(express.static(publicDir));
 
 app.get("/", (req,res)=>{
-  res.sendFile(path.join(publicDir, "login.html"))
+  res.sendFile(path.join(publicDir, "bemVindo.html"))
 })
 
 app.use("/usuarios", usuarioRoutes)
