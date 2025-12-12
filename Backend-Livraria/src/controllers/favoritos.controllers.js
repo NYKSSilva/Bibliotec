@@ -3,7 +3,7 @@ import { db } from "../config/db.js";
 // LISTAR favoritos com informações do livro
 export async function listarFavoritos(req, res) {
     try {
-        const idUsuario = req.params.id;
+        const idUsuario = req.params.idUsuario;
 
         const [rows] = await db.execute(`
   SELECT 
@@ -11,11 +11,12 @@ export async function listarFavoritos(req, res) {
     livros.idLivro,
     livros.titulo,
     livros.autor,
-    livros.imagemUrl,
-    livros.caminho_capa,
-    livros.capa,
-    livros.imagem,
-    livros.arquivo
+    livros.genero,
+    livros.editora,
+    livros.ano_publicacao,
+    livros.idioma,
+    livros.formato,
+    livros.caminho_capa
   FROM favoritos
   INNER JOIN livros ON livros.idLivro = favoritos.idLivro
   WHERE favoritos.idUsuario = ?

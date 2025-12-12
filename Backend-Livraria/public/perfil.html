@@ -2,84 +2,69 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/perfil.css">
-    <title>Seu Perfil</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/perfil.css">
+  <title>Perfil</title>
 </head>
 
 <body>
-    <div class="inicio">
-        <header>
-            <img class="logo" src="/img/blibliotec.png" alt="">
+  <header class="topo">
+    <div class="topo-esquerda">
+      <img src="/img/blibliotec.png" class="topo-logo">
+    </div>
 
-            <div id="user-info"></div>
+    <div class="topo-frase">
+      <span id="user-info" class="user-info"></span>
+    </div>
 
-            <nav>
-                <button>
-                    <a href="catalogo.html">Catálogo</a>
-                </button>
+    <div class="topo-direita">
+      <a href="catalogo.html" class="topo-btn">Catálogo</a>
+      <a href="inicio.html" class="topo-btn">Voltar</a>
+    </div>
+  </header>
 
-                <button>
-                    <a href="inicio.html">Voltar</a>
-                </button>
-            </nav>
-            <h1>"Quando a leitura encontra o agora"</h1>
-        </header>
-        <img class="background" src="/img/biblioteca.jpg" alt="">
-        <form id="informacao">
-            <div class="Usuario">
-                <label for="nome">Nome</label>
-                <input id="nome" name="nome" type="text" readonly>
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" readonly>
-                <label for="matricula">Matrícula</label>
-                <input id="matricula" name="matricula" type="text" readonly>
-                <label for="curso">Curso</label>
-                <input id="curso" name="curso" type="text" readonly>
-            </div>
-        </form>
-       <h2 class="titulo-favoritos">Seus Favoritos</h2>
-<div id="lista-favoritos" class="favoritos-container"></div>
-           
-        <footer>
-            <h3>Conheça a nosssa unidade</h3>
-            <a href="https://sp.senai.br/unidade/metalurgia/" target="_blank">SENAI Nadir Dias de Figueredo</a>
-        </footer>
-        <script>
-const API = "http://localhost:3000";
+  <div class="background"></div>
 
-async function carregarFavoritos() {
-  const idUsuario = localStorage.getItem("idUsuario");
-  if (!idUsuario) return;
+  <main class="perfil-container">
+    <h1 class="titulo">Seu Perfil</h1>
 
-  const lista = document.getElementById("lista-favoritos");
-
-  const res = await fetch(`${API}/favoritos/${idUsuario}`);
-  const favoritos = await res.json();
-
-  lista.innerHTML = "";
-
-  if (!favoritos || favoritos.length === 0) {
-    lista.innerHTML = "<p>Nenhum favorito ainda.</p>";
-    return;
-  }
-
-  favoritos.forEach(livro => {
-    lista.innerHTML += `
-      <div class="favorito-item">
-        <img src="${livro.capa}" width="80">
-        <p>${livro.titulo}</p>
+    <form id="informacao" class="perfil-box">
+      <div class="linha">
+        <label>Nome</label>
+        <input id="nome" type="text" readonly>
       </div>
-    `;
-  });
-}
 
-document.addEventListener("DOMContentLoaded", carregarFavoritos);
-</script>
+      <div class="linha">
+        <label>Email</label>
+        <input id="email" type="email" readonly>
+      </div>
 
+      <div class="linha">
+        <label>Matrícula</label>
+        <input id="matricula" type="text" readonly>
+      </div>
 
-        <script src="js/perfil.js"></script>
+      <div class="linha">
+        <label>Curso</label>
+        <input id="curso" type="text" readonly>
+      </div>
+    </form>
+
+    <h2 class="titulo-favoritos">Livros Favoritados</h2>
+
+    <button id="btn-favoritos" class="btn-favoritos">Listar Favoritos</button>
+    <div id="lista-favoritos" class="favoritos-container"></div>
+
+  </main>
+
+  <footer class="footer">
+    <h3>Conheça nossa unidade</h3>
+    <a href="https://sp.senai.br/unidade/metalurgia/" target="_blank">
+      SENAI Nadir Dias de Figueiredo
+    </a>
+  </footer>
+  <script src="./js/perfil.js"></script>
+
 </body>
-
 </html>

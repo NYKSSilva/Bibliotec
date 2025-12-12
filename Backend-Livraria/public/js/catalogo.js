@@ -1,29 +1,72 @@
 const API = 'http://localhost:3000'
 
-const form = document.getElementById('CadastroForm')
-form.addEventListener('submit', async (e) => {
-  e.preventDefault()
-  const nome = document.getElementById('nome').value.trim() 
-  const email = document.getElementById('email').value.trim()
-  const matricula = document.getElementById('matricula').value.trim()
-  const curso = document.getElementById('curso').value.trim()
-  const telefone = document.getElementById('telefone').value.trim()
-  const senha = document.getElementById('senha').value.trim()
+let todosLivros = []
 
-  try {
-    const res = await fetch(`${API}/usuarios`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nome, email, matricula, curso, telefone, senha })
+async function carregarLivros(){
+    try {
+        const resposta = await fetch(`${API}/livros`)
+        const livros = await resposta.json()
+        todosLivros = livros
+        console.log('Livros carregados:', livros)
+        exibirLivros(livros)
+    } catch (error) {
+        console.error('Erro ao carregar livros:', error)
+    }
+}
+
+function exibirLivros(livros) {
+    const container = document.querySelector('.livros')
+    container.innerHTML = '' 
+    
+    livros.forEach(livro => {
+        const div = document.createElement('div')
+        div.className = 'livro-item'
+        div.onclick = () => window.location.href = `livro.html?id=${livro.idLivro}`;
+        div.innerHTML = `
+            <img src="${livro.caminho_capa}" alt="${livro.titulo}">
+            <h3>${livro.titulo}</h3>
+            <p>${livro.autor}</p>
+        `
+        container.appendChild(div)
     })
+}
 
-    const data = await res.json()
-    if (!res.ok) throw new Error(data.erro || data.message || 'Erro')
+const searchForm = document.getElementById('search')
+if (searchForm) {
+    searchForm.addEventListener('submit', async (e) => {
+        e.preventDefault()
+        const titulo = document.getElementById('search-input').value.trim()
+        if (!titulo) {
+            exibirLivros(todosLivros) 
+            return
+        }
+        try {
+            const resposta = await fetch(`${API}/livros?titulo=${encodeURIComponent(titulo)}`)
+            const livros = await resposta.json()
+            exibirLivros(livros.length ? livros : [])
+        } catch (error) {
+            console.error('Erro na pesquisa:', error)
+            alert('Erro ao pesquisar: ' + error.message)
+        }
+    })
+}
 
-    alert(data.mensagem || 'Cadastro realizado com sucesso!')
-    window.location.href = 'login.html'
-  } catch (err) {
-    console.error(err)
-    alert('Erro: ' + err.message)
-  }
+document.querySelectorAll('.menu li').forEach(categoria => {
+    categoria.addEventListener('click', (e) => {
+        const nomeCategoria = e.target.textContent.trim()
+        console.log('Categoria selecionada:', nomeCategoria)
+       if (nomeCategoria.toLowerCase() === 'tudo') {
+                exibirLivros(todosLivros)
+                return
+            }
+            
+            const livrosFiltrados = todosLivros.filter(livro => 
+                (livro.categoria && livro.categoria === nomeCategoria) ||
+                (livro.genero && livro.genero === nomeCategoria)
+            )
+        
+        exibirLivros(livrosFiltrados.length > 0 ? livrosFiltrados : todosLivros)
+    })
 })
+
+document.addEventListener('DOMContentLoaded', carregarLivros)
