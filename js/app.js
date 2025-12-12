@@ -18,7 +18,7 @@ function exibirLivros(livros, containerSelector = '#livros-destaques') {
     return;
   }
   container.innerHTML = livros.map(l => `
-    <div class="livro-card livro-item">
+    <div class="livro-card livro-item" onclick="window.location.href='livro.html?id=${l.idLivro}'">
       <div class="livro-cover">
         <img src="${urlCapa(l)}" alt="${(l.titulo||'').replace(/"/g,'&quot;')}" onerror="this.src='public/img/placeholder.png'">
       </div>

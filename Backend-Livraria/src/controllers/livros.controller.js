@@ -1,5 +1,11 @@
 import { db } from "../config/db.js";
 
+function montarImagemUrl(caminho) {
+  if (!caminho) return null;
+  if (caminho.startsWith('http')) return caminho;
+  return `/capas/${caminho}`;
+}
+
 export async function adicionarLivro(req, res) {
   try {
     const { titulo, autor, sinopse, ativo, caminho_capa } = req.body;
@@ -95,6 +101,18 @@ export async function obterLivro(req, res) {
 
   } catch (err) {
     return res.status(500).json({ erro: err.message });
+  }
+}
+
+export async function obterLivroPorId(req, res) {
+  try {
+    const [rows] = await db.execute("SELECT * FROM livros WHERE idLivro = ?", [req.params.id]);
+    if (rows.length === 0) return res.status(404).json({ erro: "Livro não encontrado" });
+    const livro = rows[0];
+    livro.imagemUrl = montarImagemUrl(livro.caminho_capa);
+    res.json(livro);
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
   }
 }
 

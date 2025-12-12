@@ -21,6 +21,7 @@ function exibirLivros(livros) {
     livros.forEach(livro => {
         const div = document.createElement('div')
         div.className = 'livro-item'
+        div.onclick = () => window.location.href = `livro.html?id=${livro.idLivro}`;
         div.innerHTML = `
             <img src="${livro.caminho_capa}" alt="${livro.titulo}">
             <h3>${livro.titulo}</h3>
