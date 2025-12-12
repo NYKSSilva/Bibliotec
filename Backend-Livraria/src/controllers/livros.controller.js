@@ -1,4 +1,3 @@
-
 import { db } from "../config/db.js";
 
 function montarImagemUrl(caminho) {
@@ -13,7 +12,6 @@ function montarImagemUrl(caminho) {
 
   return `/capas/${encodeURIComponent(c)}`;
 }
-
 
 export async function adicionarLivro(req, res) {
   try {
@@ -60,73 +58,54 @@ export async function adicionarLivro(req, res) {
 };
 
 export async function listarLivros(req, res) {
-  try {
-    const [rows] = await db.execute("SELECT * FROM livros");
-
-    const livros = rows.map(r => ({
-      ...r,
-      imagemUrl: montarImagemUrl(r.caminho_capa)
-    }));
-
-    return res.json(livros);
-
-  } catch (err) {
-    return res.status(500).json({ erro: err.message });
-  }
-}
-
-export async function obterLivro(req, res) {
-  const titulo = req.query.titulo;
+  const busca = req.query.busca;
 
   try {
-    // Caso haja termo de busca
-    if (titulo) {
-      const [rows] = await db.execute(
-        "SELECT * FROM livros WHERE titulo LIKE ?",
-        [`%${titulo}%`]
-      );
+    let query = "SELECT * FROM livros";
+    let params = [];
 
-      const livros = rows.map(r => ({
-        ...r,
-        imagemUrl: montarImagemUrl(r.caminho_capa)
-      }));
-
-      return res.json(livros);
+    if (busca) {
+      query += " WHERE titulo LIKE ? OR autor LIKE ?";
+      params = [`%${busca}%`, `%${busca}%`];
     }
 
-    // Sem termo => retorna todos
-    const [rows] = await db.execute("SELECT * FROM livros");
+    const [rows] = await db.execute(query, params);
 
     const livros = rows.map(r => ({
       ...r,
       imagemUrl: montarImagemUrl(r.caminho_capa)
     }));
 
-    return res.json(livros);
+    res.json(livros);
 
   } catch (err) {
-    return res.status(500).json({ erro: err.message });
+    res.status(500).json({ erro: err.message });
   }
 }
-export async function obterDestaques(req, res) {
+
+export async function obterLivroPorId(req, res) {
   try {
-    const [rows] = await db.query(
-      "SELECT idLivro, titulo, autor, caminho_capa FROM livros LIMIT 6"
-    );
-
-    const livros = rows.map(r => ({
-      idLivro: r.idLivro,
-      titulo: r.titulo,
-      autor: r.autor,
-      imagemUrl: montarImagemUrl(r.caminho_capa)
-    }));
-
-    return res.json(livros);
-
+    const [rows] = await db.execute("SELECT * FROM livros WHERE idLivro = ?", [req.params.id]);
+    if (rows.length === 0) return res.status(404).json({ erro: "Livro não encontrado" });
+    const livro = rows[0];
+    livro.imagemUrl = montarImagemUrl(livro.caminho_capa);
+    res.json(livro);
   } catch (err) {
-    return res.status(500).json({ error: "Erro ao obter destaques" });
+    res.status(500).json({ erro: err.message });
   }
 }
+
+export async function obterDestaque(req, res) {
+  try {
+    const [rows] = await db.execute(`
+            SELECT * FROM livros LIMIT 6
+        `);
+
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
+  }
+};
 
 export async function atualizarLivro(req, res) {
   try {
