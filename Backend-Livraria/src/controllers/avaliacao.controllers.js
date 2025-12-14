@@ -5,7 +5,7 @@ export async function listarAvaliacoes(req ,res) {
         const [rows] = await db.execute("SELECT * FROM avaliacoes");
     res.json(rows);
     } catch (error) {
-        res.status(500).json({ erro: err.message });
+        res.status(500).json({ error: error.message });
     }
 }
 
@@ -41,3 +41,4 @@ export async function listarAvaliacoesPorLivro(req, res) {
     res.status(500).json({ erro: err.message });
   }
 }
+

@@ -187,12 +187,40 @@ document.addEventListener('DOMContentLoaded', async () => {
 // ==========================
 // CARREGAR AVALIAÇÕES
 // ==========================
+// async function carregarAvaliacoes(idLivro) {
+//   const container = document.getElementById("avaliacoes");
+//   container.innerHTML = "<p>Carregando avaliações...</p>";
+
+//   try {
+//     const res = await fetch(`${API}/avaliacoes/livro/${idLivro}`);
+//     if (!res.ok) throw new Error("Não foi possível carregar avaliações");
+//     const avaliacoes = await res.json();
+
+//     if (!avaliacoes.length) {
+//       container.innerHTML = "<p>Este livro ainda não possui avaliações.</p>";
+//       return;
+//     }
+
+//     container.innerHTML = avaliacoes
+//       .map(a => `
+//         <div class="avaliacao-item">
+//           <strong>${a.usuario || "Usuário"}</strong>:
+//           <span>${"⭐".repeat(a.nota)}</span>
+//           <p>${a.comentario}</p>
+//         </div>
+//       `).join("");
+
+//   } catch (err) {
+//     console.error("Erro ao carregar avaliações:", err);
+//     container.innerHTML = "<p>Erro ao carregar avaliações.</p>";
+//   }
+// }
 async function carregarAvaliacoes(idLivro) {
   const container = document.getElementById("avaliacoes");
   container.innerHTML = "<p>Carregando avaliações...</p>";
 
   try {
-    const res = await fetch(`${API}/avaliacoes/${idLivro}`);
+    const res = await fetch(`${API}/avaliacoes/livro/${idLivro}`);
     if (!res.ok) throw new Error("Não foi possível carregar avaliações");
     const avaliacoes = await res.json();
 
@@ -201,14 +229,32 @@ async function carregarAvaliacoes(idLivro) {
       return;
     }
 
-    container.innerHTML = avaliacoes
-      .map(a => `
+    // ==========================
+    // CALCULAR MÉDIA
+    // ==========================
+    const total = avaliacoes.length;
+    const soma = avaliacoes.reduce((acc, a) => acc + Number(a.nota), 0);
+    const media = (soma / total).toFixed(1);
+    const estrelasMedia = "⭐".repeat(Math.round(media));
+
+    // ==========================
+    // HTML
+    // ==========================
+    container.innerHTML = `
+      <div class="media-avaliacoes">
+        <strong>${media}</strong>
+        <span>${estrelasMedia}</span>
+        <small>(${total} avaliações)</small>
+      </div>
+
+      ${avaliacoes.map(a => `
         <div class="avaliacao-item">
-          <strong>${a.usuario || "Usuário"}</strong>:
+          <strong>${a.usuario || "Usuário"}</strong>
           <span>${"⭐".repeat(a.nota)}</span>
           <p>${a.comentario}</p>
         </div>
-      `).join("");
+      `).join("")}
+    `;
 
   } catch (err) {
     console.error("Erro ao carregar avaliações:", err);

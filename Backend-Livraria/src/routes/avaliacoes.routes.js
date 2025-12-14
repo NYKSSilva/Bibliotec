@@ -7,8 +7,10 @@ import{
 
 const router = express.Router();
 
-router.get("/", listarAvaliacoes)
-router.get("/:idLivro", listarAvaliacoesPorLivro)
-router.post("/", criarAvaliacao)
-
+// router.get("/", listarAvaliacoes)
+// router.get("/:idLivro", listarAvaliacoesPorLivro)
+// router.post("/", criarAvaliacao)
+router.get("/", listarAvaliacoes);
+router.post("/", criarAvaliacao);
+router.get("/livro/:idLivro", listarAvaliacoesPorLivro);
 export default router;
