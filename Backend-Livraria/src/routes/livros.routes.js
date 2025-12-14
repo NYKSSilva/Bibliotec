@@ -7,7 +7,7 @@ import{
  listarLivros,
  obterLivroPorId,
  obterDestaque
-} from "../controllers/livros.controller"
+} from "../controllers/livros.controllers.js";
 
 
 
