@@ -2,20 +2,68 @@ import { db} from "../config/db.js";
 
 export async function criarUsuario(req, res) {
   try {
-    const { nome, email, senha } = req.body;
-    if (!nome || !email || !senha)
-      return res.status(400).json({ erro: "Campos obrigatórios" });
+    const { nome, matricula, email, cpf, senha, data_nascimento, celular, curso } = req.body;
+
+    if (!nome || !matricula || !email || !cpf || !senha || !data_nascimento || !celular || !curso) {
+      return res.status(400).json({ erro: "Campos obrigatórios faltando" });
+    }
+
+    if (cpf.length !== 11) {
+      return res.status(400).json({ erro: "CPF inválido. Deve conter 11 dígitos." });
+    }
+
+    if (celular.length !== 11) {
+      return res.status(400).json({ erro: "Celular inválido. Deve conter 11 dígitos." });
+    }
+
+    const [cpfRows] = await db.execute(
+      "SELECT cpf FROM usuarios WHERE cpf = ?",
+      [cpf]
+    );
+
+    if (cpfRows.length > 0) {
+      return res.status(400).json({ erro: "CPF já está cadastrado" })
+    }
+
+    const [celularRows] = await db.execute(
+      "SELECT celular FROM usuarios WHERE celular = ?",
+      [celular]
+    );
+
+    if (celularRows.length > 0) {
+      return res.status(400).json({ erro: "Celular já está cadastrado" })
+    }
+
+      const [emailRows] = await db.execute(
+      "SELECT matricula FROM usuarios WHERE email = ?",
+      [email]
+    );
+
+    if (emailRows.length > 0) {
+      return res.status(400).json({ erro: "Email já está cadastrado" })
+    }
+
+      const [matriculaRows] = await db.execute(
+      "SELECT matricula FROM usuarios WHERE matricula = ?",
+      [matricula]
+    );
+
+    if (matriculaRows.length > 0) {
+      return res.status(400).json({ erro: "Matricula já está cadastrada" })
+    }
+
 
     await db.execute(
-      "INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)",
-      [nome, email, senha]
+      "INSERT INTO usuarios (nome, matricula, email, cpf, senha, data_nascimento, celular, curso) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      [nome, matricula, email, cpf, senha, data_nascimento, celular, curso]
     );
 
     res.json({ mensagem: "Usuário criado com sucesso!" });
+
   } catch (err) {
     res.status(500).json({ erro: err.message });
   }
-};
+}
 
 export async function listarUsuarios (req, res){
   try {

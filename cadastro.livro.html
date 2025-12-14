@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/cadastro.livro.css">
+    <link rel="icon" href="./public/img/livro.png">
+    <title>Cadastro Aluno</title>
+</head>
+
+<body>
+    <div class="Cadastro_livros">
+        <header>
+            <img class="logo" src="public/img/blibliotec.png" alt="bibliotec">
+        </header>
+        <img class="background" src="public/img/biblioteca.jpg" alt="">
+        <div class="livros">
+            <form id="CadastroForm">
+    <h1> Cadastre um novo livro</h1>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label for="titulo">Titulo:</label>
+            <input id="titulo" name="titulo" type="text" required placeholder="Ex: Dom Casmurro">
+        </div>
+        <div class="form-group">
+            <label for="autor">Autor:</label>
+            <input id="autor" name="autor" type="text" required placeholder="Ex: Machado de Assis">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="genero">Genero:</label>
+            <input id="genero" name="genero" type="text" required placeholder="ex: Ficção">
+        </div>
+        <div class="form-group">
+            <label for="editora">Editora:</label>
+            <input id="editora" name="editora" type="text" required placeholder="ex: Companhia das Letras">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="isbn-10">ISBN 10:</label>
+            <input id="isbn_10" name="isbn_10" type="number"  placeholder="ex: ">
+        </div>
+        <div class="form-group">
+            <label for="isbn_13">ISBN 13:</label>
+            <input id="isbn_13" name="isbn_13" type="text" required placeholder="ex: ">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="idioma">Idioma:</label>
+            <input id="idioma" name="idioma" type="text" required placeholder="ex: Inglês, Portugues">
+        </div>
+        <div class="form-group">
+            <label for="formato">Formato:</label>
+            <input id="formato" name="formato" type="text"  placeholder="ex: E-BOOK">
+        </div>
+    </div>
+
+<div class="form-row">
+        <div class="form-group">
+            <label for="caminho_capa">URL da capa:</label>
+            <input id="caminho_capa" name="caminho_capa" type="text" required placeholder="ex: ">
+        </div>
+        <div class="form-group">
+            <label for="sinopse">Sinopse:</label>
+            <input id="sinopse" name="sinopse" type="text" required placeholder="ex:  Era uma vez... ">
+        </div>
+    </div>
+
+    <div class="form-group full-width">
+        <label for="ano_publicacao">Ano de publicação do livro</label>
+        <input id="ano_publicacao" name="ano_publicacao" type="number" required >
+    </div>
+    <div class="form-group full-width">
+        <label for="ativo">Livro disponivel?:</label>
+        <input id="ativo" name="ativo" type="number" required placeholder="ex: 0= Não 1=Sim">
+    </div>
+    
+    <button type="submit">Cadastrar</button>
+</form>
+        </div>
+    </div>
+    <script src="./js/cadastro.livro.js"></script>
+    <footer>
+        <h2>Conheça a nosssa unidade</h2>
+        <a href="https://sp.senai.br/unidade/metalurgia/" target="_blank">SENAI Nadir Dias de Figueredo</a>
+    </footer>
+</body>
+
+</html>

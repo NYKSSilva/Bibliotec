@@ -8,13 +8,40 @@ function montarImagemUrl(caminho) {
 
 export async function adicionarLivro(req, res) {
   try {
-    const { titulo, autor, sinopse, ativo, caminho_capa } = req.body;
-    if (!titulo || !autor || !sinopse || !caminho_capa)
+    const { titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo } = req.body;
+    if (!titulo || !autor || !genero || !editora || !ano_publicacao || !isbn_13 || !idioma || !formato || !caminho_capa || !sinopse || ativo === undefined)
       return res.status(400).json({ erro: "Campos obrigatórios" });
 
+    const [tituloRows] = await db.execute(
+      "SELECT titulo FROM livros WHERE titulo = ?",
+      [titulo]
+    );
+
+    if (tituloRows.length > 0) {
+      return res.status(400).json({ erro: "Livro já está cadastrado" })
+    }
+
+    const [isbn10Rows] = await db.execute(
+      "SELECT isbn_10 FROM livros WHERE isbn_10 = ?",
+      [isbn_10]
+    );
+
+    if (isbn10Rows.length > 0) {
+      return res.status(400).json({ erro: "Identificação (isbn10) já está cadastrado" })
+    }
+
+    const [isbn13Rows] = await db.execute(
+      "SELECT isbn_13 FROM livros WHERE isbn_13 = ?",
+      [titulo]
+    );
+
+    if (isbn13Rows.length > 0) {
+      return res.status(400).json({ erro: "Identificação (isbn13) já está cadastrado" })
+    }
+
     await db.execute(
-      "INSERT INTO livros (titulo, autor, sinopse, ativo, caminho_capa) VALUES (?, ?, ?, ?, ?)",
-      [titulo, autor, sinopse, ativo, caminho_capa] 
+      "INSERT INTO livros (titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [titulo, autor, genero, editora, ano_publicacao, isbn_10, isbn_13, idioma, formato, caminho_capa, sinopse, ativo]
     );
 
     res.json({ mensagem: "Livro adicionado com sucesso!" });
@@ -22,6 +49,7 @@ export async function adicionarLivro(req, res) {
     res.status(500).json({ erro: err.message });
   }
 };
+
 
 export async function listarLivros(req, res) {
   try {

@@ -14,7 +14,6 @@ body {
 }
 
 .background {
-    /* background: url("/img/biblioteca.jpg") center/cover no-repeat; */
     position: fixed;
     inset: 0;
     z-index: -1;
@@ -121,20 +120,18 @@ body {
     text-align: center;
     padding: 20px;
 }
+
 .topo {
     width: 100%;
     background: #23313b;
     color: white;
     padding: 12px 40px;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     box-sizing: border-box;
 }
 
-/* Esquerda: logo + nome */
 .topo-esquerda {
     display: flex;
     align-items: center;
@@ -151,7 +148,6 @@ body {
     letter-spacing: 1px;
 }
 
-/* Frase central */
 .topo-frase {
     font-size: 20px;
     font-weight: 600;
@@ -159,7 +155,6 @@ body {
     width: 40%;
 }
 
-/* Direita: saudação + botões */
 .topo-direita {
     display: flex;
     align-items: center;

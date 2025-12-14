@@ -24,15 +24,15 @@ header{
     opacity: 3;
 }
 
-.login{
+.livros{
     position: absolute;
     z-index: 2;
     left: 50%;
-    top: 50%;
+    top: 70%;
     transform: translate(-50%, -50%);
 
-    width: 40%;
-    height: 50%;
+    width: 60%;
+    height: 90%;
     padding: 10px;
     background: rgba(255, 255, 255, 0.35);
     backdrop-filter: blur(8px);
@@ -42,8 +42,24 @@ header{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1.9px;
+    gap: 5%;
     color: var(--white);  
+}
+
+.form-row {
+    display: flex; 
+    justify-content: space-between; 
+    gap: 10%;
+    width: 100%; 
+    /* max-width: 650px;  */
+    margin-bottom: 10px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column; 
+    width: 50%; 
+    min-width: 280px; 
 }
 
 .logo{
@@ -56,9 +72,9 @@ header{
     position:absolute;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 135%;
     object-fit: cover;
-    height: 90vh;
+    /* height: 90%; */
     z-index: 1;
 } 
 
@@ -71,7 +87,7 @@ h1{
 
     padding: 6px 12px; 
     border: 2px solid var(--white);   
-    color: var( --white);
+    color: var(--black);
     border-radius: 8px;
     background: transparent;
 
@@ -90,7 +106,8 @@ form{
     gap: 10px;
 
     margin: 0;
-    width: 70%;
+    width: 90%;
+    max-width: 700px; 
     padding: 10px;
     background: transparent;
     border-radius: 8px;
@@ -111,30 +128,6 @@ form input[type="text"] {
     min-width: 300px;
 }
 
-form input[type="email"] {
-    padding: 8px 12px;
-    border: 2px solid var(--white);
-    border-radius: 4px;
-    background: transparent;
-    color: var(--white);
-    font-family: 'Montserrat', sans-serif;
-    min-width: 300px;
-}
-
-form input[type="password"] {
-    padding: 8px 12px;
-    border: 2px solid var(--white);
-    border-radius: 4px;
-    background: transparent;
-    color: var(--white);
-    font-family: 'Montserrat', sans-serif;
-    min-width: 300px;
-}
-
-form input[type="email"]::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-}
-
 form button[type="submit"] {
     padding: 8px 20px;
     font-family: 'Montserrat', sans-serif;
@@ -145,6 +138,31 @@ form button[type="submit"] {
     color: var(--white);
     cursor: pointer;
     transition: all 0.3s ease;
+}
+
+form input[type="number"] {
+    padding: 8px 12px;
+    border: 2px solid var(--white);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    min-width: 300px;
+}
+
+form input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+form label {
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+}
+
+form button[type="submit"]:hover {
+    background: var(--cyan);
+    color: var(--black);
+    border-color: var(--cyan);
 }
 
 footer{

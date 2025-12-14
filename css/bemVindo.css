@@ -151,27 +151,6 @@ form button[type="button"] {
     min-width: 300px;
 }
 
-/* #girl {
-    position: absolute;   
-    left: 0%;           
-    top: 73%;
-    transform: translateY(-50%);  
-    height: 40%;          
-    width: 30%;
-    object-fit: contain;
-    float: left;
-}
-
-#livro {
-    position: absolute;   
-    right: 10px;           
-    top: 78%;
-    transform: translateY(-50%);  
-    height: 30%;          
-    width: 20%;
-    object-fit: contain;
-} */
-
 h2{
     z-index: 2;
     font-family: 'Montserrat', sans-serif;
@@ -189,5 +168,5 @@ h3{
     text-align: center; 
     width: 100%;
     margin: 0; 
-    font-size: 75%; 
+    font-size: 110%; 
 }

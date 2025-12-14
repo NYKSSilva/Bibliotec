@@ -27,7 +27,7 @@ form.addEventListener('submit', async (e) => {
     if (data.token) localStorage.setItem('token', data.token)
       
     console.log('Sucesso:', data)
-    window.location.href = 'inicio.html' 
+    window.location.href = 'inicioAdm.html' 
   } catch (err) {
     console.error('Erro:', err)
     alert('Erro: ' + err.message )

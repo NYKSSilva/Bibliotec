@@ -4,17 +4,19 @@ const form = document.getElementById('CadastroForm')
 form.addEventListener('submit', async (e) => {
   e.preventDefault()
   const nome = document.getElementById('nome').value.trim() 
+  const cpf = document.getElementById('cpf').value.trim() 
   const email = document.getElementById('email').value.trim()
   const matricula = document.getElementById('matricula').value.trim()
   const curso = document.getElementById('curso').value.trim()
-  const telefone = document.getElementById('telefone').value.trim()
+  const celular = document.getElementById('celular').value.trim()
   const senha = document.getElementById('senha').value.trim()
+  const data_nascimento = document.getElementById('data_nascimento').value.trim()
 
   try {
     const res = await fetch(`${API}/usuarios`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nome, email, matricula, curso, telefone, senha })
+      body: JSON.stringify({ nome, cpf, email, matricula, curso, celular, senha, data_nascimento })
     })
 
     const data = await res.json()
