@@ -32,9 +32,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         <p><strong>Formato:</strong> ${livro.formato || 'N/A'}</p>
         <p><strong>Ativo:</strong> ${livro.ativo ? 'Sim' : 'Não'}</p>
 
-        <button id="btn-voltar">Voltar</button>
-        <button id="btn-reservar">Reservar</button>
-        <button id="btn-favoritar">Favoritar ⭐</button>
+        <button id="btn-voltar" type="button">Voltar</button>
+        <button id="btn-reservar" type="button">Reservar</button>
+        <button id="btn-favoritar" type="button">Favoritar ⭐</button>
 
         <div id="mensagem-reserva"></div>
       </div>
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <option value="4">4 ⭐</option>
         <option value="5">5 ⭐</option>
       </select>
-      <button id="btn-avaliar">Enviar Avaliação</button>
+      <button id="btn-avaliar" type="button">Enviar Avaliação</button>
     `;
 
     document.getElementById("btn-voltar").addEventListener("click", () => {
@@ -61,62 +61,55 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     carregarAvaliacoes(id);
 
-   // RESERVAR
-document.getElementById("btn-reservar").addEventListener("click", async () => {
-  const msg = document.getElementById("mensagem-reserva");
-  if (!msg) {
-    console.error("Elemento mensagem-reserva não encontrado!");
-    return;
-  }
+    // RESERVAR
+    document.getElementById("btn-reservar").addEventListener("click", async (event) => {
+      event.preventDefault(); // evita reload da página
+      const msg = document.getElementById("mensagem-reserva");
+      msg.className = "";
+      msg.innerHTML = "";
 
-  msg.className = "";
-  msg.innerHTML = "";
+      const usuarioRaw = localStorage.getItem("usuario");
+      if (!usuarioRaw) {
+        msg.className = "mensagem-erro";
+        msg.textContent = "❌ Você precisa estar logado para reservar.";
+        setTimeout(() => window.location.href = "login.html", 1500);
+        return;
+      }
 
-  const usuarioRaw = localStorage.getItem("usuario");
-  if (!usuarioRaw) {
-    msg.className = "mensagem-erro";
-    msg.textContent = "❌ Você precisa estar logado para reservar.";
-    setTimeout(() => window.location.href = "login.html", 1500);
-    return;
-  }
+      const usuario = JSON.parse(usuarioRaw);
 
-  const usuario = JSON.parse(usuarioRaw);
+      try {
+        const resReserva = await fetch(`${API}/reservas`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            idUsuario: usuario.idUsuario,
+            idLivro: livro.idLivro
+          })
+        });
 
-  try {
-    const resReserva = await fetch(`${API}/reservas`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        idUsuario: usuario.idUsuario,
-        idLivro: livro.idLivro
-      })
+        const data = await resReserva.json();
+        if (!resReserva.ok) throw new Error(data.erro || "Erro ao reservar livro");
+
+        msg.className = "mensagem-sucesso";
+        msg.innerHTML = `
+          <strong>📚 Livro reservado com sucesso!</strong><br>
+          📅 Retirada: ${new Date(data.dataRetirada).toLocaleDateString()}<br>
+          ⏳ Devolução: ${new Date(data.dataDevolucao).toLocaleDateString()}
+        `;
+
+        document.getElementById("btn-reservar").disabled = true;
+
+      } catch (err) {
+        console.error(err);
+        msg.className = "mensagem-erro";
+        msg.textContent = "❌ Erro ao reservar: " + err.message;
+      }
     });
 
-    const data = await resReserva.json();
-    if (!resReserva.ok) throw new Error(data.erro || "Erro ao reservar livro");
-
-    // Garante que datas sempre existam
-    const dataRetirada = data.dataRetirada ? new Date(data.dataRetirada).toLocaleDateString() : "N/A";
-    const dataDevolucao = data.dataDevolucao ? new Date(data.dataDevolucao).toLocaleDateString() : "N/A";
-
-    msg.className = "mensagem-sucesso";
-    msg.innerHTML = `
-      <strong>📚 Livro reservado com sucesso!</strong><br>
-      📅 Retirada: ${dataRetirada}<br>
-      ⏳ Devolução: ${dataDevolucao}
-    `;
-
-    document.getElementById("btn-reservar").disabled = true;
-
-  } catch (err) {
-    console.error(err);
-    msg.className = "mensagem-erro";
-    msg.textContent = "❌ Erro ao reservar: " + (err.message || "erro desconhecido");
-  }
-});
-
     // FAVORITAR
-    document.getElementById("btn-favoritar").addEventListener("click", async () => {
+    document.getElementById("btn-favoritar").addEventListener("click", async (event) => {
+      event.preventDefault();
       const usuarioRaw = localStorage.getItem("usuario");
       if (!usuarioRaw) {
         alert("Você precisa estar logado para favoritar!");
@@ -146,7 +139,8 @@ document.getElementById("btn-reservar").addEventListener("click", async () => {
     });
 
     // AVALIAR
-    document.getElementById("btn-avaliar").addEventListener("click", async () => {
+    document.getElementById("btn-avaliar").addEventListener("click", async (event) => {
+      event.preventDefault();
       const usuarioRaw = localStorage.getItem("usuario");
       if (!usuarioRaw) {
         alert("Você precisa estar logado para avaliar!");
