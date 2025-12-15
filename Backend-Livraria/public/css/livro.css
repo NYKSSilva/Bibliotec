@@ -46,7 +46,12 @@ header {
   max-width: 1000px;
   margin: 100px auto 140px;
   padding: 30px;
+<<<<<<< HEAD
   background: rgba(0,0,0,0.55);
+=======
+
+  background: rgba(255,255,255,0.03);
+>>>>>>> d7a984f6b0c534aa1dd2f6e7a74654f6dc7fd0b4
   backdrop-filter: blur(12px);
   border-radius: 16px;
 }
@@ -91,8 +96,23 @@ header {
 /* ===== BOTÕES ===== */
 .acoes {
   display: flex;
+<<<<<<< HEAD
   gap: 15px;
   flex-wrap: wrap;
+=======
+  flex-direction: column;
+  gap: 24px;
+
+  color: white;
+}
+
+/* BOTÃO VOLTAR (VISÍVEL) */
+#btn-voltar {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  font-weight: 500;
+>>>>>>> d7a984f6b0c534aa1dd2f6e7a74654f6dc7fd0b4
 }
 
 button {
@@ -109,9 +129,18 @@ button {
   color: #000;
 }
 
+<<<<<<< HEAD
 #btn-favoritar {
   background: var(--cyan);
   color: #000;
+=======
+/* DETALHES DO LIVRO */
+.livro-detalhes {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 24px;
+  align-items: start;
+>>>>>>> d7a984f6b0c534aa1dd2f6e7a74654f6dc7fd0b4
 }
 
 #btn-voltar {
@@ -129,6 +158,24 @@ button:hover {
   margin-top: 40px;
 }
 
+<<<<<<< HEAD
+=======
+/* OUTROS BOTÕES */
+#btn-reservar,
+#btn-favoritar,
+#btn-avaliar {
+  background: var(--blue);
+  color: white;
+}
+
+#btn-reservar:hover,
+#btn-favoritar:hover,
+#btn-avaliar:hover {
+  opacity: 0.9;
+}
+
+/* AVALIAÇÕES */
+>>>>>>> d7a984f6b0c534aa1dd2f6e7a74654f6dc7fd0b4
 #avaliacoes {
   max-height: 300px;
   overflow-y: auto;
@@ -189,3 +236,24 @@ footer a {
     justify-content: center;
   }
 }
+<<<<<<< HEAD
+=======
+
+/* MENSAGENS */
+.mensagem-sucesso {
+  background: #e6fffa;
+  border: 1px solid #2ecc71;
+  color: #065f46;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+.mensagem-erro {
+  background: #ffe6e6;
+  border: 1px solid #e74c3c;
+  color: #7f1d1d;
+  padding: 12px;
+  border-radius: 8px;
+}
+>>>>>>> d7a984f6b0c534aa1dd2f6e7a74654f6dc7fd0b4
