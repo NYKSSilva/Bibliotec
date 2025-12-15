@@ -1,4 +1,4 @@
- const API = 'http://localhost:3000';
+const API = 'http://localhost:3000';
 
 function urlCapa(livro) {
   if (!livro.caminho_capa || livro.caminho_capa.trim() === "") return "/img/placeholder.png";
@@ -95,6 +95,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       const usuario = JSON.parse(usuarioRaw);
 
       try {
+
+        if (livro.ativo == 0) {
+          msg.className = "mensagem-erro";
+          msg.textContent = "❌ Erro ao reservar: Livro indisponível.";
+          return; 
+        }
+
         const resReserva = await fetch(`${API}/reservas`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -104,10 +111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           })
         });
 
-        if(livro.ativo == 0 ){
-        msg.className = "mensagem-erro";
-        msg.textContent = "❌ Erro ao reservar, Livro Indisponível: " + err.message;
-        }
+
 
         const data = await resReserva.json();
         if (!resReserva.ok) throw new Error(data.erro || "Erro ao reservar livro");
@@ -122,7 +126,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById("btn-reservar").disabled = true;
 
       } catch (err) {
-        console.error(err);
+        console.log(err);
         msg.className = "mensagem-erro";
         msg.textContent = "❌ Erro ao reservar: " + err.message;
       }
