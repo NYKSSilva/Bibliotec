@@ -1,12 +1,10 @@
 const API = 'http://localhost:3000';
 
-// Função para gerar URL da capa
 function urlCapa(livro) {
   if (!livro.caminho_capa || livro.caminho_capa.trim() === "") return "/img/placeholder.png";
   if (livro.caminho_capa.startsWith("http") || livro.caminho_capa.startsWith("/")) return livro.caminho_capa;
   return `/capas/${livro.caminho_capa}`;
 }
-
 
 document.addEventListener('DOMContentLoaded', async () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -17,35 +15,50 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   try {
-    // Carrega detalhes do livro
     const res = await fetch(`${API}/livros/${id}`);
     if (!res.ok) throw new Error('Livro não encontrado');
     const livro = await res.json();
 
     const container = document.getElementById('livroForm');
     container.innerHTML = `
-      <div class="livro-detalhes">
-        <img src="${urlCapa(livro)}" alt="${livro.titulo}" style="max-width: 200px;">
-        <h2>${livro.titulo}</h2>
-        <p><strong>Autor:</strong> ${livro.autor}</p>
-        <p><strong>Gênero:</strong> ${livro.genero || 'N/A'}</p>
-        <p><strong>Editora:</strong> ${livro.editora || 'N/A'}</p>
-        <p><strong>Ano:</strong> ${livro.ano_publicacao || 'N/A'}</p>
-        <p><strong>Sinopse:</strong> ${livro.sinopse || 'N/A'}</p>
-        <p><strong>Formato:</strong> ${livro.formato || 'N/A'}</p>
-        <p><strong>Ativo:</strong> ${livro.ativo ? 'Sim' : 'Não'}</p>
+  <div class="livro-card">
 
-        <button id="btn-voltar">Voltar</button>
-        <button id="btn-reservar">Reservar</button>
-        <button id="btn-favoritar">Favoritar ⭐</button>
+    <img src="${urlCapa(livro)}" alt="${livro.titulo}" class="capa-livro">
+
+    <div class="info-livro">
+      <h2>${livro.titulo}</h2>
+
+      <div class="sinopse">
+        ${livro.sinopse || "Sem sinopse disponível."}
       </div>
 
-      <h3>Avaliações</h3>
-      <div id="avaliacoes"></div>
+      <div class="info-grid">
+        <p><strong>Autor:</strong> ${livro.autor}</p>
+        <p><strong>Gênero:</strong> ${livro.genero || "N/A"}</p>
+        <p><strong>Editora:</strong> ${livro.editora || "N/A"}</p>
+        <p><strong>Ano:</strong> ${livro.ano_publicacao || "N/A"}</p>
+        <p><strong>Formato:</strong> ${livro.formato || "N/A"}</p>
+        <p><strong>Status:</strong> ${livro.ativo ? "Disponível" : "Indisponível"}</p>
+      </div>
 
-      <h4>Adicionar Avaliação</h4>
-      <textarea id="comentario" placeholder="Escreva seu comentário"></textarea><br>
-      <label for="nota">Nota:</label>
+      <div class="acoes">
+        <button id="btn-voltar" type="button">Voltar</button>
+        <button id="btn-reservar" type="button">Reservar</button>
+        <button id="btn-favoritar" type="button">Favoritar ⭐</button>
+      </div>
+
+      <div id="mensagem-reserva"></div>
+    </div>
+  </div>
+
+  <section class="avaliacoes-section">
+    <h3>Avaliações</h3>
+    <div id="avaliacoes"></div>
+
+    <h4>Adicionar Avaliação</h4>
+    <textarea id="comentario" placeholder="Escreva seu comentário"></textarea>
+
+    <div class="avaliar-acoes">
       <select id="nota">
         <option value="1">1 ⭐</option>
         <option value="2">2 ⭐</option>
@@ -53,8 +66,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         <option value="4">4 ⭐</option>
         <option value="5">5 ⭐</option>
       </select>
-      <button id="btn-avaliar">Enviar Avaliação</button>
-    `;
+
+      <button id="btn-avaliar" type="button">Enviar Avaliação</button>
+    </div>
+  </section>
+`;
 
     document.getElementById("btn-voltar").addEventListener("click", () => {
       window.location.href = "catalogo.html";
@@ -62,24 +78,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     carregarAvaliacoes(id);
 
-    // ==========================
     // RESERVAR
-    // ==========================
-    document.getElementById("btn-reservar").addEventListener("click", async () => {
+    document.getElementById("btn-reservar").addEventListener("click", async (event) => {
+      event.preventDefault(); // evita reload da página
+      const msg = document.getElementById("mensagem-reserva");
+      msg.className = "";
+      msg.innerHTML = "";
+
       const usuarioRaw = localStorage.getItem("usuario");
       if (!usuarioRaw) {
-        alert("Você precisa estar logado para reservar.");
-        window.location.href = "login.html";
+        msg.className = "mensagem-erro";
+        msg.textContent = "❌ Você precisa estar logado para reservar.";
+        setTimeout(() => window.location.href = "login.html", 1500);
         return;
       }
-      const usuario = JSON.parse(usuarioRaw);
-      const data_retirada = prompt("Digite a data de retirada (YYYY-MM-DD):");
-      const data_devolucao = prompt("Digite a data de devolução (YYYY-MM-DD):");
 
-      if (!data_retirada || !data_devolucao) {
-        alert("Datas inválidas!");
-        return;
-      }
+      const usuario = JSON.parse(usuarioRaw);
 
       try {
         const resReserva = await fetch(`${API}/reservas`, {
@@ -87,26 +101,32 @@ document.addEventListener('DOMContentLoaded', async () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             idUsuario: usuario.idUsuario,
-            idLivro: livro.idLivro,
-            data_retirada,
-            data_devolucao,
-            confirmado_email: 0
+            idLivro: livro.idLivro
           })
         });
+
         const data = await resReserva.json();
         if (!resReserva.ok) throw new Error(data.erro || "Erro ao reservar livro");
 
-        alert("Livro reservado com sucesso!");
+        msg.className = "mensagem-sucesso";
+        msg.innerHTML = `
+          <strong>📚 Livro reservado com sucesso!</strong><br>
+          📅 Retirada: ${new Date(data.dataRetirada).toLocaleDateString()}<br>
+          ⏳ Devolução: ${new Date(data.dataDevolucao).toLocaleDateString()}
+        `;
+
+        document.getElementById("btn-reservar").disabled = true;
+
       } catch (err) {
-        console.error("Erro ao reservar:", err);
-        alert("Erro ao reservar livro: " + err.message);
+        console.error(err);
+        msg.className = "mensagem-erro";
+        msg.textContent = "❌ Erro ao reservar: " + err.message;
       }
     });
 
-    // ==========================
     // FAVORITAR
-    // ==========================
-    document.getElementById("btn-favoritar").addEventListener("click", async () => {
+    document.getElementById("btn-favoritar").addEventListener("click", async (event) => {
+      event.preventDefault();
       const usuarioRaw = localStorage.getItem("usuario");
       if (!usuarioRaw) {
         alert("Você precisa estar logado para favoritar!");
@@ -135,10 +155,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     });
 
-    // ==========================
     // AVALIAR
-    // ==========================
-    document.getElementById("btn-avaliar").addEventListener("click", async () => {
+    document.getElementById("btn-avaliar").addEventListener("click", async (event) => {
+      event.preventDefault();
       const usuarioRaw = localStorage.getItem("usuario");
       if (!usuarioRaw) {
         alert("Você precisa estar logado para avaliar!");
@@ -170,7 +189,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         alert("Avaliação enviada com sucesso!");
         document.getElementById("comentario").value = "";
-        carregarAvaliacoes(id); // Recarrega as avaliações
+        carregarAvaliacoes(id);
       } catch (err) {
         console.error("Erro ao avaliar:", err);
         alert("Erro ao enviar avaliação: " + err.message);
@@ -184,37 +203,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-// ==========================
-// CARREGAR AVALIAÇÕES
-// ==========================
-// async function carregarAvaliacoes(idLivro) {
-//   const container = document.getElementById("avaliacoes");
-//   container.innerHTML = "<p>Carregando avaliações...</p>";
-
-//   try {
-//     const res = await fetch(`${API}/avaliacoes/livro/${idLivro}`);
-//     if (!res.ok) throw new Error("Não foi possível carregar avaliações");
-//     const avaliacoes = await res.json();
-
-//     if (!avaliacoes.length) {
-//       container.innerHTML = "<p>Este livro ainda não possui avaliações.</p>";
-//       return;
-//     }
-
-//     container.innerHTML = avaliacoes
-//       .map(a => `
-//         <div class="avaliacao-item">
-//           <strong>${a.usuario || "Usuário"}</strong>:
-//           <span>${"⭐".repeat(a.nota)}</span>
-//           <p>${a.comentario}</p>
-//         </div>
-//       `).join("");
-
-//   } catch (err) {
-//     console.error("Erro ao carregar avaliações:", err);
-//     container.innerHTML = "<p>Erro ao carregar avaliações.</p>";
-//   }
-// }
 async function carregarAvaliacoes(idLivro) {
   const container = document.getElementById("avaliacoes");
   container.innerHTML = "<p>Carregando avaliações...</p>";
@@ -229,17 +217,11 @@ async function carregarAvaliacoes(idLivro) {
       return;
     }
 
-    // ==========================
-    // CALCULAR MÉDIA
-    // ==========================
     const total = avaliacoes.length;
     const soma = avaliacoes.reduce((acc, a) => acc + Number(a.nota), 0);
     const media = (soma / total).toFixed(1);
     const estrelasMedia = "⭐".repeat(Math.round(media));
 
-    // ==========================
-    // HTML
-    // ==========================
     container.innerHTML = `
       <div class="media-avaliacoes">
         <strong>${media}</strong>
@@ -255,7 +237,6 @@ async function carregarAvaliacoes(idLivro) {
         </div>
       `).join("")}
     `;
-
   } catch (err) {
     console.error("Erro ao carregar avaliações:", err);
     container.innerHTML = "<p>Erro ao carregar avaliações.</p>";

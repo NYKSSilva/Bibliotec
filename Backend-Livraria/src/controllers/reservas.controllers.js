@@ -9,22 +9,45 @@ export async function listarReservas(req ,res) {
     }
 }
 
-export async function criarReserva(req, res) {
+export async function criarReserva(req,res) {
   try {
-    const {idUsuario, idLivro, data_retirada, data_devolucao, confirmado_email } = req.body;
-    if (!idUsuario || !idLivro || !data_retirada || !data_devolucao || !confirmado_email === undefined )
-      return res.status(400).json({ erro: "Campos obrigatórios" });
+    const { idUsuario, idLivro } = req.body;
 
-    await db.execute(
-      "INSERT INTO reservas (idUsuario, idLivro,data_retirada, data_devolucao, confirmado_email) VALUES (?, ?, ?, ?, ?)",
-      [idUsuario, idLivro,data_retirada, data_devolucao, confirmado_email]
+    const sql = `
+      INSERT INTO reservas (
+        idUsuario,
+        idLivro,
+        data_retirada,
+        data_devolucao
+      )
+      VALUES (
+        ?, 
+        ?, 
+        CURDATE(),
+        DATE_ADD(CURDATE(), INTERVAL 14 DAY)
+      )
+    `;
+
+    const [result] = await db.execute(sql, [idUsuario, idLivro]);
+
+    // Buscar datas geradas pelo banco
+    const [rows] = await db.execute(
+      'SELECT data_retirada, data_devolucao FROM reservas WHERE idReservas = ?',
+      [result.insertId]
     );
 
-    res.json({ mensagem: "Reserva adicionada com sucesso!" });
+    res.json({
+      sucesso: true,
+      dataRetirada: rows[0].data_retirada,
+      dataDevolucao: rows[0].data_devolucao
+    });
+
   } catch (err) {
-    res.status(500).json({ erro: err.message });
+    console.error(err);
+    res.status(500).json({ erro: 'Erro ao reservar livro' });
   }
 };
+
 
 export async function deletarReserva(req, res) {
   try {
