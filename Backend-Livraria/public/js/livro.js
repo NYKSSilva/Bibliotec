@@ -1,12 +1,10 @@
 const API = 'http://localhost:3000';
 
-// Função para gerar URL da capa
 function urlCapa(livro) {
   if (!livro.caminho_capa || livro.caminho_capa.trim() === "") return "/img/placeholder.png";
   if (livro.caminho_capa.startsWith("http") || livro.caminho_capa.startsWith("/")) return livro.caminho_capa;
   return `/capas/${livro.caminho_capa}`;
 }
-
 
 document.addEventListener('DOMContentLoaded', async () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -17,7 +15,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   try {
-    // Carrega detalhes do livro
     const res = await fetch(`${API}/livros/${id}`);
     if (!res.ok) throw new Error('Livro não encontrado');
     const livro = await res.json();
@@ -38,6 +35,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         <button id="btn-voltar">Voltar</button>
         <button id="btn-reservar">Reservar</button>
         <button id="btn-favoritar">Favoritar ⭐</button>
+
+        <div id="mensagem-reserva"></div>
       </div>
 
       <h3>Avaliações</h3>
@@ -62,50 +61,61 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     carregarAvaliacoes(id);
 
-    // ==========================
-    // RESERVAR
-    // ==========================
-    document.getElementById("btn-reservar").addEventListener("click", async () => {
-      const usuarioRaw = localStorage.getItem("usuario");
-      if (!usuarioRaw) {
-        alert("Você precisa estar logado para reservar.");
-        window.location.href = "login.html";
-        return;
-      }
-      const usuario = JSON.parse(usuarioRaw);
-      const data_retirada = prompt("Digite a data de retirada (YYYY-MM-DD):");
-      const data_devolucao = prompt("Digite a data de devolução (YYYY-MM-DD):");
+   // RESERVAR
+document.getElementById("btn-reservar").addEventListener("click", async () => {
+  const msg = document.getElementById("mensagem-reserva");
+  if (!msg) {
+    console.error("Elemento mensagem-reserva não encontrado!");
+    return;
+  }
 
-      if (!data_retirada || !data_devolucao) {
-        alert("Datas inválidas!");
-        return;
-      }
+  msg.className = "";
+  msg.innerHTML = "";
 
-      try {
-        const resReserva = await fetch(`${API}/reservas`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            idUsuario: usuario.idUsuario,
-            idLivro: livro.idLivro,
-            data_retirada,
-            data_devolucao,
-            confirmado_email: 0
-          })
-        });
-        const data = await resReserva.json();
-        if (!resReserva.ok) throw new Error(data.erro || "Erro ao reservar livro");
+  const usuarioRaw = localStorage.getItem("usuario");
+  if (!usuarioRaw) {
+    msg.className = "mensagem-erro";
+    msg.textContent = "❌ Você precisa estar logado para reservar.";
+    setTimeout(() => window.location.href = "login.html", 1500);
+    return;
+  }
 
-        alert("Livro reservado com sucesso!");
-      } catch (err) {
-        console.error("Erro ao reservar:", err);
-        alert("Erro ao reservar livro: " + err.message);
-      }
+  const usuario = JSON.parse(usuarioRaw);
+
+  try {
+    const resReserva = await fetch(`${API}/reservas`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        idUsuario: usuario.idUsuario,
+        idLivro: livro.idLivro
+      })
     });
 
-    // ==========================
+    const data = await resReserva.json();
+    if (!resReserva.ok) throw new Error(data.erro || "Erro ao reservar livro");
+
+    // Garante que datas sempre existam
+    const dataRetirada = data.dataRetirada ? new Date(data.dataRetirada).toLocaleDateString() : "N/A";
+    const dataDevolucao = data.dataDevolucao ? new Date(data.dataDevolucao).toLocaleDateString() : "N/A";
+
+    msg.className = "mensagem-sucesso";
+    msg.innerHTML = `
+      <strong>📚 Livro reservado com sucesso!</strong><br>
+      📅 Retirada: ${dataRetirada}<br>
+      ⏳ Devolução: ${dataDevolucao}
+    `;
+
+    document.getElementById("btn-reservar").disabled = true;
+
+  } catch (err) {
+    console.error(err);
+    msg.className = "mensagem-erro";
+    msg.textContent = "❌ Erro ao reservar: " + (err.message || "erro desconhecido");
+  }
+});
+
     // FAVORITAR
-    // ==========================
     document.getElementById("btn-favoritar").addEventListener("click", async () => {
       const usuarioRaw = localStorage.getItem("usuario");
       if (!usuarioRaw) {
@@ -135,9 +145,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     });
 
-    // ==========================
     // AVALIAR
-    // ==========================
     document.getElementById("btn-avaliar").addEventListener("click", async () => {
       const usuarioRaw = localStorage.getItem("usuario");
       if (!usuarioRaw) {
@@ -170,7 +178,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         alert("Avaliação enviada com sucesso!");
         document.getElementById("comentario").value = "";
-        carregarAvaliacoes(id); // Recarrega as avaliações
+        carregarAvaliacoes(id);
       } catch (err) {
         console.error("Erro ao avaliar:", err);
         alert("Erro ao enviar avaliação: " + err.message);
@@ -184,37 +192,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-// ==========================
-// CARREGAR AVALIAÇÕES
-// ==========================
-// async function carregarAvaliacoes(idLivro) {
-//   const container = document.getElementById("avaliacoes");
-//   container.innerHTML = "<p>Carregando avaliações...</p>";
-
-//   try {
-//     const res = await fetch(`${API}/avaliacoes/livro/${idLivro}`);
-//     if (!res.ok) throw new Error("Não foi possível carregar avaliações");
-//     const avaliacoes = await res.json();
-
-//     if (!avaliacoes.length) {
-//       container.innerHTML = "<p>Este livro ainda não possui avaliações.</p>";
-//       return;
-//     }
-
-//     container.innerHTML = avaliacoes
-//       .map(a => `
-//         <div class="avaliacao-item">
-//           <strong>${a.usuario || "Usuário"}</strong>:
-//           <span>${"⭐".repeat(a.nota)}</span>
-//           <p>${a.comentario}</p>
-//         </div>
-//       `).join("");
-
-//   } catch (err) {
-//     console.error("Erro ao carregar avaliações:", err);
-//     container.innerHTML = "<p>Erro ao carregar avaliações.</p>";
-//   }
-// }
 async function carregarAvaliacoes(idLivro) {
   const container = document.getElementById("avaliacoes");
   container.innerHTML = "<p>Carregando avaliações...</p>";
@@ -229,17 +206,11 @@ async function carregarAvaliacoes(idLivro) {
       return;
     }
 
-    // ==========================
-    // CALCULAR MÉDIA
-    // ==========================
     const total = avaliacoes.length;
     const soma = avaliacoes.reduce((acc, a) => acc + Number(a.nota), 0);
     const media = (soma / total).toFixed(1);
     const estrelasMedia = "⭐".repeat(Math.round(media));
 
-    // ==========================
-    // HTML
-    // ==========================
     container.innerHTML = `
       <div class="media-avaliacoes">
         <strong>${media}</strong>
@@ -255,7 +226,6 @@ async function carregarAvaliacoes(idLivro) {
         </div>
       `).join("")}
     `;
-
   } catch (err) {
     console.error("Erro ao carregar avaliações:", err);
     container.innerHTML = "<p>Erro ao carregar avaliações.</p>";

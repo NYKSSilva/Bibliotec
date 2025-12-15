@@ -11,33 +11,21 @@
     <header>
         <img class="logo" src="/img/blibliotec.png" alt="bibliotec">
     </header>
+
     <img class="background" src="/img/biblioteca.jpg" alt="">
+
     <div class="livro">
         <form id="livroForm">
-            
+            <!-- TODO: O conteúdo será gerado pelo JS -->
         </form>
     </div>
-   <div class="livro-detalhes">
-  <img src="${urlCapa(livro)}" alt="${livro.titulo}" style="max-width: 200px;">
-  <h2>${livro.titulo}</h2>
-  <p><strong>Autor:</strong> ${livro.autor}</p>
-  <p><strong>Gênero:</strong> ${livro.genero || 'N/A'}</p>
-  <p><strong>Editora:</strong> ${livro.editora || 'N/A'}</p>
-  <p><strong>Ano:</strong> ${livro.ano_publicacao || 'N/A'}</p>
-  <p><strong>Sinopse:</strong> ${livro.sinopse || 'N/A'}</p>
-  <p><strong>Formato:</strong> ${livro.formato || 'N/A'}</p>
-  <p><strong>Ativo:</strong> ${livro.ativo ? 'Sim' : 'Não'}</p>
-
-  <button id="btn-voltar" onclick="window.location.href='catalogo.html'">Voltar</button>
-  <button id="btn-reservar">Reservar</button>
-</div>
 
     <footer>
-        <h3>Ficamos felies em recebe-lo no nosso site, esperamos que aproveite essa jornada de aventura entre as palavras!</h3>
-        <h2>Conheça a nosssa unidade</h2>
+        <h3>Ficamos felizes em recebe-lo no nosso site, esperamos que aproveite essa jornada de aventura entre as palavras!</h3>
+        <h2>Conheça a nossa unidade</h2>
         <a href="https://sp.senai.br/unidade/metalurgia/" target="_blank">SENAI Nadir Dias de Figueredo</a>
     </footer>
+
     <script src="./js/livro.js"></script>
 </body>
-
 </html>
