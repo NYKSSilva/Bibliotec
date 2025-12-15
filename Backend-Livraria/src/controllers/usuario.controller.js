@@ -2,9 +2,9 @@ import { db} from "../config/db.js";
 
 export async function criarUsuario(req, res) {
   try {
-    const { nome, matricula, email, cpf, senha, data_nascimento, celular, curso } = req.body;
+    const { nome, matricula, email, cpf, senha, data_nascimento, celular, curso, perfil } = req.body;
 
-    if (!nome || !matricula || !email || !cpf || !senha || !data_nascimento || !celular || !curso) {
+    if (!nome || !matricula || !email || !cpf || !senha || !data_nascimento || !celular || !curso || !perfil) {
       return res.status(400).json({ erro: "Campos obrigatórios faltando" });
     }
 

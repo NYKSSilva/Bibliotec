@@ -17,7 +17,7 @@
         <img class="background" src="public/img/biblioteca.jpg" alt="">
         <div class="login">
             <form id="CadastroForm">
-    <h1> Cadastre um novo aluno</h1>
+    <h1> Cadastre um novo usuario</h1>
     
     <div class="form-row">
         <div class="form-group">
@@ -33,7 +33,7 @@
     <div class="form-row">
         <div class="form-group">
             <label for="email">Email:</label>
-            <input id="email" name="email" type="email" required placeholder="ex: aluno@aluno.senai.br">
+            <input id="email" name="email" type="email" required placeholder="ex: aluno@aluno.senai.br/ @funcionario.senai.br">
         </div>
         <div class="form-group">
             <label for="matricula">Matricula:</label>
@@ -52,9 +52,15 @@
         </div>
     </div>
     
-    <div class="form-group full-width">
-        <label for="data_nascimento">Data de nascimento do aluno</label>
-        <input id="data_nascimento" name="data_nascimento" type="date" required >
+    <div class="form-row">
+        <div class="form-group">
+            <label for="data_nascimento">Data nascimento:</label>
+            <input id="data_nascimento" name="data_nascimento" type="date" required placeholder="ex: ">
+        </div>
+        <div class="form-group">
+            <label for="perfil">Perfil:</label>
+            <input id="perfil" name="perfil" type="text" required placeholder="ex: aluno...">
+        </div>
     </div>
     <div class="form-group full-width">
         <label for="senha">Senha do aluno</label>

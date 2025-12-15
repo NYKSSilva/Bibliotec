@@ -25,11 +25,11 @@ DROP TABLE usuarios
 -- DADOS DE USUÁRIOS
 -- ===========================================================
 INSERT INTO usuarios (nome, matricula, email, cpf, senha, data_nascimento, celular, curso, perfil) VALUES
-('Vitor Lima', '109202305', 'vitor.lima@email.com', '101202302', '1234', '1998-04-04' , '11949567824', '', 'Admin'),
-('Mariana Bandoni', '25163024', 'marianabandoni@gmail.com', '53218604016', '1504', '2007-02-19' , '11966301040', 'Técnico em Logística', 'Aluno'),
-('Vitor Pimentel', '25163133', 'vitorpimentel@gmail.com', '54507890860', '0403', '2009-03-04' , '11930816802', 'Técnico em Desenvolvimento de Sistemas', 'Aluno'),
-('Giovanna Santana', '25161494', 'giovannasantana@gmail.com', '56509812300', '0702', '2008-02-07' , '11914562789', 'Técnico em Administração', 'Aluno'),
-('Renan Mendonça', '25163704', 'renanmendoca@gmail.com', '56732908012', '0912', '200-12-09' , '11971278998', 'Técnico em Metalurgia', 'Aluno')
+('Vitor Lima', '109202305', 'vitor.lima@funcionario.senai.br', '101202302', '1234', '1998-04-04' , '11949567824', '', 'Admin'),
+('Mariana Bandoni', '25163024', 'marianabandoni@aluno.senai.br', '53218604016', '1504', '2007-02-19' , '11966301040', 'Técnico em Logística', 'Aluno'),
+('Vitor Pimentel', '25163133', 'vitorpimentel@aluno.senai.br', '54507890860', '0403', '2009-03-04' , '11930816802', 'Técnico em Desenvolvimento de Sistemas', 'Aluno'),
+('Giovanna Santana', '25161494', 'giovannasantana@aluno.senai.br', '56509812300', '0702', '2008-02-07' , '11914562789', 'Técnico em Administração', 'Aluno'),
+('Renan Mendonça', '25163704', 'renanmendoca@aluno.senai.br', '56732908012', '0912', '200-12-09' , '11971278998', 'Técnico em Metalurgia', 'Aluno')
 
 -- ===========================================================
 -- TABELA DE LIVROS
