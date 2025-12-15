@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         lista.innerHTML = dados
           .map(livro => `
           <div class="favorito-item">
-            <img src="${livro.caminho_capa}" width="80">
+            <img src="${urlCapa(livro)}" width="80">
             <p>${livro.titulo}</p>
           </div>
         `)
