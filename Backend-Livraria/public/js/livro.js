@@ -1,4 +1,4 @@
-const API = 'http://localhost:3000';
+ const API = 'http://localhost:3000';
 
 function urlCapa(livro) {
   if (!livro.caminho_capa || livro.caminho_capa.trim() === "") return "/img/placeholder.png";
@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     container.innerHTML = `
   <div class="livro-card">
 
-<<<<<<< HEAD
     <img src="${urlCapa(livro)}" alt="${livro.titulo}" class="capa-livro">
 
     <div class="info-livro">
@@ -31,13 +30,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       <div class="sinopse">
         ${livro.sinopse || "Sem sinopse disponível."}
-=======
-        <button id="btn-voltar" type="button">Voltar</button>
-        <button id="btn-reservar" type="button">Reservar</button>
-        <button id="btn-favoritar" type="button">Favoritar ⭐</button>
-
-        <div id="mensagem-reserva"></div>
->>>>>>> d7a984f6b0c534aa1dd2f6e7a74654f6dc7fd0b4
       </div>
 
       <div class="info-grid">
@@ -74,16 +66,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         <option value="4">4 ⭐</option>
         <option value="5">5 ⭐</option>
       </select>
-<<<<<<< HEAD
 
       <button id="btn-avaliar" type="button">Enviar Avaliação</button>
     </div>
   </section>
 `;
-=======
-      <button id="btn-avaliar" type="button">Enviar Avaliação</button>
-    `;
->>>>>>> d7a984f6b0c534aa1dd2f6e7a74654f6dc7fd0b4
 
     document.getElementById("btn-voltar").addEventListener("click", () => {
       window.location.href = "catalogo.html";
@@ -254,4 +241,4 @@ async function carregarAvaliacoes(idLivro) {
     console.error("Erro ao carregar avaliações:", err);
     container.innerHTML = "<p>Erro ao carregar avaliações.</p>";
   }
-}
+} 
