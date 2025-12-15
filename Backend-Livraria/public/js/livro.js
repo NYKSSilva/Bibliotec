@@ -1,4 +1,4 @@
-const API = 'http://localhost:3000';
+ const API = 'http://localhost:3000';
 
 function urlCapa(livro) {
   if (!livro.caminho_capa || livro.caminho_capa.trim() === "") return "/img/placeholder.png";
@@ -21,30 +21,44 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const container = document.getElementById('livroForm');
     container.innerHTML = `
-      <div class="livro-detalhes">
-        <img src="${urlCapa(livro)}" alt="${livro.titulo}" style="max-width: 200px;">
-        <h2>${livro.titulo}</h2>
-        <p><strong>Autor:</strong> ${livro.autor}</p>
-        <p><strong>Gênero:</strong> ${livro.genero || 'N/A'}</p>
-        <p><strong>Editora:</strong> ${livro.editora || 'N/A'}</p>
-        <p><strong>Ano:</strong> ${livro.ano_publicacao || 'N/A'}</p>
-        <p><strong>Sinopse:</strong> ${livro.sinopse || 'N/A'}</p>
-        <p><strong>Formato:</strong> ${livro.formato || 'N/A'}</p>
-        <p><strong>Ativo:</strong> ${livro.ativo ? 'Sim' : 'Não'}</p>
+  <div class="livro-card">
 
+    <img src="${urlCapa(livro)}" alt="${livro.titulo}" class="capa-livro">
+
+    <div class="info-livro">
+      <h2>${livro.titulo}</h2>
+
+      <div class="sinopse">
+        ${livro.sinopse || "Sem sinopse disponível."}
+      </div>
+
+      <div class="info-grid">
+        <p><strong>Autor:</strong> ${livro.autor}</p>
+        <p><strong>Gênero:</strong> ${livro.genero || "N/A"}</p>
+        <p><strong>Editora:</strong> ${livro.editora || "N/A"}</p>
+        <p><strong>Ano:</strong> ${livro.ano_publicacao || "N/A"}</p>
+        <p><strong>Formato:</strong> ${livro.formato || "N/A"}</p>
+        <p><strong>Status:</strong> ${livro.ativo ? "Disponível" : "Indisponível"}</p>
+      </div>
+
+      <div class="acoes">
         <button id="btn-voltar" type="button">Voltar</button>
         <button id="btn-reservar" type="button">Reservar</button>
         <button id="btn-favoritar" type="button">Favoritar ⭐</button>
-
-        <div id="mensagem-reserva"></div>
       </div>
 
-      <h3>Avaliações</h3>
-      <div id="avaliacoes"></div>
+      <div id="mensagem-reserva"></div>
+    </div>
+  </div>
 
-      <h4>Adicionar Avaliação</h4>
-      <textarea id="comentario" placeholder="Escreva seu comentário"></textarea><br>
-      <label for="nota">Nota:</label>
+  <section class="avaliacoes-section">
+    <h3>Avaliações</h3>
+    <div id="avaliacoes"></div>
+
+    <h4>Adicionar Avaliação</h4>
+    <textarea id="comentario" placeholder="Escreva seu comentário"></textarea>
+
+    <div class="avaliar-acoes">
       <select id="nota">
         <option value="1">1 ⭐</option>
         <option value="2">2 ⭐</option>
@@ -52,8 +66,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         <option value="4">4 ⭐</option>
         <option value="5">5 ⭐</option>
       </select>
+
       <button id="btn-avaliar" type="button">Enviar Avaliação</button>
-    `;
+    </div>
+  </section>
+`;
 
     document.getElementById("btn-voltar").addEventListener("click", () => {
       window.location.href = "catalogo.html";
@@ -228,4 +245,4 @@ async function carregarAvaliacoes(idLivro) {
     console.error("Erro ao carregar avaliações:", err);
     container.innerHTML = "<p>Erro ao carregar avaliações.</p>";
   }
-}
+} 
