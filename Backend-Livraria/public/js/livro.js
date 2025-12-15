@@ -67,7 +67,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       const msg = document.getElementById("mensagem-reserva");
       msg.className = "";
       msg.innerHTML = "";
-
       const usuarioRaw = localStorage.getItem("usuario");
       if (!usuarioRaw) {
         msg.className = "mensagem-erro";
@@ -87,6 +86,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             idLivro: livro.idLivro
           })
         });
+
+        if(livro.ativo == 0 ){
+        msg.className = "mensagem-erro";
+        msg.textContent = "❌ Erro ao reservar, Livro Indisponível: " + err.message;
+        }
 
         const data = await resReserva.json();
         if (!resReserva.ok) throw new Error(data.erro || "Erro ao reservar livro");
