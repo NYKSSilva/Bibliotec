@@ -54,9 +54,13 @@ document.addEventListener("DOMContentLoaded", () => {
             carregarFavoritos(userId);
         });
 
+<<<<<<< HEAD
     /* ===== Carregar dados ao abrir ===== */
     carregarFavoritos(userId);
     carregarReservas(userId);
+=======
+  
+>>>>>>> 709106ef08ce63bef69d25cc28c6b0d2ea728961
 });
 
 /* ========== CARREGAR FAVORITOS ========= */
