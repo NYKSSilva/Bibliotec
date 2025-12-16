@@ -49,9 +49,20 @@ export async function listarFavoritos(req, res) {
 
 export async function criarFavorito(req, res) {
   try {
-      const { idUsuario, idLivro } = req.body;
-    if (!idUsuario === undefined || !idLivro === undefined)
+    const { idUsuario, idLivro } = req.body;
+
+    if (idUsuario === undefined || idLivro === undefined) {
       return res.status(400).json({ erro: "Campos obrigatórios" });
+    }
+
+    const [existe] = await db.execute(
+      "SELECT 1 FROM favoritos WHERE idUsuario = ? AND idLivro = ?",
+      [idUsuario, idLivro]
+    );
+
+    if (existe.length > 0) {
+      return res.status(409).json({ erro: "Livro já está nos favoritos" });
+    }
 
     await db.execute(
       "INSERT INTO favoritos (idUsuario, idLivro) VALUES (?, ?)",
@@ -62,7 +73,7 @@ export async function criarFavorito(req, res) {
   } catch (err) {
     res.status(500).json({ erro: err.message });
   }
-};
+}
 
 export async function deletarFavorito(req, res) {
   try {

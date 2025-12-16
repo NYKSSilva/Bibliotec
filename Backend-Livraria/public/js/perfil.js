@@ -42,8 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
         carregarFavoritos(userId);
     });
 
-    // Carrega favoritos ao abrir a página
-    carregarFavoritos(userId);
+    // // Carrega favoritos ao abrir a página
+    // carregarFavoritos(userId);
 });
 
 /* ========== CARREGAR FAVORITOS ========= */
