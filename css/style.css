@@ -10,14 +10,15 @@ html, body{
    --cream: #E9F0EF;
    --white: #FFFFFF;
 }
-header{
-    position: relative; 
-    width:94.7%;
+header {
+    position: relative;
+    width: 100%;
     height: 8vh;
     background: var(--black);
     display: flex;
     align-items: center;
-    padding: 10px 50px; 
+    padding: 10px 50px;
+    box-sizing: border-box;
 }
 
 footer{

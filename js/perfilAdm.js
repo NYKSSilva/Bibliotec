@@ -3,9 +3,9 @@ const API = "http://localhost:3000";
 function urlCapa(livro) {
     const campo =  livro.caminho_capa 
 
-    if (!campo || campo.trim() === "") return "/img/placeholder.png";
+    if (!campo || campo.trim() === "") return "public/img/placeholder.png";
 
-    if (campo.startsWith("http") || campo.startsWith("//")) return campo;
+    if (campo.startsWith("https") || campo.startsWith("//")) return campo;
 
     if (campo.startsWith("/")) return campo;
 
@@ -60,14 +60,20 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        lista.innerHTML = dados
-          .map(livro => `
-          <div class="favorito-item">
-            <img src="${livro.caminho_capa}" width="80">
+       lista.innerHTML = dados
+    lista.innerHTML = dados
+    .map(livro => `
+        <div class="favorito-item">
+            <img src="${urlCapa(livro)}" alt="${livro.titulo}" 
+                 onerror="this.src='public/img/placeholder.png'"
+                 onclick="abrirLivro(${livro.idLivro})">
             <p>${livro.titulo}</p>
-          </div>
-        `)
-          .join("");
+            <button class="btn-coracao" data-id="${livro.idFavorito}">
+                ❤️
+            </button>
+        </div>
+    `)
+    .join("");
 
       } catch (erro) {
         lista.innerHTML = "<p>Erro ao carregar favoritos.</p>";

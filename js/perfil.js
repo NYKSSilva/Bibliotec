@@ -3,9 +3,9 @@ const API = "http://localhost:3000";
 function urlCapa(livro) {
     const campo =  livro.caminho_capa 
 
-    if (!campo || campo.trim() === "") return "/img/placeholder.png";
+    if (!campo || campo.trim() === "") return "public/img/placeholder.png";
 
-    if (campo.startsWith("http") || campo.startsWith("//")) return campo;
+    if (campo.startsWith("https") || campo.startsWith("//")) return campo;
 
     if (campo.startsWith("/")) return campo;
 

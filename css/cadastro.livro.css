@@ -1,7 +1,7 @@
 html, body{
     margin: 0%;
     padding: 0%;
-    background-color:antiquewhite;
+    background-color:rgb(59, 59, 58);
 }
 
 :root{
@@ -21,7 +21,6 @@ header{
     display: flex;
     align-items: center;
     padding: 10px 50px; 
-    opacity: 3;
 }
 
 .livros{
@@ -74,7 +73,6 @@ header{
     width: 100%;
     height: 135%;
     object-fit: cover;
-    filter: blur(4px) ;
     z-index: 1;
 } 
 
@@ -110,7 +108,7 @@ form{
     max-width: 700px; 
     padding: 10px;
     background: transparent;
-    border-radius: 8px;
+    border-radius: 20px;
 }
 
 Form label{
