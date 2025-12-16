@@ -1,15 +1,15 @@
-import { db} from "../config/db.js";
+import { db } from "../config/db.js";
 
-export async function listarReservas(req ,res) {
-    try {
-        const [rows] = await db.execute("SELECT * FROM reservas");
+export async function listarReservas(req, res) {
+  try {
+    const [rows] = await db.execute("SELECT * FROM reservas");
     res.json(rows);
-    } catch (error) {
-        res.status(500).json({ erro: err.message });
-    }
+  } catch (error) {
+    res.status(500).json({ erro: err.message });
+  }
 }
 
-export async function criarReserva(req,res) {
+export async function criarReserva(req, res) {
   try {
     const { idUsuario, idLivro } = req.body;
 
@@ -59,10 +59,35 @@ export async function deletarReserva(req, res) {
 };
 
 export async function reservasAtivas(req, res) {
-  try { 
+  try {
     const [rows] = await db.execute(`SELECT * FROM reservas WHERE data_devolucao >= CURDATE() ORDER BY data_devolucao ASC`);
     res.json(rows)
   } catch (err) {
     res.status(500).json({ erro: err.message });
   }
 };
+export async function listarReservasPorUsuario(req, res) {
+  const { idUsuario } = req.params;
+
+  try {
+    const [reservas] = await db.execute(
+      `
+      SELECT 
+          r.idReservas,
+          r.idLivro,
+          l.titulo,
+          l.caminho_capa
+      FROM reservas r
+      JOIN livros l ON l.idLivro = r.idLivro
+      WHERE r.idUsuario = ?
+      `,
+      [idUsuario]
+    );
+ 
+    res.json(reservas);
+  } catch (erro) {
+    console.error("Erro ao buscar reservas:", erro);
+    res.status(500).json({ erro: "Erro ao buscar reservas" });
+  }
+}
+
